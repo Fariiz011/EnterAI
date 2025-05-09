@@ -4,7 +4,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Enter.AI Chatbot</title>
   <style>
-    /* Font Sora via @font-face */
     @font-face {
       font-family: 'Sora';
       src: url('Sora-Regular.otf') format('opentype');
@@ -127,6 +126,14 @@ header {
   filter: blur(4px);
 }
 
+#api-key {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  border: none;
+}
+
   </style>
 </head>
 <body>
@@ -135,6 +142,7 @@ header {
     <img id="logo" src="enterprise.png" alt="Enter.AI Logo">
   </header>  <div id="sidebar">
     <div id="close-sidebar">&times;</div>
+    <input id="api-key" type="password" placeholder="Masukkan API Key Cohere" />
     <div class="sidebar-item" onclick="toggleTheme()">Ganti Tema</div>
     <div class="sidebar-item" onclick="showHistory()">Riwayat Chat</div>
     <div class="sidebar-item" onclick="toggleLanguage()">Ganti Bahasa</div>
@@ -152,6 +160,7 @@ header {
     const sidebar = document.getElementById('sidebar');
     const hamburger = document.getElementById('hamburger');
     const closeSidebar = document.getElementById('close-sidebar');
+    const apiKeyInput = document.getElementById('api-key');
 
     hamburger.onclick = () => {
       sidebar.classList.add('active');
@@ -165,12 +174,13 @@ header {
 
     sendBtn.onclick = async () => {
       const text = userInput.value.trim();
-      if (!text) return;
+      const key = apiKeyInput.value.trim();
+      if (!text || !key) return alert('Masukkan pesan dan API key.');
 
       addMessage(text, 'user');
       userInput.value = '';
 
-      const botReply = await fetchCohereResponse(text);
+      const botReply = await fetchCohereResponse(text, key);
       addMessage(botReply, 'bot');
     };
 
@@ -182,11 +192,11 @@ header {
       chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
-    async function fetchCohereResponse(text) {
+    async function fetchCohereResponse(text, key) {
       const response = await fetch("https://api.cohere.ai/v1/chat", {
         method: "POST",
         headers: {
-          "Authorization": "Bearer Q0SDjtBTdABFnipUNG0RPUQS2uriNmpXlQXztD54",
+          "Authorization": `Bearer Q0SDjtBTdABFnipUNG0RPUQS2uriNmpXlQXztD54`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ message: text })
@@ -215,6 +225,5 @@ header {
       chatContainer.innerHTML = '';
       addMessage('Selamat datang di AI kami!', 'bot');
     }
-  </script>
-</body>
+  </script></body>
 </html>
