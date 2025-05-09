@@ -240,51 +240,87 @@
   </footer>
 
   <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const main = document.getElementById('main');
-      sidebar.classList.toggle('open');
-      main.classList.toggle('blur');
+  const chatInput = document.getElementById("chatInput");
+  const chatContainer = document.createElement("div");
+  chatContainer.style.width = "90%";
+  chatContainer.style.maxWidth = "600px";
+  chatContainer.style.margin = "0 auto 1rem";
+  document.getElementById("main").insertBefore(chatContainer, document.querySelector(".input-box"));
+
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const main = document.getElementById('main');
+    sidebar.classList.toggle('open');
+    main.classList.toggle('blur');
+  }
+
+  function toggleTheme() {
+    document.body.classList.toggle('light');
+  }
+
+  function clearChat() {
+    chatContainer.innerHTML = '';
+    chatInput.value = '';
+  }
+
+  function addBubble(text, type = "user") {
+    const bubble = document.createElement("div");
+    bubble.textContent = text;
+    bubble.style.padding = "0.75rem 1rem";
+    bubble.style.marginBottom = "0.5rem";
+    bubble.style.borderRadius = "1rem";
+    bubble.style.maxWidth = "80%";
+    bubble.style.wordWrap = "break-word";
+    bubble.style.whiteSpace = "pre-wrap";
+    bubble.style.userSelect = type === "bot" ? "none" : "text";
+    bubble.style.alignSelf = type === "user" ? "flex-end" : "flex-start";
+    bubble.style.background = type === "user" ? "#333" : "#222";
+    chatContainer.appendChild(bubble);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+  }
+
+  async function sendMessage(message = null) {
+    const userMessage = message || chatInput.value.trim();
+    if (!userMessage) return;
+
+    addBubble(userMessage, "user");
+    chatInput.value = "";
+
+    try {
+      const response = await fetch("https://api.cohere.ai/v1/chat", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer API_KEY_KAMU",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "command-r-plus",
+          message: userMessage
+        })
+      });
+
+      const data = await response.json();
+      const botReply = data.text || "Maaf, tidak ada respon.";
+      addBubble(botReply, "bot");
+    } catch (err) {
+      addBubble("Terjadi kesalahan saat menghubungi bot.", "bot");
+      console.error(err);
     }
+  }
 
-    function toggleTheme() {
-      document.body.classList.toggle('light');
-    }
+  // Kirim dengan tombol enter
+  chatInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") sendMessage();
+  });
 
-    function clearChat() {
-      document.getElementById('chatInput').value = '';
-      document.getElementById('responseArea').textContent = '';
-    }
-
-    async function sendMessage() {
-      const input = document.getElementById('chatInput');
-      const message = input.value.trim();
-      const responseArea = document.getElementById('responseArea');
-      if (!message) return;
-
-      responseArea.textContent = "Sedang Mengetik...";
-      input.value = '';
-
-      try {
-        const response = await fetch("https://api.cohere.ai/v1/chat", {
-          method: "POST",
-          headers: {
-            "Authorization": "Bearer Q0SDjtBTdABFnipUNG0RPUQS2uriNmpXlQXztD54",
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            message: message,
-            chat_history: [],
-            connectors: [],
-          })
-        });
-
-        const data = await response.json();
-        responseArea.textContent = data.text || "Maaf, tidak ada jawaban.";
-      } catch (err) {
-        responseArea.textContent = "Terjadi kesalahan saat menghubungi server.";
-      }
-    }
+  // Tombol saran otomatis kirim
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.buttons button').forEach(button => {
+      button.addEventListener('click', () => {
+        sendMessage(button.textContent);
+      });
+    });
+  });
   </script>
 </body>
 </html>
