@@ -1,8 +1,9 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Enter.AI Chatbot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enter.AI</title>
   <style>
     @font-face {
       font-family: 'Sora';
@@ -18,212 +19,189 @@
       font-family: 'Sora';
       src: url('Sora-Bold.otf') format('opentype');
       font-weight: bold;
-    }body {
-  margin: 0;
-  font-family: 'Sora', sans-serif;
-  background-color: #0f172a;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
+    }
+    :root {
+      --bg-color: #000;
+      --text-color: #fff;
+      --primary-color: #fff;
+      --button-bg: transparent;
+      --button-border: 1px solid #fff;
+      --button-hover: #1a1a1a;
+    }
 
-header {
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-  background-color: #1e293b;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Sora', sans-serif;
+    }
 
-#hamburger {
-  font-size: 1.5rem;
-  cursor: pointer;
-  margin-right: 1rem;
-}
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      overflow-x: hidden;
+    }
 
-#logo {
-  height: 40px;
-}
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+    }
 
-#chat-container {
-  flex: 1;
-  padding: 1rem;
-  overflow-y: auto;
-  transition: filter 0.3s;
-}
+    .logo {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
 
-.message {
-  max-width: 70%;
-  margin-bottom: 1rem;
-  padding: 0.75rem 1rem;
-  border-radius: 1rem;
-}
+    .hamburger {
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
 
-.user {
-  background-color: #3b82f6;
-  align-self: flex-end;
-  color: white;
-}
+    .center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 3rem;
+      transition: filter 0.3s ease;
+    }
 
-.bot {
-  background-color: #334155;
-  align-self: flex-start;
-}
+    .center.blur {
+      filter: blur(5px);
+    }
 
-#input-container {
-  display: flex;
-  padding: 1rem;
-  background-color: #1e293b;
-}
+    .chat-logo {
+      width: 80px;
+      margin-bottom: 1rem;
+    }
 
-#user-input {
-  flex: 1;
-  padding: 0.75rem;
-  border: none;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-}
+    .title {
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
 
-#send-btn {
-  margin-left: 1rem;
-  padding: 0.75rem 1rem;
-  background-color: #3b82f6;
-  border: none;
-  border-radius: 0.5rem;
-  color: white;
-  cursor: pointer;
-}
+    .input-box {
+      width: 90%;
+      max-width: 600px;
+      background: #1a1a1a;
+      padding: 1rem;
+      border-radius: 1rem;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
 
-#sidebar {
-  position: fixed;
-  top: 0;
-  left: -50%;
-  width: 50%;
-  height: 100%;
-  background-color: #1e293b;
-  z-index: 1000;
-  padding: 1rem;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
-  transition: left 0.3s ease;
-}
+    .input-box input {
+      background: none;
+      border: none;
+      color: #fff;
+      width: 100%;
+      font-size: 1rem;
+      outline: none;
+    }
 
-#sidebar.active {
-  left: 0;
-}
+    .input-box button {
+      background: #444;
+      border: none;
+      color: #fff;
+      padding: 0.5rem;
+      border-radius: 50%;
+      cursor: pointer;
+    }
 
-#close-sidebar {
-  float: right;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+    }
 
-.sidebar-item {
-  margin-top: 2rem;
-  cursor: pointer;
-}
+    .buttons button {
+      padding: 0.6rem 1rem;
+      border-radius: 1.5rem;
+      background: var(--button-bg);
+      color: var(--text-color);
+      border: var(--button-border);
+      cursor: pointer;
+      transition: background 0.3s;
+    }
 
-.blurred {
-  filter: blur(4px);
-}
+    .buttons button:hover {
+      background: var(--button-hover);
+    }
 
-#api-key {
-  width: 100%;
-  padding: 0.5rem;
-  margin-top: 1rem;
-  border-radius: 0.5rem;
-  border: none;
-}
-
+    footer {
+      text-align: center;
+      font-size: 0.75rem;
+      margin-top: 2rem;
+      padding-bottom: 1rem;
+    }
   </style>
 </head>
 <body>
   <header>
-    <div id="hamburger">&#9776;</div>
-    <img id="logo" src="enterprise.png" alt="Enter.AI Logo">
-  </header>  <div id="sidebar">
-    <div id="close-sidebar">&times;</div>
-    <input id="api-key" type="password" placeholder="Masukkan API Key Cohere" />
-    <div class="sidebar-item" onclick="toggleTheme()">Ganti Tema</div>
-    <div class="sidebar-item" onclick="showHistory()">Riwayat Chat</div>
-    <div class="sidebar-item" onclick="toggleLanguage()">Ganti Bahasa</div>
-    <div class="sidebar-item" onclick="showAbout()">Tentang Aplikasi</div>
-    <div class="sidebar-item" onclick="resetChat()">Reset Chat</div>
-  </div>  <main id="chat-container">
-    <div class="message bot">Selamat datang di AI kami!</div>
-  </main>  <div id="input-container">
-    <input id="user-input" placeholder="Tanyakan sesuatu..." />
-    <button id="send-btn">Kirim</button>
-  </div>  <script>
-    const chatContainer = document.getElementById('chat-container');
-    const userInput = document.getElementById('user-input');
-    const sendBtn = document.getElementById('send-btn');
-    const sidebar = document.getElementById('sidebar');
-    const hamburger = document.getElementById('hamburger');
-    const closeSidebar = document.getElementById('close-sidebar');
-    const apiKeyInput = document.getElementById('api-key');
+    <div class="logo">Enterprise.AI</div>
+    <div class="hamburger">&#9776;</div>
+  </header>
+  <div id="main" class="center">
+    <img src="logo enterprise.png" class="chat-logo" alt="Logo" />
+    <div class="title">
+      <strong>Enter.AI</strong><br />
+      Selamat Datang Di AI Kami.<br />
+      <em>Can I help you?</em>
+    </div>
+    <div class="input-box">
+      <input type="text" placeholder="Apa Teknik Jaringan Komputer?" id="chatInput" />
+      <button onclick="sendMessage()">&gt;</button>
+    </div>
+    <div class="buttons">
+      <button onclick="setInput('Apa Itu AI?')">Apa Itu AI?</button>
+      <button onclick="setInput('Personalisasi')">Personalisasi</button>
+      <button onclick="setInput('Research')">Research</button>
+      <button onclick="setInput('Tentang AI')">Tentang AI</button>
+      <button onclick="setInput('Lainnya...')">Lainnya...</button>
+    </div>
+  </div>
+  <footer>
+    Dibuat Oleh [RIZ-ENTERPRISE Dev] &copy;Enterprise Indonesian 2025
+  </footer>
 
-    hamburger.onclick = () => {
-      sidebar.classList.add('active');
-      chatContainer.classList.add('blurred');
-    };
+  <script>
+    const API_KEY = "Q0SDjtBTdABFnipUNG0RPUQS2uriNmpXlQXztD54"; // Ganti dengan key asli
 
-    closeSidebar.onclick = () => {
-      sidebar.classList.remove('active');
-      chatContainer.classList.remove('blurred');
-    };
+    async function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const message = input.value.trim();
+      if (!message) return;
 
-    sendBtn.onclick = async () => {
-      const text = userInput.value.trim();
-      const key = apiKeyInput.value.trim();
-      if (!text || !key) return alert('Masukkan pesan dan API key.');
-
-      addMessage(text, 'user');
-      userInput.value = '';
-
-      const botReply = await fetchCohereResponse(text, key);
-      addMessage(botReply, 'bot');
-    };
-
-    function addMessage(text, sender) {
-      const div = document.createElement('div');
-      div.className = `message ${sender}`;
-      div.innerText = text;
-      chatContainer.appendChild(div);
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-    }
-
-    async function fetchCohereResponse(text, key) {
       const response = await fetch("https://api.cohere.ai/v1/chat", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer Q0SDjtBTdABFnipUNG0RPUQS2uriNmpXlQXztD54`,
+          "Authorization": "Bearer " + API_KEY,
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ message: text })
+        body: JSON.stringify({
+          message: message,
+          model: "command-r-plus",
+          temperature: 0.3
+        })
       });
+
       const data = await response.json();
-      return data.text || "Maaf, terjadi kesalahan.";
+      console.log("Respon Cohere:", data);
+
+      alert("Jawaban: " + (data.text || "Tidak ada respons."));
+      input.value = '';
     }
 
-    function toggleTheme() {
-      document.body.classList.toggle('light-mode');
+    function setInput(text) {
+      document.getElementById('chatInput').value = text;
+      sendMessage();
     }
-
-    function showHistory() {
-      alert('Fitur riwayat chat akan ditambahkan.');
-    }
-
-    function toggleLanguage() {
-      alert('Ganti bahasa aktif. Fitur lengkap segera hadir.');
-    }
-
-    function showAbout() {
-      alert('Enter.AI versi 1.0 - Chatbot berbasis Cohere.');
-    }
-
-    function resetChat() {
-      chatContainer.innerHTML = '';
-      addMessage('Selamat datang di AI kami!', 'bot');
-    }
-  </script></body>
+  </script>
+</body>
 </html>
