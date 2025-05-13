@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Enter.AI</title>
     <link rel="manifest" href="manifest.json" />
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-vr2wVd_79STe8pl_"></script>
     <style>
       @font-face {
       font-family: 'Sora';
@@ -228,38 +229,6 @@
       * {
       -webkit-tap-highlight-color: transparent;
       }
-      #vipContent {
-      background: linear-gradient(135deg, #1f1f1f, #333);
-      border: 2px solid gold;
-      border-radius: 16px;
-      padding: 2rem;
-      text-align: center;
-      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-      transition: all 0.3s ease;
-      }
-      #vipContent h2 {
-      font-size: 1.5rem;
-      color: gold;
-      margin-bottom: 0.5rem;
-      }
-      #vipContent p {
-      font-size: 0.95rem;
-      color: #eee;
-      margin-bottom: 1rem;
-      }
-      #vipContent button {
-      background: gold;
-      color: #000;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      padding: 0.75rem 1.5rem;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      }
-      #vipContent button:hover {
-      background: #ffcc00;
-      }      
     </style>
   </head>
   <body class="no-copy">
@@ -270,7 +239,7 @@
     <div id="sidebar" class="sidebar">
       <div class="close-btn" onclick="toggleSidebar()">&times;</div>
       <ul>
-        <li id="upgradeVIP" onclick="setVIPStatus()">Upgrade ke VIP</li>
+        <button id="payButton" onclick="payNow()">Bayar VIP</button>
         <li onclick="toggleTheme()">Mode Gelap/Terang</li>
         <li onclick="loadHistory()">Riwayat Chat</li>
         <li onclick="changeLanguage()">Ganti Bahasa</li>
@@ -298,13 +267,6 @@
             <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z"/>
           </svg>
         </button>
-        <div id="vipContent" style="display: none; padding: 1rem; background-color: #1a1a1a; border-radius: 10px; text-align: center; margin-top: 2rem;">
-          <h2 style="color: gold;">Selamat datang, VIP!</h2>
-          <p style="color: white;">Anda kini memiliki akses ke fitur eksklusif. Nikmati pengalaman terbaik dengan Enter.AI!</p>
-          <button onclick="accessVIPFeatures()" style="padding: 0.8rem 1.5rem; background-color: #ff9800; border: none; color: white; border-radius: 5px; cursor: pointer;">
-          Akses Fitur VIP
-          </button>
-        </div>
       </div>
       <div class="buttons">
         <button onclick="quickAsk(this)">✦Apa Itu AI?</button>
@@ -356,6 +318,21 @@
               document.getElementById("footerText").innerText = texts[l].footer;
           }
       });
+      function payNow() {
+      // Request Snap Midtrans untuk memulai pembayaran
+      snap.pay('TRANSACTION_TOKEN_FROM_BACKEND', {
+      onSuccess: function(result) {
+          alert("Pembayaran berhasil! " + JSON.stringify(result));
+          // Arahkan ke halaman VIP atau berikan akses VIP
+      },
+      onPending: function(result) {
+          alert("Pembayaran sedang diproses! " + JSON.stringify(result));
+      },
+      onError: function(result) {
+          alert("Terjadi kesalahan: " + JSON.stringify(result));
+      }
+      });
+      }
       
       function toggleSidebar() {
           document.getElementById("sidebar").classList.toggle("open");
@@ -392,30 +369,6 @@
           sendMessage();
       }
       
-      function setVIPStatus() {
-      localStorage.setItem("vipStatus", "true");
-      alert("Selamat, Anda sekarang VIP!");
-      document.getElementById("vipContent").style.display = "block";
-      document.getElementById("upgradeVIP").style.display = "none";
-      }
-      
-      function checkVIPStatus() {
-      const isVIP = localStorage.getItem("vipStatus") === "true";
-      if (isVIP) {
-      document.getElementById("vipContent").style.display = "block";
-      const upgradeBtn = document.getElementById("upgradeVIP");
-      if (upgradeBtn) upgradeBtn.style.display = "none";
-      }
-      }
-      
-      function accessVIPFeatures() {
-      alert("Anda telah mengakses fitur eksklusif VIP!");
-      // Tambahkan fitur VIP di sini
-      }
-      
-      window.onload = () => {
-      checkVIPStatus();
-      };
       async function sendMessage() {
           const e = document.getElementById("chatInput");
           const t = e.value.trim();
