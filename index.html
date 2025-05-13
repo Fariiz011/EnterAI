@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Enter.AI</title>
+    <link src="https://app.sandbox.midtrans.com/payment-links/1747162909255" />
     <link rel="manifest" href="manifest.json" />
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-vr2wVd_79STe8pl_"></script>
     <style>
@@ -320,7 +321,7 @@
       });
       function payNow() {
       // Request Snap Midtrans untuk memulai pembayaran
-      snap.pay('TRANSACTION_TOKEN_FROM_BACKEND', {
+      snap.pay('SB-Mid-server-o0Jz9hKs0zey6YE1tHo3t6GW', {
       onSuccess: function(result) {
           alert("Pembayaran berhasil! " + JSON.stringify(result));
           // Arahkan ke halaman VIP atau berikan akses VIP
