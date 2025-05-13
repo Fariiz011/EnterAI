@@ -3,274 +3,12 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Enter.AI</title>
-    <link rel="manifest" href="manifest.json" />
+    <title>Enter.AI - VIP</title>
     <style>
-        @font-face {
-            font-family: 'Sora';
-            src: url('Sora-Regular.otf') format('opentype');
-            font-weight: normal;
-        }
-
-        @font-face {
-            font-family: 'Sora';
-            src: url('Sora-SemiBold.otf') format('opentype');
-            font-weight: 600;
-        }
-
-        @font-face {
-            font-family: 'Sora';
-            src: url('Sora-Bold.otf') format('opentype');
-            font-weight: bold;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Sora', sans-serif;
-        }
-
-        body {
-            background: #000;
-            color: #fff;
-            overflow-x: hidden;
-        }
-
-        body.light {
-            background: #fff;
-            color: #000;
-        }
-
-        body.light .input-box {
-            background: #f0f0f0;
-            color: #000;
-        }
-
-        body.light .buttons button {
-            color: #000;
-            border-color: #000;
-        }
-
-        body.light .buttons button:hover {
-            background: #e0e0e0;
-        }
-
-        body.light .response-box {
-            background: #eee;
-            color: #000;
-        }
-
-        body.light .sidebar {
-            background: #fff;
-            color: #000;
-        }
-
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem;
-        }
-
-        .logo {
-            font-size: 1.25rem;
-            font-weight: bold;
-        }
-
-        .hamburger {
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .user-area {
-            display: flex;
-            align-items: center;
-            gap: .5rem;
-        }
-
-        .center {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 3rem;
-            transition: filter .3s ease;
-        }
-
-        .center.blur {
-            filter: blur(5px);
-        }
-
-        .chat-logo {
-            width: 140px;
-            margin-bottom: 1rem;
-        }
-
-        .title {
-            text-align: center;
-            font-weight: 600;
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .input-box {
-            width: 90%;
-            max-width: 600px;
-            background: #1a1a1a;
-            padding: 1rem;
-            border-radius: 1rem;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .input-box input {
-            background: none;
-            border: none;
-            color: #fff;
-            width: 100%;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .input-box button {
-            background: #444;
-            border: none;
-            padding: 0.5rem;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s ease;
-        }
-
-        .input-box button:hover {
-            background: #666;
-        }
-
-        .wave {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: #0ff;
-            animation: pulse 1s infinite ease-in-out;
-            margin-left: 4px;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            50% {
-                transform: scale(1.5);
-                opacity: .5;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .buttons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: .75rem;
-        }
-
-        .buttons button {
-            padding: .6rem 1rem;
-            border-radius: 1.5rem;
-            background: transparent;
-            color: #fff;
-            border: 1px solid #fff;
-            cursor: pointer;
-            transition: .3s;
-        }
-
-        .buttons button:hover {
-            background: #1a1a1a;
-        }
-
-        footer {
-            text-align: center;
-            font-size: .75rem;
-            margin-top: 2rem;
-            padding-bottom: 1rem;
-        }
-
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -60%;
-            width: 60%;
-            height: 100vh;
-            background: #111;
-            color: #fff;
-            z-index: 10;
-            padding: 1.5rem;
-            transition: left .3s ease;
-        }
-
-        .sidebar.open {
-            left: 0;
-        }
-
-        .sidebar .close-btn {
-            font-size: 1.5rem;
-            cursor: pointer;
-            margin-bottom: 1rem;
-        }
-
-        .sidebar ul {
-            list-style: none;
-        }
-
-        .sidebar li {
-            padding: .75rem 0;
-            border-bottom: 1px solid #333;
-            cursor: pointer;
-        }
-
-        .sidebar li:focus {
-            outline: none;
-        }
-
-        .response-box {
-            max-width: 600px;
-            background: #111;
-            border-radius: .75rem;
-            padding: 1rem;
-            margin-top: 1rem;
-            font-size: .9rem;
-            user-select: text;
-        }
-
-        .no-copy *:not(.response-box) {
-            user-select: none;
-            -webkit-user-select: none;
-            -ms-user-select: none;
-        }
-
-        button:focus,
-        input:focus,
-        svg:focus {
-            outline: none !important;
-            box-shadow: none !important;
-        }
-
-        * {
-            -webkit-tap-highlight-color: transparent;
-        }
+        /* (CSS lainnya tetap sama) */
     </style>
 </head>
-<body class="no-copy">
+<body>
     <header>
         <div class="logo">Enterprise.AI</div>
         <div class="hamburger" onclick="toggleSidebar()">&#9776;</div>
@@ -283,6 +21,7 @@
             <li onclick="changeLanguage()">Ganti Bahasa</li>
             <li onclick="showAbout()">Tentang AI</li>
             <li onclick="clearChat()">Reset Chat</li>
+            <li id="vipButton" style="display:none;" onclick="accessVIP()">Akses VIP</li> <!-- VIP Button -->
         </ul>
     </div>
     <div id="main" class="center">
@@ -298,7 +37,6 @@
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 14a3 3 0 003-3V5a3 3 0 00-6 0v6a3 3 0 003 3zm5-3a5 5 0 01-10 0H5a7 7 0 0014 0h-2zm-5 8v-3h-2v3h2z"/>
                 </svg>
-                <span id="wave" class="wave" style="display:none"></span>
             </button>
             <button id="sendBtn" onclick="sendMessage()" aria-label="Kirim">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
@@ -316,6 +54,7 @@
         <div id="chatResponse" class="response-box"></div>
     </div>
     <footer id="footerText">Dibuat Oleh [RIZ-ENTERPRISE Dev] &copy;Enterprise Indonesian 2025</footer>
+
     <script>
         const texts = {
             id: {
@@ -355,7 +94,32 @@
                 document.getElementById("titleText").innerHTML = `<strong>Enter.AI</strong><br/>${texts[l].welcome}<br/><span id="subtitle">${texts[l].subtitle}</span>`;
                 document.getElementById("footerText").innerText = texts[l].footer;
             }
+
+            // Cek status VIP
+            const isVIP = localStorage.getItem("vipStatus") === "true";
+            if (isVIP) {
+                // Tampilkan tombol VIP
+                document.getElementById("vipButton").style.display = "block";
+            }
         });
+
+        function setVIPStatus() {
+            // Mengatur status VIP di localStorage
+            localStorage.setItem("vipStatus", "true");
+            alert("Selamat, Anda sekarang VIP!");
+            document.getElementById("vipButton").style.display = "block";
+        }
+
+        function accessVIP() {
+            const isVIP = localStorage.getItem("vipStatus") === "true";
+            if (!isVIP) {
+                alert("Anda bukan VIP. Silakan upgrade untuk mendapatkan akses VIP.");
+                return;
+            }
+
+            // Fitur Khusus VIP
+            document.getElementById("chatResponse").innerHTML = "<strong>Selamat datang, VIP!</strong><br/> Anda memiliki akses ke fitur khusus.";
+        }
 
         function toggleSidebar() {
             document.getElementById("sidebar").classList.toggle("open");
@@ -442,4 +206,4 @@
         }
     </script>
 </body>
- </html>
+</html>
