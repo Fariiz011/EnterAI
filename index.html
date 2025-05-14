@@ -343,7 +343,7 @@
         function changeLanguage() {
             const lang = prompt("Pilih Bahasa: id, en, ja, zh");
             if (texts[lang]) {
-                document.getElementById("titleText").innerHTML = `<strong>Enter.AI</strong><br/>${texts[lang].welcome}<br/><span id="subtitle">${texts[lang].subtitle}</span>`;
+                document.getElementById("titleText").innerHTML = `<strong>Life.AI</strong><br/>${texts[lang].welcome}<br/><span id="subtitle">${texts[lang].subtitle}</span>`;
                 document.getElementById("footerText").innerText = texts[lang].footer;
                 localStorage.setItem("lang", lang);
             }
