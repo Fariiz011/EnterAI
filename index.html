@@ -352,7 +352,7 @@
         window.addEventListener("DOMContentLoaded", () => {
             const l = localStorage.getItem("lang");
             if (l && texts[l]) {
-                document.getElementById("titleText").innerHTML = `<strong>Enter.AI</strong><br/>${texts[l].welcome}<br/><span id="subtitle">${texts[l].subtitle}</span>`;
+                document.getElementById("titleText").innerHTML = `<strong>Life.AI</strong><br/>${texts[l].welcome}<br/><span id="subtitle">${texts[l].subtitle}</span>`;
                 document.getElementById("footerText").innerText = texts[l].footer;
             }
         });
@@ -380,7 +380,7 @@
         }
 
         function showAbout() {
-            document.getElementById("chatResponse").innerHTML = "<strong>Enter.AI Versi 1.0</strong><br>Dikembangkan oleh ENTERPRISE";
+            document.getElementById("chatResponse").innerHTML = "<strong>Life.AI Versi 3.0</strong><br>Dikembangkan oleh Lifevander";
         }
 
         function loadHistory() {
@@ -407,7 +407,7 @@
                     },
                     body: JSON.stringify({
                         model: "command-r-plus",
-                        message: `Kamu adalah EnterAI, chatbot buatan Enterprise. Jika ada yang bertanya siapa pembuatmu, jawab dengan: Aku dibuat oleh M.Fariz Sekarang jawablah ini: ${t}`
+                        message: `Kamu adalah LifeAI, chatbot buatan Lifevander. Jika ada yang bertanya siapa pembuatmu, jawab dengan: Aku dibuat oleh M.Fariz Sekarang jawablah ini: ${t}`
                     })
                 });
                 const s = await a.json();
