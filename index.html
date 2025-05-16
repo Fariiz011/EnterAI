@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Life.AI</title>
 <style>
@@ -222,7 +223,9 @@
 
     <!-- Dropdown kosong untuk settings -->
     <div class="dropdown-menu" id="settingsDropdown" role="menu" aria-hidden="true">
-        <!-- Kosong dulu, isi nanti -->
+    <div class="dropdown-item" onclick="toggleTheme()">
+    <i class="fa-regular fa-circle-half-stroke"></i> Mode Gelap / Terang
+    </div>
     </div>
 
     <div class="center">
@@ -261,6 +264,21 @@
     </div>
 
 <script>
+    function toggleTheme() {
+    const body = document.body;
+    const isDark = body.classList.contains("dark");
+
+    if (isDark) {
+        body.classList.remove("dark");
+        body.style.background = "#fff";
+        body.style.color = "#000";
+    } else {
+        body.classList.add("dark");
+        body.style.background = "#000";
+        body.style.color = "#fff";
+    }
+    }
+    
     function quickAsk(button) {
         document.getElementById("chatInput").value = button.innerText;
         sendMessage();
