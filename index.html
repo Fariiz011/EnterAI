@@ -40,6 +40,69 @@
         color: #fff;
         z-index: 1000;
     }
+
+    /* Hamburger Menu */
+    .hamburger {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        width: 30px;
+        height: 22px;
+        cursor: pointer;
+        z-index: 1100;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .hamburger div {
+        height: 3px;
+        background: #fff;
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+    .hamburger div:last-child {
+        width: 60%;
+        align-self: flex-start;
+    }
+    /* Animasi toggle */
+    .hamburger.active div:nth-child(1) {
+        width: 60%;
+        align-self: flex-start;
+    }
+    .hamburger.active div:nth-child(3) {
+        width: 100%;
+        align-self: flex-end;
+    }
+
+    /* Dropdown menu */
+    .dropdown-menu {
+        position: fixed;
+        top: 3.5rem;
+        right: 1rem;
+        background: #111;
+        border-radius: 0.75rem;
+        box-shadow: 0 0 10px rgba(0,0,0,0.7);
+        min-width: 180px;
+        display: none;
+        flex-direction: column;
+        padding: 0.5rem 0;
+        z-index: 1050;
+    }
+    .dropdown-menu.show {
+        display: flex;
+    }
+    .dropdown-menu a {
+        padding: 0.75rem 1rem;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .dropdown-menu a:hover {
+        background: #333;
+    }
+
     .center {
         display: flex;
         flex-direction: column;
@@ -150,6 +213,18 @@
 <body>
     <div class="lifeai-header">LifeAI</div>
 
+    <!-- Hamburger menu -->
+    <div class="hamburger" id="hamburgerBtn" aria-label="Menu Pengaturan" tabindex="0" role="button" aria-expanded="false" aria-controls="settingsDropdown">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <!-- Dropdown kosong untuk settings -->
+    <div class="dropdown-menu" id="settingsDropdown" role="menu" aria-hidden="true">
+        <!-- Kosong dulu, isi nanti -->
+    </div>
+
     <div class="center">
         <img src="logo enterprise.png" class="chat-logo" alt="Logo" />
         <div class="title" id="titleText">
@@ -247,6 +322,27 @@
 
         recognition.start();
     }
+
+    // Toggle hamburger menu & dropdown
+    const hamburger = document.getElementById("hamburgerBtn");
+    const dropdown = document.getElementById("settingsDropdown");
+
+    hamburger.addEventListener("click", () => {
+        const isActive = hamburger.classList.toggle("active");
+        dropdown.classList.toggle("show", isActive);
+        hamburger.setAttribute("aria-expanded", isActive);
+        dropdown.setAttribute("aria-hidden", !isActive);
+    });
+
+    // Optional: close dropdown if clicked outside
+    document.addEventListener("click", (e) => {
+        if (!hamburger.contains(e.target) && !dropdown.contains(e.target)) {
+            hamburger.classList.remove("active");
+            dropdown.classList.remove("show");
+            hamburger.setAttribute("aria-expanded", false);
+            dropdown.setAttribute("aria-hidden", true);
+        }
+    });
 </script>
 </body>
-  </html>
+</html>
