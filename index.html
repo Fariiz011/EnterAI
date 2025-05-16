@@ -5,6 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Life.AI</title>
     <style>
+      :root {
+  --bg-color-dark: #000;
+  --text-color-dark: #fff;
+  --bg-color-light: #fff;
+  --text-color-light: #000;
+  --input-bg-dark: #1a1a1a;
+  --input-bg-light: #f0f0f0;
+  --btn-bg-dark: #444;
+  --btn-bg-light: #ccc;
+  --response-bg-dark: #111;
+  --response-bg-light: #ddd;
+}
+
+body[data-theme="dark"] {
+  background-color: var(--bg-color-dark);
+  color: var(--text-color-dark);
+}
+
+body[data-theme="light"] {
+  background-color: var(--bg-color-light);
+  color: var(--text-color-light);
+}
+
+/* Sekarang override elemen-elemen spesifik */
+
+.input-box {
+  background-color: var(--input-bg-dark);
+  color: var(--text-color-dark);
+}
+
+body[data-theme="light"] .input-box {
+  background-color: var(--input-bg-light);
+  color: var(--text-color-light);
+}
+
+.input-box input {
+  background: none;
+  border: none;
+  outline: none;
+  color: inherit; /* supaya ikut tema */
+}
+
+.input-box button {
+  background-color: var(--btn-bg-dark);
+  color: var(--text-color-dark);
+}
+
+body[data-theme="light"] .input-box button {
+  background-color: var(--btn-bg-light);
+  color: var(--text-color-light);
+}
+
+.response-box {
+  background-color: var(--response-bg-dark);
+  color: var(--text-color-dark);
+}
+
+body[data-theme="light"] .response-box {
+  background-color: var(--response-bg-light);
+  color: var(--text-color-light);
+}
+
+/* Sidebar */
+
+.sidebar {
+  background-color: var(--btn-bg-dark);
+  color: var(--text-color-dark);
+}
+
+body[data-theme="light"] .sidebar {
+  background-color: var(--btn-bg-light);
+  color: var(--text-color-light);
+    }
+      
       @font-face {
       font-family: 'Sora';
       src: url('Sora-Regular.otf') format('opentype');
