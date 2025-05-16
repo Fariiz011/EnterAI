@@ -30,6 +30,48 @@
         background: #000;
         color: #fff;
         overflow-x: hidden;
+        position: relative;
+        min-height: 100vh;
+        padding-top: 3rem; /* space for top header */
+        padding-bottom: 2.5rem; /* space for footer */
+    }
+    /* Header kiri atas LifeAI */
+    .header-logo {
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding: 0.75rem 1rem;
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: #0ff;
+        background: rgba(0,0,0,0.7);
+        font-family: 'Sora', sans-serif;
+        z-index: 1000;
+        user-select: none;
+    }
+    /* Footer hak cipta tengah bawah */
+    .footer-copyright {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #777;
+        font-size: 0.85rem;
+        font-weight: 500;
+        font-family: 'Sora', sans-serif;
+        background: rgba(0,0,0,0.7);
+        padding: 0.3rem 0.8rem;
+        border-radius: 1rem;
+        user-select: none;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        z-index: 1000;
+    }
+    .footer-copyright span.symbol {
+        font-size: 1.1rem;
+        line-height: 1;
+        color: #0ff;
     }
     .center {
         display: flex;
@@ -142,6 +184,9 @@
 </style>
 </head>
 <body>
+
+    <div class="header-logo">LifeAI</div>
+
     <div class="center">
         <img src="logo enterprise.png" class="chat-logo" alt="Logo" />
         <div class="title" id="titleText">
@@ -171,10 +216,12 @@
             <button onclick="quickAsk(this)">✦Lainnya...</button>
         </div>
         <div id="chatResponse" class="response-box"></div>
-        <div style="margin-top: 2rem; font-size: 0.8rem; color: #666; text-align: center; user-select:none;">
-  Dibuat oleh <strong>[RizLifevander]</strong> ©2025 Lifevander, Inc.
-        </div>
     </div>
+
+    <div class="footer-copyright" aria-label="Hak cipta">
+        <span class="symbol">©</span> Dibuat oleh RizLifevander 2025 Lifevander, Inc.
+    </div>
+
 <script>
     function quickAsk(button) {
         document.getElementById("chatInput").value = button.innerText;
