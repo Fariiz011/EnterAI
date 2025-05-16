@@ -25,14 +25,14 @@
         padding: 0;
         box-sizing: border-box;
         font-family: 'Sora', sans-serif;
+        -webkit-tap-highlight-color: transparent;
     }
     body {
         background: #000;
         color: #fff;
         overflow-x: hidden;
-        padding-top: 50px; /* supaya gak ketutup header */
+        padding-top: 60px;
     }
-    /* Header fixed atas */
     header {
         position: fixed;
         top: 0; left: 0; right: 0;
@@ -47,40 +47,24 @@
     header .title {
         font-weight: 600;
         font-size: 1.25rem;
-        color: #0099ff;
-        font-family: 'Sora', sans-serif;
+        color: #fff;
     }
-    /* Hamburger button */
     #hamburgerBtn {
-        background:none;
-        border:none;
-        cursor:pointer;
-        width:30px;
-        height:30px;
-        position: relative;
+        width: 25px;
+        height: 18px;
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
-        padding:0;
+        justify-content: space-between;
+        cursor: pointer;
     }
     #hamburgerBtn span {
-        display:block;
+        display: block;
         width: 100%;
         height: 3px;
-        background:#0099ff;
-        border-radius:2px;
+        background: #fff;
+        border-radius: 2px;
         transition: 0.3s;
     }
-    #hamburgerBtn.open span:nth-child(1) {
-        transform: rotate(45deg) translate(5px, 5px);
-    }
-    #hamburgerBtn.open span:nth-child(2) {
-        opacity: 0;
-    }
-    #hamburgerBtn.open span:nth-child(3) {
-        transform: rotate(-45deg) translate(5px, -5px);
-    }
-
     .center {
         display: flex;
         flex-direction: column;
@@ -91,7 +75,7 @@
         width: 140px;
         margin-bottom: 1rem;
     }
-    .title {
+    .title-section {
         text-align: center;
         font-weight: 600;
         font-size: 1.2rem;
@@ -140,18 +124,9 @@
         margin-left: 4px;
     }
     @keyframes pulse {
-        0% {
-            transform: scale(1);
-            opacity: 1;
-        }
-        50% {
-            transform: scale(1.5);
-            opacity: .5;
-        }
-        100% {
-            transform: scale(1);
-            opacity: 1;
-        }
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.5); opacity: .5; }
+        100% { transform: scale(1); opacity: 1; }
     }
     .buttons {
         display: flex;
@@ -186,60 +161,57 @@
         outline: none !important;
         box-shadow: none !important;
     }
-    * {
-        -webkit-tap-highlight-color: transparent;
+    footer {
+        text-align: center;
+        color: #888;
+        font-size: 0.85rem;
+        padding: 2rem 1rem 1rem;
     }
 </style>
 </head>
 <body>
-
-<header>
-    <div class="title">LifeAI</div>
-    <button id="hamburgerBtn" aria-label="Menu">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-</header>
-
-<div class="center">
-    <img src="logo enterprise.png" class="chat-logo" alt="Logo" />
-    <div class="title" id="titleText">
-        <strong>Lifevander</strong><br />
-        Welcome to Life AI.<br />
-        <span id="subtitle">Can I help you?</span>
+    <header>
+        <div class="title">LifeAI</div>
+        <div id="hamburgerBtn" onclick="alert('Menu coming soon')">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+    <div class="center">
+        <img src="logo enterprise.png" class="chat-logo" alt="Logo" />
+        <div class="title-section" id="titleText">
+            <strong>Lifevander</strong><br />
+            Welcome to Life AI.<br />
+            <span id="subtitle">Can I help you?</span>
+        </div>
+        <div class="input-box">
+            <input type="text" placeholder="⟡Tulis pertanyaan...?⟡" id="chatInput" />
+            <button id="voiceBtn" onclick="startVoice()" aria-label="Suara">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 14a3 3 0 003-3V5a3 3 0 00-6 0v6a3 3 0 003 3zm5-3a5 5 0 01-10 0H5a7 7 0 0014 0h-2zm-5 8v-3h-2v3h2z"/>
+                </svg>
+                <span id="wave" class="wave" style="display:none"></span>
+            </button>
+            <button id="sendBtn" onclick="sendMessage()" aria-label="Kirim">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z"/>
+                </svg>
+            </button>
+        </div>
+        <div class="buttons">
+            <button onclick="quickAsk(this)">✦Apa Itu AI?</button>
+            <button onclick="quickAsk(this)">✦Personalisasi</button>
+            <button onclick="quickAsk(this)">✦Research</button>
+            <button onclick="quickAsk(this)">✦Tentang AI</button>
+            <button onclick="quickAsk(this)">✦Lainnya...</button>
+        </div>
+        <div id="chatResponse" class="response-box"></div>
     </div>
-    <div class="input-box">
-        <input type="text" placeholder="⟡Tulis pertanyaan...?⟡" id="chatInput" />
-        <button id="voiceBtn" onclick="startVoice()" aria-label="Suara">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 14a3 3 0 003-3V5a3 3 0 00-6 0v6a3 3 0 003 3zm5-3a5 5 0 01-10 0H5a7 7 0 0014 0h-2zm-5 8v-3h-2v3h2z"/>
-            </svg>
-            <span id="wave" class="wave" style="display:none"></span>
-        </button>
-        <button id="sendBtn" onclick="sendMessage()" aria-label="Kirim">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z"/>
-            </svg>
-        </button>
-    </div>
-    <div class="buttons">
-        <button onclick="quickAsk(this)">✦Apa Itu AI?</button>
-        <button onclick="quickAsk(this)">✦Personalisasi</button>
-        <button onclick="quickAsk(this)">✦Research</button>
-        <button onclick="quickAsk(this)">✦Tentang AI</button>
-        <button onclick="quickAsk(this)">✦Lainnya...</button>
-    </div>
-    <div id="chatResponse" class="response-box"></div>
-</div>
-
+    <footer>
+        &copy; 2025 LifeAI. All rights reserved.
+    </footer>
 <script>
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
-    hamburgerBtn.addEventListener('click', () => {
-        hamburgerBtn.classList.toggle('open');
-        // nanti bisa tambah fungsi menu dropdown di sini
-    });
-
     function quickAsk(button) {
         document.getElementById("chatInput").value = button.innerText;
         sendMessage();
@@ -281,26 +253,15 @@
         recognition.interimResults = false;
         recognition.maxAlternatives = 1;
 
-        recognition.onstart = () => {
-            wave.style.display = "inline-block";
-        };
-
+        recognition.onstart = () => { wave.style.display = "inline-block"; };
         recognition.onresult = (event) => {
             document.getElementById("chatInput").value = event.results[0][0].transcript;
             sendMessage();
         };
-
-        recognition.onend = () => {
-            wave.style.display = "none";
-        };
-
-        recognition.onerror = (event) => {
-            wave.style.display = "none";
-            console.error("Voice error:", event);
-        };
-
+        recognition.onend = () => { wave.style.display = "none"; };
+        recognition.onerror = () => { wave.style.display = "none"; };
         recognition.start();
     }
 </script>
 </body>
-</html>
+ </html>
