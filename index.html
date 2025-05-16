@@ -30,104 +30,179 @@
         background: #000;
         color: #fff;
         overflow-x: hidden;
-        position: relative;
-        min-height: 100vh;
+        padding-top: 50px; /* supaya gak ketutup header */
     }
-    /* HEADER BAR */
+    /* Header fixed atas */
     header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem 1.5rem;
-        background: #000;
-        border-bottom: 1px solid #222;
         position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
+        top: 0; left: 0; right: 0;
+        height: 50px;
+        background: #000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1rem;
+        z-index: 9999;
     }
-    /* Logo text kiri */
-    .logo-text {
-        font-weight: 700;
-        font-size: 1.5rem;
-        color: #3b82f6; /* biru */
-        user-select: none;
+    header .title {
+        font-weight: 600;
+        font-size: 1.25rem;
+        color: #0099ff;
+        font-family: 'Sora', sans-serif;
     }
     /* Hamburger button */
-    .hamburger {
-        width: 28px;
-        height: 22px;
-        cursor: pointer;
+    #hamburgerBtn {
+        background:none;
+        border:none;
+        cursor:pointer;
+        width:30px;
+        height:30px;
+        position: relative;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: space-around;
+        padding:0;
     }
-    .hamburger div {
+    #hamburgerBtn span {
+        display:block;
         width: 100%;
-        height: 3.5px;
-        background: #fff;
-        border-radius: 2px;
-        transition: all 0.3s ease;
+        height: 3px;
+        background:#0099ff;
+        border-radius:2px;
+        transition: 0.3s;
     }
-    /* Hamburger toggle animasi */
-    .hamburger.active div:nth-child(1) {
+    #hamburgerBtn.open span:nth-child(1) {
         transform: rotate(45deg) translate(5px, 5px);
     }
-    .hamburger.active div:nth-child(2) {
+    #hamburgerBtn.open span:nth-child(2) {
         opacity: 0;
     }
-    .hamburger.active div:nth-child(3) {
+    #hamburgerBtn.open span:nth-child(3) {
         transform: rotate(-45deg) translate(5px, -5px);
     }
-    /* Sidebar dropdown menu */
-    #settingsDropdown {
-        position: fixed;
-        top: 56px; /* tinggi header */
-        right: 0;
-        width: 280px;
-        height: 100vh;
-        background: #111;
-        box-shadow: -3px 0 8px rgba(0,0,0,0.7);
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        z-index: 999;
-        padding: 1rem;
-        color: #ccc;
-        font-size: 1rem;
-    }
-    /* Sidebar aktif */
-    #settingsDropdown.active {
-        transform: translateX(0);
-    }
-    /* Container utama geser ke bawah karena header */
+
     .center {
-        margin-top: 70px;
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin-top: 3rem;
     }
-    /* Sisanya kamu bisa pakai style yang sudah ada */
+    .chat-logo {
+        width: 140px;
+        margin-bottom: 1rem;
+    }
+    .title {
+        text-align: center;
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+    .input-box {
+        width: 90%;
+        max-width: 600px;
+        background: #1a1a1a;
+        padding: 1rem;
+        border-radius: 1rem;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .input-box input {
+        background: none;
+        border: none;
+        color: #fff;
+        width: 100%;
+        font-size: 1rem;
+        outline: none;
+    }
+    .input-box button {
+        background: #444;
+        border: none;
+        padding: 0.5rem;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s ease;
+    }
+    .input-box button:hover {
+        background: #666;
+    }
+    .wave {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #0ff;
+        animation: pulse 1s infinite ease-in-out;
+        margin-left: 4px;
+    }
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        50% {
+            transform: scale(1.5);
+            opacity: .5;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+    .buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: .75rem;
+    }
+    .buttons button {
+        padding: .6rem 1rem;
+        border-radius: 1.5rem;
+        background: transparent;
+        color: #fff;
+        border: 1px solid #fff;
+        cursor: pointer;
+        transition: .3s;
+    }
+    .buttons button:hover {
+        background: #1a1a1a;
+    }
+    .response-box {
+        max-width: 600px;
+        background: #111;
+        border-radius: .75rem;
+        padding: 1rem;
+        margin-top: 1rem;
+        font-size: .9rem;
+        user-select: text;
+    }
+    button:focus,
+    input:focus,
+    svg:focus {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
 </style>
 </head>
 <body>
+
 <header>
-    <div class="logo-text">LifeAI</div>
-    <div class="hamburger" id="hamburgerBtn" aria-label="Menu Pengaturan" tabindex="0" role="button" aria-expanded="false" aria-controls="settingsDropdown">
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
+    <div class="title">LifeAI</div>
+    <button id="hamburgerBtn" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
 </header>
 
-<!-- Sidebar settings kosong -->
-<div id="settingsDropdown" role="menu" aria-hidden="true" tabindex="-1">
-    <!-- Isi fitur-fitur settings nanti -->
-</div>
-
-<!-- Konten utama -->
 <div class="center">
-    <!-- Konten lama kamu bisa masuk sini -->
     <img src="logo enterprise.png" class="chat-logo" alt="Logo" />
     <div class="title" id="titleText">
         <strong>Lifevander</strong><br />
@@ -159,22 +234,12 @@
 </div>
 
 <script>
-    // Toggle sidebar settings
-    const hamburgerBtn = document.getElementById("hamburgerBtn");
-    const settingsDropdown = document.getElementById("settingsDropdown");
-
-    hamburgerBtn.addEventListener("click", () => {
-        hamburgerBtn.classList.toggle("active");
-        settingsDropdown.classList.toggle("active");
-        const expanded = hamburgerBtn.getAttribute("aria-expanded") === "true";
-        hamburgerBtn.setAttribute("aria-expanded", String(!expanded));
-        settingsDropdown.setAttribute("aria-hidden", String(expanded));
-        if (!expanded) {
-            settingsDropdown.focus();
-        }
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    hamburgerBtn.addEventListener('click', () => {
+        hamburgerBtn.classList.toggle('open');
+        // nanti bisa tambah fungsi menu dropdown di sini
     });
 
-    // --- Kode lama kamu tetap di sini ---
     function quickAsk(button) {
         document.getElementById("chatInput").value = button.innerText;
         sendMessage();
