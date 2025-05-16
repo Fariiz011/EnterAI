@@ -4,222 +4,227 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Life.AI</title>
-<link rel="manifest" href="manifest.json" />
 <style>
-  @font-face {
-    font-family: 'Sora';
-    src: url('Sora-Regular.otf') format('opentype');
-    font-weight: normal;
-  }
-  @font-face {
-    font-family: 'Sora';
-    src: url('Sora-SemiBold.otf') format('opentype');
-    font-weight: 600;
-  }
-  @font-face {
-    font-family: 'Sora';
-    src: url('Sora-Bold.otf') format('opentype');
-    font-weight: bold;
-  }
-  * {
-    margin: 0; padding: 0; box-sizing: border-box; font-family: 'Sora', sans-serif;
-  }
-  body {
-    background: #000; color: #fff; overflow-x: hidden;
-  }
-  body.light {
-    background: #fff; color: #000;
-  }
-  body.light .input-box {
-    background: #f0f0f0; color: #000;
-  }
-  body.light .buttons button {
-    color: #000; border-color: #000;
-  }
-  body.light .buttons button:hover {
-    background: #e0e0e0;
-  }
-  body.light .response-box {
-    background: #eee; color: #000;
-  }
-  header {
-    display: flex; align-items: center; justify-content: center; padding: 1rem;
-  }
-  .logo {
-    font-size: 1.25rem; font-weight: bold;
-  }
-  .center {
-    display: flex; flex-direction: column; align-items: center; margin-top: 3rem; transition: filter .3s ease;
-  }
-  .chat-logo {
-    width: 140px; margin-bottom: 1rem;
-  }
-  .title {
-    text-align: center; font-weight: 600; font-size: 1.2rem; margin-bottom: 1.5rem;
-  }
-  .input-box {
-    width: 90%; max-width: 600px; background: #1a1a1a; padding: 1rem; border-radius: 1rem; color: #fff;
-    display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem;
-  }
-  .input-box input {
-    background: none; border: none; color: #fff; width: 100%; font-size: 1rem; outline: none;
-  }
-  .input-box button {
-    background: #444; border: none; padding: 0.5rem; border-radius: 50%; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; transition: background 0.2s ease;
-  }
-  .input-box button:hover {
-    background: #666;
-  }
-  .wave {
-    width: 14px; height: 14px; border-radius: 50%; background: #0ff; animation: pulse 1s infinite ease-in-out; margin-left: 4px;
-  }
-  @keyframes pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.5); opacity: 0.5; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-  .buttons {
-    display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem;
-  }
-  .buttons button {
-    padding: .6rem 1rem; border-radius: 1.5rem; background: transparent; color: #fff; border: 1px solid #fff; cursor: pointer; transition: .3s;
-  }
-  .buttons button:hover {
-    background: #1a1a1a;
-  }
-  footer {
-    text-align: center; font-size: .75rem; margin-top: 2rem; padding-bottom: 1rem;
-  }
-  .response-box {
-    max-width: 600px; background: #111; border-radius: .75rem; padding: 1rem; margin-top: 1rem; font-size: .9rem; user-select: text;
-    white-space: pre-wrap;
-  }
-  .no-copy *:not(.response-box) {
-    user-select: none; -webkit-user-select: none; -ms-user-select: none;
-  }
-  button:focus, input:focus, svg:focus {
-    outline: none !important; box-shadow: none !important;
-  }
-  * {
-    -webkit-tap-highlight-color: transparent;
-  }
+    @font-face {
+        font-family: 'Sora';
+        src: url('Sora-Regular.otf') format('opentype');
+        font-weight: normal;
+    }
+    @font-face {
+        font-family: 'Sora';
+        src: url('Sora-SemiBold.otf') format('opentype');
+        font-weight: 600;
+    }
+    @font-face {
+        font-family: 'Sora';
+        src: url('Sora-Bold.otf') format('opentype');
+        font-weight: bold;
+    }
+    * {
+        margin:0; padding:0; box-sizing: border-box; font-family: 'Sora', sans-serif;
+    }
+    body {
+        background: #000;
+        color: #fff;
+        overflow-x: hidden;
+        display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 2rem 1rem;
+    }
+    body.light {
+        background: #fff;
+        color: #000;
+    }
+    .chat-logo {
+        width: 140px;
+        margin-bottom: 1rem;
+    }
+    .title {
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+    .input-box {
+        width: 90%;
+        max-width: 600px;
+        background: #1a1a1a;
+        padding: 1rem;
+        border-radius: 1rem;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    body.light .input-box {
+        background: #f0f0f0;
+        color: #000;
+    }
+    .input-box input {
+        background: none;
+        border: none;
+        color: inherit;
+        width: 100%;
+        font-size: 1rem;
+        outline: none;
+    }
+    .input-box button {
+        background: #444;
+        border: none;
+        padding: 0.5rem;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s ease;
+    }
+    .input-box button:hover {
+        background: #666;
+    }
+    .wave {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #0ff;
+        animation: pulse 1s infinite ease-in-out;
+        margin-left: 4px;
+        display: none;
+    }
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.5); opacity: 0.5; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+    .buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+    .buttons button {
+        padding: 0.6rem 1rem;
+        border-radius: 1.5rem;
+        background: transparent;
+        color: #fff;
+        border: 1px solid #fff;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .buttons button:hover {
+        background: #1a1a1a;
+    }
+    body.light .buttons button {
+        color: #000;
+        border-color: #000;
+    }
+    body.light .buttons button:hover {
+        background: #e0e0e0;
+    }
+    .response-box {
+        max-width: 600px;
+        background: #111;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        font-size: 0.9rem;
+        user-select: text;
+        min-height: 100px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+    }
+    body.light .response-box {
+        background: #eee;
+        color: #000;
+    }
+    footer {
+        text-align: center;
+        font-size: 0.75rem;
+        margin-top: auto;
+        padding: 1rem 0;
+    }
 </style>
 </head>
-<body class="no-copy">
-<header>
-  <div class="logo">LifeAI</div>
-</header>
-<div id="main" class="center">
-  <img src="logo enterprise.png" class="chat-logo" alt="Logo" />
-  <div class="title" id="titleText">
-    <strong>Lifevander</strong><br />
-    Welcome to Life AI.<br />
-    <span id="subtitle">Can I help you?</span>
-  </div>
-  <div class="input-box">
-    <input type="text" placeholder="⟡Tulis pertanyaan...?⟡" id="chatInput" autocomplete="off" />
-    <button id="voiceBtn" onclick="startVoice()" aria-label="Suara">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 14a3 3 0 003-3V5a3 3 0 00-6 0v6a3 3 0 003 3zm5-3a5 5 0 01-10 0H5a7 7 0 0014 0h-2zm-5 8v-3h-2v3h2z"/></svg>
-      <span id="wave" class="wave" style="display:none"></span>
-    </button>
-    <button id="sendBtn" onclick="sendMessage()" aria-label="Kirim">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M2 21L23 12L2 3V10L17 12L2 14V21Z"/></svg>
-    </button>
-  </div>
-  <div class="buttons">
-    <button onclick="quickAsk(this)">✦Apa Itu AI?</button>
-    <button onclick="quickAsk(this)">✦Personalisasi</button>
-    <button onclick="quickAsk(this)">✦Research</button>
-    <button onclick="quickAsk(this)">✦Tentang AI</button>
-    <button onclick="quickAsk(this)">✦Lainnya...</button>
-  </div>
-  <div id="chatResponse" class="response-box"></div>
-</div>
-<footer id="footerText">Dibuat Oleh [RIZ-Lifevander Dev] &copy;2025 Lifevander, Inc.</footer>
+<body>
+    <img src="logo enterprise.png" alt="Logo" class="chat-logo" />
+    <div class="title">
+        <strong>Life.AI</strong><br/>
+        Welcome to Life AI.<br/>
+        <span>Can I help you?</span>
+    </div>
+    <div class="input-box">
+        <input type="text" id="chatInput" placeholder="⟡Tulis pertanyaan...?⟡" />
+        <button id="voiceBtn" onclick="startVoice()" aria-label="Suara">
+            <svg width="20" height="20" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 14a3 3 0 003-3V5a3 3 0 00-6 0v6a3 3 0 003 3zm5-3a5 5 0 01-10 0H5a7 7 0 0014 0h-2zm-5 8v-3h-2v3h2z"/></svg>
+            <span id="wave" class="wave"></span>
+        </button>
+        <button id="sendBtn" onclick="sendMessage()" aria-label="Kirim">
+            <svg width="20" height="20" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 21L23 12L2 3V10L17 12L2 14V21Z"/></svg>
+        </button>
+    </div>
+    <div class="buttons">
+        <button onclick="quickAsk(this)">✦Apa Itu AI?</button>
+        <button onclick="quickAsk(this)">✦Personalisasi</button>
+        <button onclick="quickAsk(this)">✦Research</button>
+        <button onclick="quickAsk(this)">✦Tentang AI</button>
+        <button onclick="quickAsk(this)">✦Lainnya...</button>
+    </div>
+    <div id="chatResponse" class="response-box"></div>
+    <footer>Dibuat Oleh [RIZ-Lifevander Dev] &copy;2025 Lifevander, Inc.</footer>
 
 <script>
-  // Tombol quick ask, otomatis isi input dan kirim pesan
-  function quickAsk(e) {
-    document.getElementById("chatInput").value = e.innerText;
-    sendMessage();
-  }
-
-  // Fungsi mengirim pesan dan menampilkan response dummy (ganti sesuai API kamu)
-  async function sendMessage() {
-    const input = document.getElementById("chatInput");
-    const text = input.value.trim();
-    if (!text) return;
-
-    appendResponse("Anda: " + text);
-    input.value = "";
-    input.disabled = true;
-    document.getElementById("sendBtn").disabled = true;
-    document.getElementById("voiceBtn").disabled = true;
-
-    appendResponse("LifeAI: Sedang memproses...");
-
-    // Simulasi delay API
-    setTimeout(() => {
-      // Hapus pesan "Sedang memproses..."
-      const responses = document.getElementById("chatResponse");
-      const lastChild = responses.lastChild;
-      if (lastChild && lastChild.textContent === "LifeAI: Sedang memproses...") {
-        responses.removeChild(lastChild);
-      }
-      // Tampilkan jawaban dummy
-      appendResponse("LifeAI: Jawaban otomatis untuk: " + text);
-
-      input.disabled = false;
-      document.getElementById("sendBtn").disabled = false;
-      document.getElementById("voiceBtn").disabled = false;
-      input.focus();
-    }, 1500);
-  }
-
-  // Menambah response ke dalam kotak chat
-  function appendResponse(text) {
-    const chatResponse = document.getElementById("chatResponse");
-    const div = document.createElement("div");
-    div.textContent = text;
-    chatResponse.appendChild(div);
-    chatResponse.scrollTop = chatResponse.scrollHeight;
-  }
-
-  // Voice recognition sederhana
-  let recognition;
-  function startVoice() {
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-      alert("Browser Anda tidak mendukung fitur suara.");
-      return;
+    function quickAsk(btn) {
+        document.getElementById("chatInput").value = btn.innerText;
+        sendMessage();
     }
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognition = new SpeechRecognition();
-    recognition.lang = 'id-ID';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
 
-    const wave = document.getElementById("wave");
-    wave.style.display = "inline-block";
+    async function sendMessage() {
+        const input = document.getElementById("chatInput");
+        const prompt = input.value.trim();
+        if (!prompt) return;
+        document.getElementById("chatResponse").innerText = "Sedang mengetik...";
+        input.value = "";
 
-    recognition.start();
+        try {
+            const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer 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"
+                },
+                body: JSON.stringify({
+                    model: "gpt-4o-mini",
+                    messages: [{ role: "user", content: prompt }]
+                })
+            });
 
-    recognition.onresult = function(event) {
-      const speechResult = event.results[0][0].transcript;
-      document.getElementById("chatInput").value = speechResult;
-      wave.style.display = "none";
-      sendMessage();
-    };
+            const data = await response.json();
+            const reply = data.choices?.[0]?.message?.content || "Maaf, tidak ada respons.";
+            document.getElementById("chatResponse").innerText = reply;
+        } catch (error) {
+            document.getElementById("chatResponse").innerText = "Terjadi kesalahan saat memproses.";
+            console.error(error);
+        }
+    }
 
-    recognition.onerror = function(event) {
-      wave.style.display = "none";
-      alert('Error pada pengenalan suara: ' + event.error);
-    };
-
-    recognition.onend = function() {
-      wave.style.display = "none";
-    };
-  }
+    function startVoice() {
+        const wave = document.getElementById("wave");
+        if (!("webkitSpeechRecognition" in window)) return alert("Browser tidak mendukung voice input.");
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = "id-ID";
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+        recognition.onstart = () => { wave.style.display = "inline-block"; };
+        recognition.onresult = (e) => {
+            document.getElementById("chatInput").value = e.results[0][0].transcript;
+            sendMessage();
+        };
+        recognition.onend = () => { wave.style.display = "none"; };
+        recognition.onerror = (e) => {
+            wave.style.display = "none";
+            console.error("Voice error:", e);
+        };
+        recognition.start();
+    }
 </script>
 </body>
-    </html>
+</html>
