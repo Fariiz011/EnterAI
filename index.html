@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LifevanderAI - Platform Kecerdasan Buatan</title>
+    <title>LifeAI - Platform Kecerdasan Buatan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -38,11 +38,15 @@
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            flex: 1;
         }
         header {
             display: flex;
@@ -88,6 +92,7 @@
         }
         main {
             margin-top: 40px;
+            padding-bottom: 60px;
         }
         .search-container {
             position: relative;
@@ -160,8 +165,10 @@
             border-radius: 15px;
             width: 90%;
             max-width: 500px;
+            max-height: 90vh;
             padding: 30px;
             position: relative;
+            overflow-y: auto;
         }
         .close-modal {
             position: absolute;
@@ -206,6 +213,33 @@
         .tab-content.active {
             display: block;
         }
+        .response-container {
+            margin-top: 20px;
+            max-width: 100%;
+            overflow: hidden;
+        }
+        .response-content {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: inherit;
+            margin: 0;
+            padding: 15px;
+            background: var(--bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .error-content {
+            color: var(--error);
+            padding: 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--card);
+            border-top: 1px solid var(--border);
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
         @media (max-width: 768px) {
             .features-grid {
                 grid-template-columns: 1fr;
@@ -216,7 +250,7 @@
 <body>
     <div class="container">
         <header>
-            <div class="logo">Lifevander AI</div>
+            <div class="logo">LifeAI</div>
             <div class="auth-section">
                 <button class="btn btn-outline" id="login-btn">
                     <i class="fas fa-sign-in-alt"></i> Masuk
@@ -288,13 +322,17 @@
                 <div class="form-group" id="feature-input-container" style="margin-top: 20px;">
                     <!-- Input dinamis akan diisi di sini -->
                 </div>
-                <div id="feature-response" style="margin-top: 20px; padding: 15px; background: var(--bg); border-radius: 8px; display: none;">
+                <div id="feature-response" class="response-container" style="display: none;">
                     <!-- Respons dari API akan muncul di sini -->
                 </div>
                 <button class="btn btn-primary" id="submit-feature" style="margin-top: 15px;">Proses</button>
             </div>
         </div>
     </div>
+
+    <footer>
+        &copy; 2025 LifeAI - By M.Fariz | Lifevander Indonesia Inc.
+    </footer>
 
     <script>
         // Konfigurasi Cohere API
@@ -310,7 +348,7 @@
                 icon: "fa-comment-dots",
                 inputType: "textarea",
                 placeholder: "Ketik pesan Anda...",
-                promptPrefix: "Anda adalah asisten AI yang membantu pengguna. Jawablah pertanyaan berikut dengan ramah dan informatif:"
+                promptPrefix: "Anda adalah asisten AI LifeAI yang berbahasa Indonesia. Berikan respon dalam Bahasa Indonesia yang ramah dan informatif untuk pertanyaan berikut:"
             },
             {
                 id: 2,
@@ -319,7 +357,7 @@
                 icon: "fa-language",
                 inputType: "textarea",
                 placeholder: "Masukkan teks yang akan diterjemahkan...",
-                promptPrefix: "Terjemahkan teks berikut ke bahasa Indonesia (jika teks Inggris) atau ke bahasa Inggris (jika teks Indonesia):"
+                promptPrefix: "Terjemahkan teks berikut ke Bahasa Indonesia (jika teks Inggris) atau ke Bahasa Inggris (jika teks Indonesia), berikan hasil terjemahan yang alami:"
             },
             {
                 id: 3,
@@ -328,7 +366,7 @@
                 icon: "fa-code",
                 inputType: "textarea",
                 placeholder: "Deskripsikan kode yang Anda butuhkan...",
-                promptPrefix: "Buatkan kode untuk:"
+                promptPrefix: "Buatkan kode program untuk kebutuhan berikut dalam Bahasa Indonesia. Berikan penjelasan singkat dalam Bahasa Indonesia:"
             },
             {
                 id: 4,
@@ -337,7 +375,7 @@
                 icon: "fa-file-alt",
                 inputType: "file",
                 accept: ".pdf,.docx,.xlsx",
-                promptPrefix: "Analisis dokumen berikut:"
+                promptPrefix: "Analisis dokumen berikut dan berikan rangkuman dalam Bahasa Indonesia:"
             },
             {
                 id: 5,
@@ -346,7 +384,7 @@
                 icon: "fa-pen-fancy",
                 inputType: "textarea",
                 placeholder: "Deskripsikan konten yang Anda butuhkan...",
-                promptPrefix: "Buatkan konten tentang:"
+                promptPrefix: "Buatkan konten dalam Bahasa Indonesia tentang topik berikut. Gunakan gaya bahasa yang menarik dan mudah dipahami:"
             },
             {
                 id: 6,
@@ -355,7 +393,7 @@
                 icon: "fa-book-open",
                 inputType: "select",
                 options: ["Kuis Kosakata", "Latihan Tata Bahasa", "Percakapan Simulasi"],
-                promptPrefix: "Buatkan latihan pembelajaran bahasa:"
+                promptPrefix: "Buatkan materi pembelajaran bahasa Indonesia untuk latihan berikut. Berikan contoh dan penjelasan:"
             }
         ];
 
@@ -510,9 +548,9 @@
                         'Cohere-Version': '2022-12-06'
                     },
                     body: JSON.stringify({
-                        model: 'command',
+                        model: 'command-r-plus',
                         prompt: prompt,
-                        max_tokens: 100,
+                        max_tokens: 1000,
                         temperature: 0.3,
                         k: 0,
                         stop_sequences: [],
@@ -526,16 +564,20 @@
                 
                 const data = await response.json();
                 
-                // Tampilkan respons
+                // Tampilkan respons dengan format yang benar
                 responseDiv.style.display = 'block';
-                responseDiv.innerHTML = `<pre>${data.generations[0].text}</pre>`;
+                responseDiv.innerHTML = `
+                    <div class="response-content">
+                        ${data.generations[0].text}
+                    </div>
+                `;
                 
             } catch (error) {
                 console.error('Error:', error);
                 responseDiv.style.display = 'block';
                 responseDiv.innerHTML = `
-                    <div style="color: var(--error);">
-                        <p>Error: Gagal terhubung ke Cohere API</p>
+                    <div class="error-content">
+                        <p><strong>Error:</strong> Gagal terhubung ke Cohere API</p>
                         <p>${error.message}</p>
                     </div>
                 `;
