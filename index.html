@@ -240,39 +240,6 @@
             color: var(--text-light);
             font-size: 0.9rem;
         }
-        .generated-image {
-            max-width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            margin: 15px 0;
-        }
-        .download-btn {
-            margin-top: 10px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .download-btn:hover {
-            background: var(--primary-dark);
-        }
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
         @media (max-width: 768px) {
             .features-grid {
                 grid-template-columns: 1fr;
@@ -368,13 +335,9 @@
     </footer>
 
     <script>
-        // Konfigurasi API
-        const COHERE_API_KEY = "Q0SDjtBTdABFnipUNG0RPUQS2uriNmpXlQXztD54"; // Ganti dengan API key Cohere Anda
+        // Konfigurasi Cohere API
+        const COHERE_API_KEY = "Q0SDjtBTdABFnipUNG0RPUQS2uriNmpXlQXztD54"; // Ganti dengan API key Anda
         const COHERE_API_URL = "https://api.cohere.ai/v1/generate";
-        
-        // 🔑 MASUKKAN API KEY STABILITY AI ANDA DI SINI:
-        const STABILITY_API_KEY = "sk-VHMqYlbXAG7oQVoHbhl7Yq5UOlkFksOA42yxHwZVjXYi3PTf"; // Ganti dengan API key Stability AI Anda
-        const STABILITY_API_URL = "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image";
 
         // Database Fitur
         const features = [
@@ -385,7 +348,20 @@
                 icon: "fa-comment-dots",
                 inputType: "textarea",
                 placeholder: "Ketik pesan Anda...",
-                promptPrefix: "Anda adalah asisten AI LifeAI yang berbahasa Indonesia. Berikan respon dalam Bahasa Indonesia yang ramah dan informatif untuk pertanyaan berikut:"
+                promptPrefix: "Anda adalah Lifevander-plus AI, model kecerdasan buatan yang dikembangkan oleh M.Fariz dari Lifevander Indonesia. 
+                        Berikut identitas Anda:
+                        - Nama: Lifevander-plus AI
+                        - Pengembang: M.Fariz
+                        - Asal: Indonesia
+                        - Institusi: Lifevander Indonesia
+                        - Versi: 2.0.1
+                        
+                        Tugas Anda:
+                        1. Berikan respon dalam Bahasa Indonesia yang ramah dan informatif
+                        2. Selalu sertakan signature "Lifevander-plus AI ©" di akhir jawaban
+                        3. Jelaskan bahwa Anda berbasis di Indonesia jika ditanya tentang asal
+                        
+                        Jawablah pertanyaan berikut dengan profesional:"
             },
             {
                 id: 2,
@@ -431,16 +407,6 @@
                 inputType: "select",
                 options: ["Kuis Kosakata", "Latihan Tata Bahasa", "Percakapan Simulasi"],
                 promptPrefix: "Buatkan materi pembelajaran bahasa Indonesia untuk latihan berikut. Berikan contoh dan penjelasan:"
-            },
-            {
-                id: 7,
-                title: "Image Generator",
-                description: "Buat gambar dari teks menggunakan AI",
-                icon: "fa-image",
-                inputType: "textarea",
-                placeholder: "Deskripsikan gambar yang ingin dibuat...",
-                promptPrefix: "",
-                isImageGeneration: true
             }
         ];
 
@@ -556,7 +522,7 @@
             modal.style.display = 'flex';
         };
 
-        // Proses fitur dengan API
+        // Proses fitur dengan Cohere API
         const processFeature = async (feature, inputElement) => {
             const responseDiv = document.getElementById('feature-response');
             const submitBtn = document.getElementById('submit-feature');
@@ -581,96 +547,51 @@
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
             
             try {
-                // Jika fitur image generation
-                if (feature.isImageGeneration) {
-                    // Kirim request ke Stability AI API
-                    const response = await fetch(STABILITY_API_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${STABILITY_API_KEY}`,
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            text_prompts: [
-                                {
-                                    text: inputValue + ", high quality, 4k, detailed",
-                                    weight: 0.5
-                                }
-                            ],
-                            cfg_scale: 7,
-                            height: 512,
-                            width: 512,
-                            steps: 30,
-                            samples: 1
-                        })
-                    });
-                    
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(errorData.message || 'Gagal generate gambar');
-                    }
-                    
-                    const data = await response.json();
-                    const base64Image = data.artifacts[0].base64;
-                    const imageUrl = `data:image/png;base64,${base64Image}`;
-                    
-                    responseDiv.style.display = 'block';
-                    responseDiv.innerHTML = `
-                        <div style="text-align: center;">
-                            <img src="${imageUrl}" class="generated-image">
-                            <button class="download-btn" onclick="downloadImage('${imageUrl}', 'lifeai-${Date.now()}')">
-                                <i class="fas fa-download"></i> Unduh Gambar
-                            </button>
-                        </div>
-                    `;
-                } 
-                else {
-                    // Kode Cohere API yang sudah ada...
-                    const prompt = feature.promptPrefix 
-                        ? `${feature.promptPrefix} ${inputValue}`
-                        : `Anda adalah LifeAI. Tugas: ${feature.title}. Input pengguna: ${inputValue}`;
-                    
-                    const response = await fetch(COHERE_API_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${COHERE_API_KEY}`,
-                            'Content-Type': 'application/json',
-                            'Cohere-Version': '2022-12-06'
-                        },
-                        body: JSON.stringify({
-                            model: 'command-r-plus',
-                            prompt: prompt,
-                            max_tokens: 1000,
-                            temperature: 0.7,
-                            k: 0,
-                            stop_sequences: [],
-                            return_likelihoods: 'NONE'
-                        })
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    
-                    const data = await response.json();
-                    
-                    responseDiv.style.display = 'block';
-                    responseDiv.innerHTML = `
-                        <div class="response-content">
-                            ${data.generations[0].text}
-                        </div>
-                    `;
+                // Buat prompt berdasarkan fitur
+                const prompt = feature.promptPrefix 
+                    ? `${feature.promptPrefix} ${inputValue}`
+                    : `Anda adalah LifeAI. Tugas: ${feature.title}. Input pengguna: ${inputValue}`;
+                
+                // Kirim request ke Cohere API
+                const response = await fetch(COHERE_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${COHERE_API_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Cohere-Version': '2022-12-06'
+                    },
+                    body: JSON.stringify({
+                        model: 'command-r-plus',
+                        prompt: prompt,
+                        max_tokens: 1000,
+                        temperature: 0.3,
+                        k: 0,
+                        stop_sequences: [],
+                        return_likelihoods: 'NONE'
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
+                
+                const data = await response.json();
+                
+                // Tampilkan respons dengan format yang benar
+                responseDiv.style.display = 'block';
+                responseDiv.innerHTML = `
+                    <div class="response-content">
+                        ${data.generations[0].text}
+                    </div>
+                `;
                 
             } catch (error) {
                 console.error('Error:', error);
                 responseDiv.style.display = 'block';
                 responseDiv.innerHTML = `
                     <div class="error-content">
-                        <p><strong>Error:</strong> Gagal memproses permintaan</p>
+                        <p><strong>Error:</strong> Gagal terhubung ke Cohere API</p>
                         <p>${error.message}</p>
-                        ${feature.isImageGeneration ? '<p>Pastikan API key Stability AI valid dan kuota mencukupi</p>' : ''}
                     </div>
                 `;
             } finally {
@@ -678,16 +599,6 @@
                 submitBtn.innerHTML = 'Proses';
             }
         };
-
-        // Fungsi untuk mengunduh gambar
-        function downloadImage(url, filename) {
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename || 'generated-image';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
 
         // Fungsi pencarian
         const setupSearch = () => {
@@ -963,4 +874,4 @@
         document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
-  </html>
+    </html>
