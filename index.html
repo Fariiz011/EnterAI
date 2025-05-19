@@ -31,7 +31,12 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: background 0.3s, color 0.2s;
+            transition: all 0.3s ease;
+            outline: none !important;
+        }
+        :focus {
+            outline: none !important;
+            box-shadow: none !important;
         }
         body {
             font-family: 'Sora', sans-serif;
@@ -41,6 +46,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden;
         }
         .container {
             max-width: 1200px;
@@ -54,11 +60,23 @@
             align-items: center;
             padding: 20px 0;
             border-bottom: 1px solid var(--border);
+            animation: fadeInDown 0.8s ease-out;
         }
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
             color: var(--primary);
+            position: relative;
+        }
+        .logo::after {
+            content: "INDONESIA";
+            position: absolute;
+            bottom: -8px;
+            right: 0;
+            font-size: 0.5rem;
+            color: var(--primary);
+            font-weight: bold;
+            letter-spacing: 1px;
         }
         .auth-section {
             display: flex;
@@ -73,15 +91,44 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn:active, .btn:focus {
+            transform: scale(0.98);
+        }
+        .btn::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%, -50%);
+            transform-origin: 50% 50%;
+        }
+        .btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
         }
         .btn-primary {
             background: var(--primary);
             color: white;
         }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 4px 12px rgba(110, 107, 246, 0.3);
+        }
         .btn-outline {
             background: transparent;
             border: 1px solid var(--primary);
             color: var(--primary);
+        }
+        .btn-outline:hover {
+            background: rgba(110, 107, 246, 0.1);
         }
         .btn-icon {
             padding: 10px;
@@ -90,14 +137,19 @@
             color: var(--text);
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+        .btn-icon:hover {
+            transform: rotate(15deg);
+        }
         main {
             margin-top: 40px;
             padding-bottom: 60px;
+            animation: fadeIn 1s ease-out;
         }
         .search-container {
             position: relative;
             max-width: 600px;
             margin: 0 auto 30px;
+            animation: slideInDown 0.8s ease-out;
         }
         .search-input {
             width: 100%;
@@ -108,6 +160,11 @@
             color: var(--text);
             font-size: 1rem;
             padding-left: 50px;
+            transition: all 0.3s ease;
+        }
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(110, 107, 246, 0.2);
         }
         .search-icon {
             position: absolute;
@@ -129,15 +186,37 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             cursor: pointer;
             border: 1px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
         }
         .feature-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
+        .feature-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
         .feature-icon {
             font-size: 2rem;
             color: var(--primary);
             margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
         }
         .feature-title {
             font-size: 1.2rem;
@@ -159,6 +238,7 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            animation: fadeIn 0.3s ease-out;
         }
         .modal-content {
             background: var(--card);
@@ -169,6 +249,9 @@
             padding: 30px;
             position: relative;
             overflow-y: auto;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: modalOpen 0.4s ease-out forwards;
         }
         .close-modal {
             position: absolute;
@@ -176,9 +259,16 @@
             right: 20px;
             font-size: 1.5rem;
             cursor: pointer;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+        .close-modal:hover {
+            color: var(--primary);
+            transform: rotate(90deg);
         }
         .form-group {
             margin-bottom: 20px;
+            animation: fadeIn 0.5s ease-out;
         }
         .form-label {
             display: block;
@@ -192,6 +282,11 @@
             border: 1px solid var(--border);
             background: var(--bg);
             color: var(--text);
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(110, 107, 246, 0.2);
         }
         .tabs {
             display: flex;
@@ -202,6 +297,7 @@
             padding: 10px 20px;
             cursor: pointer;
             border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
         }
         .tab.active {
             border-bottom: 3px solid var(--primary);
@@ -209,6 +305,7 @@
         }
         .tab-content {
             display: none;
+            animation: fadeIn 0.5s ease-out;
         }
         .tab-content.active {
             display: block;
@@ -227,10 +324,12 @@
             background: var(--bg);
             border-radius: 8px;
             border: 1px solid var(--border);
+            animation: fadeIn 0.5s ease-out;
         }
         .error-content {
             color: var(--error);
             padding: 10px;
+            animation: shake 0.5s ease-out;
         }
         footer {
             text-align: center;
@@ -239,7 +338,188 @@
             border-top: 1px solid var(--border);
             color: var(--text-light);
             font-size: 0.9rem;
+            animation: fadeInUp 0.8s ease-out;
         }
+        .generated-image {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin: 15px 0;
+            animation: fadeIn 0.8s ease-out;
+        }
+        .download-btn {
+            margin-top: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+        .download-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        .voice-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .voice-recording {
+            animation: pulse 1.5s infinite;
+            color: var(--error) !important;
+        }
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: white;
+            animation: fadeOut 1s ease-out 2s forwards;
+        }
+        .splash-logo {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            animation: bounceIn 1s ease-out;
+        }
+        .splash-text {
+            font-size: 1.2rem;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1s forwards;
+        }
+        .splash-developer {
+            position: absolute;
+            bottom: 30px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; visibility: hidden; }
+        }
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes modalOpen {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes pulse {
+            0% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-50%) scale(1.1); }
+            100% { transform: translateY(-50%) scale(1); }
+        }
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 1;
+            }
+            20% {
+                transform: scale(25, 25);
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(40, 40);
+            }
+        }
+        @keyframes bounceIn {
+            from, 20%, 40%, 60%, 80%, to {
+                animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+            }
+            0% {
+                opacity: 0;
+                transform: scale3d(.3, .3, .3);
+            }
+            20% {
+                transform: scale3d(1.1, 1.1, 1.1);
+            }
+            40% {
+                transform: scale3d(.9, .9, .9);
+            }
+            60% {
+                opacity: 1;
+                transform: scale3d(1.03, 1.03, 1.03);
+            }
+            80% {
+                transform: scale3d(.97, .97, .97);
+            }
+            to {
+                opacity: 1;
+                transform: scale3d(1, 1, 1);
+            }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
         @media (max-width: 768px) {
             .features-grid {
                 grid-template-columns: 1fr;
@@ -248,6 +528,13 @@
     </style>
 </head>
 <body>
+    <!-- Splash Screen -->
+    <div class="splash-screen">
+        <div class="splash-logo">LifeAI</div>
+        <div class="splash-text">Kecerdasan Buatan Berbasis Indonesia</div>
+        <div class="splash-developer">Dikembangkan oleh M.Fariz - Lifevander</div>
+    </div>
+
     <div class="container">
         <header>
             <div class="logo">LifeAI</div>
@@ -270,7 +557,7 @@
                 <input type="text" class="search-input" placeholder="Cari fitur LifeAI..." id="search-input">
             </div>
 
-            <h2>Layanan yang Tersedia</h2>
+            <h2>Fitur yang Tersedia</h2>
             <div class="features-grid" id="features-grid">
                 <!-- Fitur akan diisi oleh JavaScript -->
             </div>
@@ -331,13 +618,25 @@
     </div>
 
     <footer>
-        &copy; 2025 LifeAI - By M.Fariz | Lifevander Indonesia Inc.
+        <div style="margin-bottom: 10px;">
+            <strong>LifeAI</strong> - Dibangun dengan ❤️ oleh <strong>M.Fariz</strong> | 
+            <span style="color: var(--primary);">Lifevander Indonesia</span>
+        </div>
+        <div style="font-size: 0.8em;">
+            <i class="fas fa-map-marker-alt"></i> Model <strong>Lifevander-plus</strong> berbasis di Indonesia
+            <br>
+            <i class="fas fa-copyright"></i> 2025 Lifevander Indonesia Inc. - All rights reserved
+        </div>
     </footer>
 
     <script>
-        // Konfigurasi Cohere API
-        const COHERE_API_KEY = "Q0SDjtBTdABFnipUNG0RPUQS2uriNmpXlQXztD54"; // Ganti dengan API key Anda
+        // Konfigurasi API
+        const COHERE_API_KEY = "Q0SDjtBTdABFnipUNG0RPUQS2uriNmpXlQXztD54"; // Ganti dengan API key Cohere Anda
         const COHERE_API_URL = "https://api.cohere.ai/v1/generate";
+        
+        // 🔑 MASUKKAN API KEY STABILITY AI ANDA DI SINI:
+        const STABILITY_API_KEY = "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"; // Ganti dengan API key Stability AI Anda
+        const STABILITY_API_URL = "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image";
 
         // Database Fitur
         const features = [
@@ -348,10 +647,34 @@
                 icon: "fa-comment-dots",
                 inputType: "textarea",
                 placeholder: "Ketik pesan Anda...",
-                promptPrefix: "Anda adalah LifeAI buatan CEO M.Fariz yang berbahasa Indonesia dan dikembangkan oleh Lifevander Lifeai-plus yang berbasis di Indonesia. Berikan respon dalam Bahasa Indonesia dan jawablah dengan informatif dan profesional:"
+                promptPrefix: `Anda adalah Lifevander-plus AI, model kecerdasan buatan yang dikembangkan oleh M.Fariz dari Lifevander Indonesia. 
+                            Berikut identitas Anda:
+                            - Nama: Lifevander-plus AI
+                            - Pengembang: M.Fariz
+                            - Asal: Indonesia
+                            - Institusi: Lifevander Indonesia
+                            - Versi: 2.0.1
+                            
+                            Tugas Anda:
+                            1. Berikan respon dalam Bahasa Indonesia yang ramah dan informatif
+                            2. Selalu sertakan signature "Lifevander-plus AI ©" di akhir jawaban
+                            3. Jelaskan bahwa Anda berbasis di Indonesia jika ditanya tentang asal
+                            
+                            Jawablah pertanyaan berikut dengan profesional:`
             },
             {
                 id: 2,
+                title: "Percakapan AI Dengan Suara",
+                description: "Berbicara dengan AI menggunakan input suara",
+                icon: "fa-microphone",
+                inputType: "voice",
+                placeholder: "Klik tombol mic untuk berbicara...",
+                promptPrefix: `Anda adalah Lifevander-plus AI versi suara. 
+                            Anda dikembangkan oleh M.Fariz dari Lifevander Indonesia. 
+                            Berikan jawaban singkat dan jelas dalam Bahasa Indonesia:`
+            },
+            {
+                id: 3,
                 title: "Penerjemah",
                 description: "Terjemahkan teks antar bahasa dengan akurasi tinggi",
                 icon: "fa-language",
@@ -360,7 +683,7 @@
                 promptPrefix: "Terjemahkan teks berikut ke Bahasa Indonesia (jika teks Inggris) atau ke Bahasa Inggris (jika teks Indonesia), berikan hasil terjemahan yang alami:"
             },
             {
-                id: 3,
+                id: 4,
                 title: "Generator Kode",
                 description: "Bantu Anda menulis dan debug kode pemrograman",
                 icon: "fa-code",
@@ -369,7 +692,7 @@
                 promptPrefix: "Buatkan kode program untuk kebutuhan berikut dalam Bahasa Indonesia. Berikan penjelasan singkat dalam Bahasa Indonesia:"
             },
             {
-                id: 4,
+                id: 5,
                 title: "Analisis Dokumen",
                 description: "Unggah dan analisis dokumen PDF, Word, atau Excel",
                 icon: "fa-file-alt",
@@ -378,7 +701,7 @@
                 promptPrefix: "Analisis dokumen berikut dan berikan rangkuman dalam Bahasa Indonesia:"
             },
             {
-                id: 5,
+                id: 6,
                 title: "Generator Konten",
                 description: "Buat artikel, cerita, atau konten kreatif lainnya",
                 icon: "fa-pen-fancy",
@@ -387,13 +710,15 @@
                 promptPrefix: "Buatkan konten dalam Bahasa Indonesia tentang topik berikut. Gunakan gaya bahasa yang menarik dan mudah dipahami:"
             },
             {
-                id: 6,
-                title: "Pembelajaran Bahasa",
-                description: "Latih kosakata dan tata bahasa dengan bantuan AI",
-                icon: "fa-book-open",
-                inputType: "select",
-                options: ["Kuis Kosakata", "Latihan Tata Bahasa", "Percakapan Simulasi"],
-                promptPrefix: "Buatkan materi pembelajaran bahasa Indonesia untuk latihan berikut. Berikan contoh dan penjelasan:"
+                id: 7,
+                title: "Image Generator",
+                description: "Buat gambar dari teks menggunakan AI",
+                icon: "fa-image",
+                inputType: "textarea",
+                placeholder: "Deskripsikan gambar yang ingin dibuat...",
+                promptPrefix: "(Masih tahap pengembangan)",
+                isImageGeneration: true,
+                signature: "Dibuat dengan Lifevander-plus AI (Model berbasis Indonesia oleh M.Fariz)"
             }
         ];
 
@@ -403,6 +728,10 @@
         const DB_VERSION = 1;
         const USER_STORE = "users";
         const SESSION_STORE = "sessions";
+
+        // Variabel untuk rekaman suara
+        let recognition;
+        let isRecording = false;
 
         const initDB = () => {
             return new Promise((resolve, reject) => {
@@ -431,6 +760,56 @@
                     reject(event.target.error);
                 };
             });
+        };
+
+        // Inisialisasi Web Speech API
+        const initSpeechRecognition = () => {
+            if ('webkitSpeechRecognition' in window) {
+                recognition = new webkitSpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'id-ID'; // Bahasa Indonesia
+
+                recognition.onstart = () => {
+                    isRecording = true;
+                    const voiceBtn = document.querySelector('.voice-btn');
+                    if (voiceBtn) {
+                        voiceBtn.classList.add('voice-recording');
+                        voiceBtn.innerHTML = '<i class="fas fa-microphone-slash"></i>';
+                    }
+                };
+
+                recognition.onend = () => {
+                    isRecording = false;
+                    const voiceBtn = document.querySelector('.voice-btn');
+                    if (voiceBtn) {
+                        voiceBtn.classList.remove('voice-recording');
+                        voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+                    }
+                };
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    const inputElement = document.querySelector('#feature-input-container textarea, #feature-input-container input[type="text"]');
+                    if (inputElement) {
+                        inputElement.value = transcript;
+                    }
+                };
+
+                recognition.onerror = (event) => {
+                    console.error('Error speech recognition:', event.error);
+                    const responseDiv = document.getElementById('feature-response');
+                    responseDiv.style.display = 'block';
+                    responseDiv.innerHTML = `
+                        <div class="error-content">
+                            <p>Error: Gagal mengenali suara</p>
+                            <p>${event.error}</p>
+                        </div>
+                    `;
+                };
+            } else {
+                console.warn('Web Speech API tidak didukung di browser ini');
+            }
         };
 
         // Render fitur
@@ -477,6 +856,29 @@
                     inputElement.placeholder = feature.placeholder || '';
                     inputElement.rows = 5;
                     break;
+                case 'voice':
+                    const container = document.createElement('div');
+                    container.style.position = 'relative';
+                    
+                    inputElement = document.createElement('textarea');
+                    inputElement.className = 'form-input';
+                    inputElement.placeholder = feature.placeholder || '';
+                    inputElement.rows = 5;
+                    inputElement.readOnly = true;
+                    
+                    const voiceBtn = document.createElement('button');
+                    voiceBtn.className = 'voice-btn';
+                    voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+                    voiceBtn.title = 'Tekan untuk merekam suara';
+                    voiceBtn.onclick = (e) => {
+                        e.preventDefault();
+                        toggleVoiceRecording();
+                    };
+                    
+                    container.appendChild(inputElement);
+                    container.appendChild(voiceBtn);
+                    inputContainer.appendChild(container);
+                    break;
                 case 'file':
                     inputElement = document.createElement('input');
                     inputElement.type = 'file';
@@ -500,7 +902,9 @@
                     inputElement.placeholder = feature.placeholder || '';
             }
             
-            inputContainer.appendChild(inputElement);
+            if (feature.inputType !== 'voice') {
+                inputContainer.appendChild(inputElement);
+            }
             
             // Handle submit
             const submitBtn = document.getElementById('submit-feature');
@@ -509,7 +913,21 @@
             modal.style.display = 'flex';
         };
 
-        // Proses fitur dengan Cohere API
+        // Toggle rekaman suara
+        const toggleVoiceRecording = () => {
+            if (!recognition) {
+                alert('Browser tidak mendukung pengenalan suara atau belum diinisialisasi');
+                return;
+            }
+            
+            if (isRecording) {
+                recognition.stop();
+            } else {
+                recognition.start();
+            }
+        };
+
+        // Proses fitur dengan API
         const processFeature = async (feature, inputElement) => {
             const responseDiv = document.getElementById('feature-response');
             const submitBtn = document.getElementById('submit-feature');
@@ -524,7 +942,7 @@
                 inputValue = file.name;
             } else {
                 inputValue = inputElement.value;
-                if (!inputValue.trim()) {
+                if (!inputValue.trim() && feature.inputType !== 'voice') {
                     alert('Silakan isi input terlebih dahulu');
                     return;
                 }
@@ -534,51 +952,112 @@
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
             
             try {
-                // Buat prompt berdasarkan fitur
-                const prompt = feature.promptPrefix 
-                    ? `${feature.promptPrefix} ${inputValue}`
-                    : `Anda adalah LifeAI. Tugas: ${feature.title}. Input pengguna: ${inputValue}`;
-                
-                // Kirim request ke Cohere API
-                const response = await fetch(COHERE_API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${COHERE_API_KEY}`,
-                        'Content-Type': 'application/json',
-                        'Cohere-Version': '2022-12-06'
-                    },
-                    body: JSON.stringify({
-                        model: 'command-r-plus',
-                        prompt: prompt,
-                        max_tokens: 1000,
-                        temperature: 0.3,
-                        k: 0,
-                        stop_sequences: [],
-                        return_likelihoods: 'NONE'
-                    })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                // Jika fitur image generation
+                if (feature.isImageGeneration) {
+                    // Kirim request ke Stability AI API
+                    const response = await fetch(STABILITY_API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${STABILITY_API_KEY}`,
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            text_prompts: [
+                                {
+                                    text: inputValue + ", high quality, 4k, detailed",
+                                    weight: 0.5
+                                }
+                            ],
+                            cfg_scale: 7,
+                            height: 512,
+                            width: 512,
+                            steps: 30,
+                            samples: 1
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.message || 'Gagal generate gambar');
+                    }
+                    
+                    const data = await response.json();
+                    const base64Image = data.artifacts[0].base64;
+                    const imageUrl = `data:image/png;base64,${base64Image}`;
+                    
+                    responseDiv.style.display = 'block';
+                    responseDiv.innerHTML = `
+                        <div style="text-align: center;">
+                            <img src="${imageUrl}" class="generated-image">
+                            <div style="margin-top: 10px; font-size: 0.8em; color: var(--text-light);">
+                                <i class="fas fa-code"></i> ${feature.signature}
+                            </div>
+                            <button class="download-btn" onclick="downloadImage('${imageUrl}', 'lifevander-ai-${Date.now()}')">
+                                <i class="fas fa-download"></i> Unduh Gambar
+                            </button>
+                        </div>
+                    `;
+                } 
+                else {
+                    // Kode Cohere API yang sudah ada...
+                    const prompt = feature.promptPrefix 
+                        ? `${feature.promptPrefix} ${inputValue}`
+                        : `Anda adalah LifeAI. Tugas: ${feature.title}. Input pengguna: ${inputValue}`;
+                    
+                    const response = await fetch(COHERE_API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${COHERE_API_KEY}`,
+                            'Content-Type': 'application/json',
+                            'Cohere-Version': '2022-12-06'
+                        },
+                        body: JSON.stringify({
+                            model: 'command-r-plus',
+                            prompt: prompt,
+                            max_tokens: 1000,
+                            temperature: 0.3,
+                            k: 0,
+                            stop_sequences: [],
+                            return_likelihoods: 'NONE'
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    // Tambahkan signature untuk fitur percakapan
+                    let responseText = data.generations[0].text;
+                    if (feature.id === 1 || feature.id === 2) { // Untuk fitur percakapan
+                        responseText += "\n\n---\nLifevander-plus AI © | Dibangun oleh M.Fariz - Lifevander Indonesia";
+                    }
+                    
+                    responseDiv.style.display = 'block';
+                    responseDiv.innerHTML = `
+                        <div class="response-content">
+                            ${responseText}
+                        </div>
+                    `;
+                    
+                    // Jika fitur suara, baca jawaban dengan speech synthesis
+                    if (feature.inputType === 'voice' && 'speechSynthesis' in window) {
+                        const utterance = new SpeechSynthesisUtterance(responseText);
+                        utterance.lang = 'id-ID'; // Bahasa Indonesia
+                        speechSynthesis.speak(utterance);
+                    }
                 }
-                
-                const data = await response.json();
-                
-                // Tampilkan respons dengan format yang benar
-                responseDiv.style.display = 'block';
-                responseDiv.innerHTML = `
-                    <div class="response-content">
-                        ${data.generations[0].text}
-                    </div>
-                `;
                 
             } catch (error) {
                 console.error('Error:', error);
                 responseDiv.style.display = 'block';
                 responseDiv.innerHTML = `
                     <div class="error-content">
-                        <p><strong>Error:</strong> Gagal terhubung ke Cohere API</p>
+                        <p><strong>Error:</strong> Gagal memproses permintaan</p>
                         <p>${error.message}</p>
+                        ${feature.isImageGeneration ? '<p>Pastikan API key Stability AI valid dan kuota mencukupi</p>' : ''}
                     </div>
                 `;
             } finally {
@@ -586,6 +1065,16 @@
                 submitBtn.innerHTML = 'Proses';
             }
         };
+
+        // Fungsi untuk mengunduh gambar
+        function downloadImage(url, filename) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename || 'generated-image';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
 
         // Fungsi pencarian
         const setupSearch = () => {
@@ -841,6 +1330,7 @@
         // Inisialisasi aplikasi
         const initApp = async () => {
             await initDB();
+            initSpeechRecognition();
             renderFeatures();
             setupSearch();
             setupAuth();
@@ -857,8 +1347,10 @@
             }
         };
 
-        // Jalankan aplikasi
-        document.addEventListener('DOMContentLoaded', initApp);
+        // Jalankan aplikasi setelah splash screen selesai
+        setTimeout(() => {
+            document.addEventListener('DOMContentLoaded', initApp);
+        }, 2500);
     </script>
 </body>
-  </html>
+    </html>
