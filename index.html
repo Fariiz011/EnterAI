@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LifeAI - Platform Kecerdasan Buatan</title>
+    <title>LifeAI - Kecerdasan Buatan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -63,7 +63,6 @@
         .auth-section {
             display: flex;
             gap: 15px;
-            align-items: center;
         }
         .btn {
             padding: 10px 20px;
@@ -241,114 +240,8 @@
             color: var(--text-light);
             font-size: 0.9rem;
         }
-        
-        /* ===== VIP STYLES ===== */
-        .vip-badge {
-            background: linear-gradient(90deg, #FFD700, #FFA500);
-            color: black;
-            padding: 3px 10px;
-            border-radius: 15px;
-            font-weight: bold;
-            font-size: 0.8rem;
-            margin-left: 10px;
-        }
-        
-        .vip-ribbon {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-        
-        #upgrade-btn {
-            background: linear-gradient(90deg, #FFD700, #FFA500);
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            color: black;
-            box-shadow: 0 3px 10px rgba(255, 215, 0, 0.3);
-        }
-        
-        #vip-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 0 30px rgba(0,0,0,0.2);
-            z-index: 1001;
-            max-width: 90%;
-            width: 400px;
-            text-align: center;
-            display: none;
-        }
-        
-        .pricing-option {
-            border: 2px solid var(--primary);
-            border-radius: 10px;
-            padding: 15px;
-            margin: 10px 0;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .pricing-option:hover {
-            background: rgba(110, 107, 246, 0.1);
-        }
-        
-        .pricing-option.selected {
-            border-color: gold;
-            background: rgba(255, 215, 0, 0.1);
-        }
-        
-        .vip-active {
-            --primary: #FFD700;
-            --bg: #1a1a2e;
-            --card: #0f0f1a;
-            --border: #FFD70055;
-        }
-        
-        /* Dashboard VIP */
-        .vip-dashboard {
-            display: none;
-            margin-top: 30px;
-            background: var(--card);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-        
-        .vip-status {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .vip-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .vip-feature {
-            background: rgba(110, 107, 246, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        
         @media (max-width: 768px) {
             .features-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .vip-features {
                 grid-template-columns: 1fr;
             }
         }
@@ -356,18 +249,11 @@
 </head>
 <body>
     <div class="container">
-        <!-- VIP Ribbon -->
-        <div class="vip-ribbon">
-            <button id="upgrade-btn">
-                <i class="fas fa-crown"></i> UPGRADE
-            </button>
-        </div>
-        
         <header>
             <div class="logo">LifeAI</div>
             <div class="auth-section">
                 <button class="btn btn-outline" id="login-btn">
-                    <i class="fas fa-sign-in-alt"></i> Masuk
+                    <i class="fas fa-sign-in-alt"></i> Login
                 </button>
                 <button class="btn btn-primary" id="register-btn">
                     <i class="fas fa-user-plus"></i> Daftar
@@ -379,35 +265,6 @@
         </header>
 
         <main>
-            <!-- VIP Dashboard -->
-            <div class="vip-dashboard" id="vip-dashboard">
-                <div class="vip-status">
-                    <h2>Status Keanggotaan</h2>
-                    <span class="vip-badge" id="vip-tier-badge">PRO</span>
-                </div>
-                <p id="vip-expiry">Berlaku hingga: 30 Juni 2024</p>
-                
-                <h3>Fitur Eksklusif:</h3>
-                <div class="vip-features">
-                    <div class="vip-feature">
-                        <i class="fas fa-bolt"></i>
-                        <p>Respon 2x Lebih Cepat</p>
-                    </div>
-                    <div class="vip-feature">
-                        <i class="fas fa-file-alt"></i>
-                        <p>100+ Template Dokumen</p>
-                    </div>
-                    <div class="vip-feature">
-                        <i class="fas fa-headset"></i>
-                        <p>Support Prioritas</p>
-                    </div>
-                    <div class="vip-feature">
-                        <i class="fas fa-key"></i>
-                        <p>API Key Pribadi</p>
-                    </div>
-                </div>
-            </div>
-            
             <div class="search-container">
                 <i class="fas fa-search search-icon"></i>
                 <input type="text" class="search-input" placeholder="Cari fitur LifeAI..." id="search-input">
@@ -424,7 +281,7 @@
             <div class="modal-content">
                 <span class="close-modal">&times;</span>
                 <div class="tabs">
-                    <div class="tab active" data-tab="login">Masuk</div>
+                    <div class="tab active" data-tab="login">Login</div>
                     <div class="tab" data-tab="register">Daftar</div>
                 </div>
                 <div class="tab-content active" id="login-tab">
@@ -471,67 +328,6 @@
                 <button class="btn btn-primary" id="submit-feature" style="margin-top: 15px;">Proses</button>
             </div>
         </div>
-        
-        <!-- Modal VIP -->
-        <div class="modal" id="vip-popup">
-            <div class="modal-content">
-                <span class="close-modal">&times;</span>
-                <h2 style="color: gold; margin-top: 0;"><i class="fas fa-crown"></i> UPGRADE KE VIP</h2>
-                <p>Buka semua fitur premium LifeAI!</p>
-                
-                <div class="pricing-option" data-tier="medium">
-                    <h3>Paket Medium</h3>
-                    <p><strong>Rp20.000</strong>/bulan</p>
-                    <ul style="text-align: left; padding-left: 20px;">
-                        <li>Respon 2x lebih cepat</li>
-                        <li>Akses 10 template dokumen</li>
-                        <li>Support dasar</li>
-                    </ul>
-                </div>
-                
-                <div class="pricing-option" data-tier="pro">
-                    <h3>Paket Pro</h3>
-                    <p><strong>Rp50.000</strong>/bulan</p>
-                    <ul style="text-align: left; padding-left: 20px;">
-                        <li>Semua fitur Medium</li>
-                        <li>+ 50 template premium</li>
-                        <li>Prioritas support</li>
-                    </ul>
-                </div>
-                
-                <div class="pricing-option" data-tier="ultimate">
-                    <h3>Paket Ultimate</h3>
-                    <p><strong>Rp120.000</strong>/bulan</p>
-                    <ul style="text-align: left; padding-left: 20px;">
-                        <li>Semua fitur Pro</li>
-                        <li>+ API Key pribadi</li>
-                        <li>Support 24/7</li>
-                        <li>Early access fitur baru</li>
-                    </ul>
-                </div>
-                
-                <button id="pay-button" style="
-                    background: linear-gradient(90deg, #FFD700, #FFA500);
-                    border: none;
-                    padding: 12px 25px;
-                    border-radius: 30px;
-                    font-weight: bold;
-                    margin-top: 15px;
-                    width: 100%;
-                    cursor: pointer;
-                ">
-                    <i class="fas fa-bolt"></i> BAYAR SEKARANG
-                </button>
-                
-                <p style="font-size:0.8em; margin-top:15px;">
-                    Pembayaran via: <span style="font-weight:bold;">Gopay, OVO, DANA</span>
-                </p>
-                
-                <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-                    <p><i class="fas fa-gift"></i> <strong>Gratis 7 hari</strong> untuk mencoba semua fitur VIP!</p>
-                </div>
-            </div>
-        </div>
     </div>
 
     <footer>
@@ -540,7 +336,7 @@
 
     <script>
         // Konfigurasi Cohere API
-        const COHERE_API_KEY = "Q0SDjtBTdABFnipUNG0RPUQS2uriNmpXlQXztD54";
+        const COHERE_API_KEY = "Q0SDjtBTdABFnipUNG0RPUQS2uriNmpXlQXztD54"; // Ganti dengan API key Anda
         const COHERE_API_URL = "https://api.cohere.ai/v1/generate";
 
         // Database Fitur
@@ -601,47 +397,6 @@
             }
         ];
 
-        // ===== VIP SYSTEM =====
-        let usageCount = localStorage.getItem('lifeai-usage') ? parseInt(localStorage.getItem('lifeai-usage')) : 0;
-        let isTrialActive = localStorage.getItem('vip-trial') === 'active';
-        let vipStatus = localStorage.getItem('vip-status') || 'free';
-        let vipExpiry = localStorage.getItem('vip-expiry') || null;
-        
-        // Cek trial period
-        function checkTrial() {
-            if (!isTrialActive && usageCount >= 250) {
-                showVipPopup();
-            }
-        }
-        
-        // Tampilkan popup VIP
-        function showVipPopup() {
-            document.getElementById('vip-popup').style.display = 'flex';
-        }
-        
-        // Update VIP UI
-        function updateVipUI() {
-            const vipDashboard = document.getElementById('vip-dashboard');
-            const upgradeBtn = document.getElementById('upgrade-btn');
-            
-            if (vipStatus !== 'free') {
-                document.body.classList.add('vip-active');
-                vipDashboard.style.display = 'block';
-                upgradeBtn.innerHTML = '<i class="fas fa-crown"></i> VIP';
-                
-                // Update dashboard info
-                document.getElementById('vip-tier-badge').textContent = vipStatus.toUpperCase();
-                if (vipExpiry) {
-                    const expiryDate = new Date(vipExpiry);
-                    document.getElementById('vip-expiry').textContent = `Berlaku hingga: ${expiryDate.toLocaleDateString('id-ID')}`;
-                }
-            } else {
-                document.body.classList.remove('vip-active');
-                vipDashboard.style.display = 'none';
-                upgradeBtn.innerHTML = '<i class="fas fa-crown"></i> UPGRADE';
-            }
-        }
-        
         // Inisialisasi IndexedDB
         let db;
         const DB_NAME = "LifeAI";
@@ -693,13 +448,7 @@
                     <div class="feature-title">${feature.title}</div>
                     <div class="feature-desc">${feature.description}</div>
                 `;
-                featureCard.addEventListener('click', () => {
-                    // Track feature usage
-                    usageCount++;
-                    localStorage.setItem('lifeai-usage', usageCount);
-                    checkTrial();
-                    openFeatureModal(feature);
-                });
+                featureCard.addEventListener('click', () => openFeatureModal(feature));
                 featuresGrid.appendChild(featureCard);
             });
         };
@@ -884,7 +633,6 @@
                 btn.addEventListener('click', () => {
                     authModal.style.display = 'none';
                     document.getElementById('feature-modal').style.display = 'none';
-                    document.getElementById('vip-popup').style.display = 'none';
                 });
             });
             
@@ -1089,67 +837,6 @@
                 }
             });
         };
-        
-        // VIP Payment System
-        function setupVipPayment() {
-            const upgradeBtn = document.getElementById('upgrade-btn');
-            const closePopup = document.getElementById('vip-popup').querySelector('.close-modal');
-            const payButton = document.getElementById('pay-button');
-            
-            upgradeBtn.addEventListener('click', showVipPopup);
-            closePopup.addEventListener('click', () => {
-                document.getElementById('vip-popup').style.display = 'none';
-            });
-            
-            // Pilih paket
-            document.querySelectorAll('.pricing-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    document.querySelectorAll('.pricing-option').forEach(opt => {
-                        opt.classList.remove('selected');
-                    });
-                    this.classList.add('selected');
-                });
-            });
-            
-            // Proses pembayaran
-            payButton.addEventListener('click', function() {
-                const selectedOption = document.querySelector('.pricing-option.selected');
-                if (!selectedOption) {
-                    alert('Pilih paket terlebih dahulu!');
-                    return;
-                }
-                
-                const tier = selectedOption.dataset.tier;
-                const priceMap = {
-                    medium: 20000,
-                    pro: 50000,
-                    ultimate: 120000
-                };
-                
-                // Simulasi pembayaran berhasil
-                alert(`Redirect ke pembayaran ${tier} Rp${priceMap[tier]}`);
-                
-                // Aktifkan trial (simulasi)
-                if (!isTrialActive) {
-                    localStorage.setItem('vip-trial', 'active');
-                    const trialExpiry = new Date();
-                    trialExpiry.setDate(trialExpiry.getDate() + 7);
-                    localStorage.setItem('vip-trial-expiry', trialExpiry.toISOString());
-                    isTrialActive = true;
-                    
-                    // Aktifkan VIP selama trial
-                    vipStatus = tier;
-                    localStorage.setItem('vip-status', vipStatus);
-                    localStorage.setItem('vip-tier', tier);
-                    localStorage.setItem('vip-expiry', trialExpiry.toISOString());
-                    
-                    updateVipUI();
-                    document.getElementById('vip-popup').style.display = 'none';
-                    
-                    alert('Selamat! Anda mendapatkan trial 7 hari VIP!');
-                }
-            });
-        }
 
         // Inisialisasi aplikasi
         const initApp = async () => {
@@ -1158,8 +845,6 @@
             setupSearch();
             setupAuth();
             setupThemeToggle();
-            setupVipPayment();
-            updateVipUI();
             
             // Cek session saat load
             try {
@@ -1170,9 +855,6 @@
             } catch (error) {
                 console.error('Session check error:', error);
             }
-            
-            // Cek trial period
-            checkTrial();
         };
 
         // Jalankan aplikasi
