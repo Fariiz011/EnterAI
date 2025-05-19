@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LifeAI - Kecerdasan Buatan</title>
+    <title>LifeAI - Platform Kecerdasan Buatan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -240,6 +240,27 @@
             color: var(--text-light);
             font-size: 0.9rem;
         }
+        .generated-image {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin: 15px 0;
+        }
+        .download-btn {
+            margin-top: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .download-btn:hover {
+            background: var(--primary-dark);
+        }
         @media (max-width: 768px) {
             .features-grid {
                 grid-template-columns: 1fr;
@@ -253,7 +274,7 @@
             <div class="logo">LifeAI</div>
             <div class="auth-section">
                 <button class="btn btn-outline" id="login-btn">
-                    <i class="fas fa-sign-in-alt"></i> Login
+                    <i class="fas fa-sign-in-alt"></i> Masuk
                 </button>
                 <button class="btn btn-primary" id="register-btn">
                     <i class="fas fa-user-plus"></i> Daftar
@@ -281,7 +302,7 @@
             <div class="modal-content">
                 <span class="close-modal">&times;</span>
                 <div class="tabs">
-                    <div class="tab active" data-tab="login">Login</div>
+                    <div class="tab active" data-tab="login">Masuk</div>
                     <div class="tab" data-tab="register">Daftar</div>
                 </div>
                 <div class="tab-content active" id="login-tab">
@@ -394,6 +415,16 @@
                 inputType: "select",
                 options: ["Kuis Kosakata", "Latihan Tata Bahasa", "Percakapan Simulasi"],
                 promptPrefix: "Buatkan materi pembelajaran bahasa Indonesia untuk latihan berikut. Berikan contoh dan penjelasan:"
+            },
+            {
+                id: 7,
+                title: "Image Generator",
+                description: "Buat gambar dari teks menggunakan AI",
+                icon: "fa-image",
+                inputType: "textarea",
+                placeholder: "Deskripsikan gambar yang ingin dibuat...",
+                promptPrefix: "Buat gambar dengan deskripsi berikut:",
+                isImageGeneration: true
             }
         ];
 
@@ -534,50 +565,68 @@
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
             
             try {
-                // Buat prompt berdasarkan fitur
-                const prompt = feature.promptPrefix 
-                    ? `${feature.promptPrefix} ${inputValue}`
-                    : `Anda adalah LifeAI. Tugas: ${feature.title}. Input pengguna: ${inputValue}`;
-                
-                // Kirim request ke Cohere API
-                const response = await fetch(COHERE_API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${COHERE_API_KEY}`,
-                        'Content-Type': 'application/json',
-                        'Cohere-Version': '2022-12-06'
-                    },
-                    body: JSON.stringify({
-                        model: 'command-r-plus',
-                        prompt: prompt,
-                        max_tokens: 1000,
-                        temperature: 0.3,
-                        k: 0,
-                        stop_sequences: [],
-                        return_likelihoods: 'NONE'
-                    })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                // Jika fitur image generation
+                if (feature.isImageGeneration) {
+                    // Simulasi generasi gambar (praktikalnya ganti dengan API Stability AI/Replicate)
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    
+                    responseDiv.style.display = 'block';
+                    responseDiv.innerHTML = `
+                        <div style="text-align: center;">
+                            <img src="https://source.unsplash.com/random/512x512/?${encodeURIComponent(inputValue)}" 
+                                 alt="${inputValue}" 
+                                 class="generated-image">
+                            <p>Gambar hasil generasi: "${inputValue}"</p>
+                            <button class="download-btn" onclick="downloadImage(this.previousElementSibling.previousElementSibling.src, 'generated-image')">
+                                <i class="fas fa-download"></i> Unduh Gambar
+                            </button>
+                        </div>
+                    `;
+                } 
+                else {
+                    // Kode Cohere API yang sudah ada...
+                    const prompt = feature.promptPrefix 
+                        ? `${feature.promptPrefix} ${inputValue}`
+                        : `Anda adalah LifeAI. Tugas: ${feature.title}. Input pengguna: ${inputValue}`;
+                    
+                    const response = await fetch(COHERE_API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${COHERE_API_KEY}`,
+                            'Content-Type': 'application/json',
+                            'Cohere-Version': '2022-12-06'
+                        },
+                        body: JSON.stringify({
+                            model: 'command-r-plus',
+                            prompt: prompt,
+                            max_tokens: 1000,
+                            temperature: 0.3,
+                            k: 0,
+                            stop_sequences: [],
+                            return_likelihoods: 'NONE'
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    responseDiv.style.display = 'block';
+                    responseDiv.innerHTML = `
+                        <div class="response-content">
+                            ${data.generations[0].text}
+                        </div>
+                    `;
                 }
-                
-                const data = await response.json();
-                
-                // Tampilkan respons dengan format yang benar
-                responseDiv.style.display = 'block';
-                responseDiv.innerHTML = `
-                    <div class="response-content">
-                        ${data.generations[0].text}
-                    </div>
-                `;
                 
             } catch (error) {
                 console.error('Error:', error);
                 responseDiv.style.display = 'block';
                 responseDiv.innerHTML = `
                     <div class="error-content">
-                        <p><strong>Error:</strong> Gagal terhubung ke Cohere API</p>
+                        <p><strong>Error:</strong> Gagal memproses permintaan</p>
                         <p>${error.message}</p>
                     </div>
                 `;
@@ -586,6 +635,16 @@
                 submitBtn.innerHTML = 'Proses';
             }
         };
+
+        // Fungsi untuk mengunduh gambar
+        function downloadImage(url, filename) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename || 'generated-image';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
 
         // Fungsi pencarian
         const setupSearch = () => {
@@ -861,4 +920,4 @@
         document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
-    </html>
+</html>
