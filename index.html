@@ -261,6 +261,18 @@
         .download-btn:hover {
             background: var(--primary-dark);
         }
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
         @media (max-width: 768px) {
             .features-grid {
                 grid-template-columns: 1fr;
@@ -356,9 +368,13 @@
     </footer>
 
     <script>
-        // Konfigurasi Cohere API
-        const COHERE_API_KEY = "Q0SDjtBTdABFnipUNG0RPUQS2uriNmpXlQXztD54"; // Ganti dengan API key Anda
+        // Konfigurasi API
+        const COHERE_API_KEY = "Q0SDjtBTdABFnipUNG0RPUQS2uriNmpXlQXztD54"; // Ganti dengan API key Cohere Anda
         const COHERE_API_URL = "https://api.cohere.ai/v1/generate";
+        
+        // 🔑 MASUKKAN API KEY STABILITY AI ANDA DI SINI:
+        const STABILITY_API_KEY = "sk-VHMqYlbXAG7oQVoHbhl7Yq5UOlkFksOA42yxHwZVjXYi3PTf"; // Ganti dengan API key Stability AI Anda
+        const STABILITY_API_URL = "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image";
 
         // Database Fitur
         const features = [
@@ -423,7 +439,7 @@
                 icon: "fa-image",
                 inputType: "textarea",
                 placeholder: "Deskripsikan gambar yang ingin dibuat...",
-                promptPrefix: "Buat gambar dengan deskripsi berikut:",
+                promptPrefix: "",
                 isImageGeneration: true
             }
         ];
@@ -540,7 +556,7 @@
             modal.style.display = 'flex';
         };
 
-        // Proses fitur dengan Cohere API
+        // Proses fitur dengan API
         const processFeature = async (feature, inputElement) => {
             const responseDiv = document.getElementById('feature-response');
             const submitBtn = document.getElementById('submit-feature');
@@ -567,17 +583,43 @@
             try {
                 // Jika fitur image generation
                 if (feature.isImageGeneration) {
-                    // Simulasi generasi gambar (praktikalnya ganti dengan API Stability AI/Replicate)
-                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    // Kirim request ke Stability AI API
+                    const response = await fetch(STABILITY_API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${STABILITY_API_KEY}`,
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            text_prompts: [
+                                {
+                                    text: inputValue + ", high quality, 4k, detailed",
+                                    weight: 0.5
+                                }
+                            ],
+                            cfg_scale: 7,
+                            height: 512,
+                            width: 512,
+                            steps: 30,
+                            samples: 1
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.message || 'Gagal generate gambar');
+                    }
+                    
+                    const data = await response.json();
+                    const base64Image = data.artifacts[0].base64;
+                    const imageUrl = `data:image/png;base64,${base64Image}`;
                     
                     responseDiv.style.display = 'block';
                     responseDiv.innerHTML = `
                         <div style="text-align: center;">
-                            <img src="https://source.unsplash.com/random/512x512/?${encodeURIComponent(inputValue)}" 
-                                 alt="${inputValue}" 
-                                 class="generated-image">
-                            <p>Gambar hasil generasi: "${inputValue}"</p>
-                            <button class="download-btn" onclick="downloadImage(this.previousElementSibling.previousElementSibling.src, 'generated-image')">
+                            <img src="${imageUrl}" class="generated-image">
+                            <button class="download-btn" onclick="downloadImage('${imageUrl}', 'lifeai-${Date.now()}')">
                                 <i class="fas fa-download"></i> Unduh Gambar
                             </button>
                         </div>
@@ -600,7 +642,7 @@
                             model: 'command-r-plus',
                             prompt: prompt,
                             max_tokens: 1000,
-                            temperature: 0.3,
+                            temperature: 0.7,
                             k: 0,
                             stop_sequences: [],
                             return_likelihoods: 'NONE'
@@ -628,6 +670,7 @@
                     <div class="error-content">
                         <p><strong>Error:</strong> Gagal memproses permintaan</p>
                         <p>${error.message}</p>
+                        ${feature.isImageGeneration ? '<p>Pastikan API key Stability AI valid dan kuota mencukupi</p>' : ''}
                     </div>
                 `;
             } finally {
@@ -920,4 +963,4 @@
         document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
-</html>
+  </html>
