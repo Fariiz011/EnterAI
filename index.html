@@ -6,6 +6,8 @@
     <title>LifeAI - Platform Kecerdasan Buatan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Load Google Identity Services library -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         :root {
             --primary: #6E6BF6;
@@ -358,6 +360,47 @@
             animation: progress 2s ease-in-out forwards;
         }
         
+        /* Google Login Modal */
+        .google-login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 9998;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .google-login-content {
+            background: var(--card);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            padding: 30px;
+            text-align: center;
+        }
+        .google-login-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+        .google-login-desc {
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+        #google-login-btn {
+            margin: 0 auto;
+            width: fit-content;
+        }
+        .skip-login {
+            margin-top: 20px;
+            color: var(--text-light);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -385,6 +428,16 @@
         <div class="intro-text">Platform Kecerdasan Buatan Masa Depan</div>
         <div class="intro-progress">
             <div class="intro-progress-bar"></div>
+        </div>
+    </div>
+
+    <!-- Google Login Modal -->
+    <div class="google-login-modal" id="google-login-modal">
+        <div class="google-login-content">
+            <div class="google-login-title">Masuk ke LifeAI</div>
+            <div class="google-login-desc">Lanjutkan dengan Google untuk mengakses semua fitur</div>
+            <div id="google-login-btn"></div>
+            <div class="skip-login" id="skip-login">Lewati, masuk nanti</div>
         </div>
     </div>
 
@@ -434,6 +487,8 @@
                         <input type="password" class="form-input" id="login-password">
                     </div>
                     <button class="btn btn-primary" id="submit-login">Masuk</button>
+                    <div style="text-align: center; margin-top: 20px; color: var(--text-light);">Atau</div>
+                    <div id="google-login-btn-inner" style="margin-top: 20px;"></div>
                 </div>
                 <div class="tab-content" id="register-tab">
                     <div class="form-group">
@@ -580,6 +635,74 @@
         let recognition;
         let isListening = false;
         let finalTranscript = '';
+        
+        // Google Login State
+        let googleUser = null;
+        
+        // Initialize Google Sign-In
+        const initGoogleSignIn = () => {
+            // For modal login
+            google.accounts.id.initialize({
+                client_id: '393290353406-hnqaompcnpa5210bi4rfamqp7pkdk1iu.apps.googleusercontent.com', // Ganti dengan client ID Anda
+                callback: handleGoogleCredentialResponse,
+                ux_mode: 'popup',
+                auto_select: false
+            });
+            
+            // Render button for modal
+            google.accounts.id.renderButton(
+                document.getElementById("google-login-btn"),
+                { 
+                    theme: "filled_blue", 
+                    size: "large",
+                    width: "300",
+                    text: "continue_with",
+                    shape: "pill"
+                }
+            );
+            
+            // Render button for auth modal
+            google.accounts.id.renderButton(
+                document.getElementById("google-login-btn-inner"),
+                { 
+                    theme: "outline", 
+                    size: "large",
+                    width: "300",
+                    text: "continue_with",
+                    shape: "pill"
+                }
+            );
+        };
+        
+        // Handle Google login response
+        const handleGoogleCredentialResponse = (response) => {
+            // Decode JWT token to get user info
+            const responsePayload = JSON.parse(atob(response.credential.split('.')[1]));
+            
+            googleUser = {
+                name: responsePayload.name,
+                email: responsePayload.email,
+                picture: responsePayload.picture
+            };
+            
+            // Save to session
+            setSession({
+                email: googleUser.email,
+                name: googleUser.name,
+                picture: googleUser.picture,
+                provider: 'google'
+            }).then(() => {
+                // Close modals
+                document.getElementById('google-login-modal').style.display = 'none';
+                document.getElementById('auth-modal').style.display = 'none';
+                
+                // Update UI
+                updateAuthUI(true, googleUser.name);
+                
+                // Show welcome message
+                alert(`Selamat datang, ${googleUser.name}!`);
+            });
+        };
         
         const initVoiceRecognition = () => {
             try {
@@ -833,7 +956,7 @@
                         model: 'command-r-plus',
                         prompt: prompt,
                         max_tokens: 1000,
-                        temperature: 0.3,
+                        temperature: 0.7,
                         k: 0,
                         stop_sequences: [],
                         return_likelihoods: 'NONE'
@@ -1069,6 +1192,12 @@
                         const store = transaction.objectStore(SESSION_STORE);
                         store.clear();
                         
+                        // Also sign out from Google
+                        if (google.accounts && google.accounts.id) {
+                            google.accounts.id.disableAutoSelect();
+                        }
+                        
+                        googleUser = null;
                         updateAuthUI(false);
                     } catch (error) {
                         console.error('Logout error:', error);
@@ -1139,15 +1268,36 @@
                     introOverlay.style.opacity = '0';
                     setTimeout(() => {
                         introOverlay.style.display = 'none';
+                        
+                        // Show Google login modal after intro
+                        const session = localStorage.getItem('lifeai-session');
+                        if (!session) {
+                            document.getElementById('google-login-modal').style.display = 'flex';
+                        }
+                        
                         resolve();
                     }, 500);
                 }, 2500);
             });
         };
 
+        // Setup Google login modal
+        const setupGoogleLoginModal = () => {
+            document.getElementById('skip-login').addEventListener('click', () => {
+                document.getElementById('google-login-modal').style.display = 'none';
+            });
+        };
+
         // Inisialisasi aplikasi
         const initApp = async () => {
             await initDB();
+            
+            // Initialize Google Sign-In
+            if (typeof google !== 'undefined') {
+                initGoogleSignIn();
+            } else {
+                console.warn('Google Identity Services library not loaded');
+            }
             
             // Show intro animation first
             await showIntroAnimation();
@@ -1158,6 +1308,7 @@
             setupThemeToggle();
             initVoiceRecognition();
             setupVoiceControls();
+            setupGoogleLoginModal();
             
             // Cek session saat load
             try {
