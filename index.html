@@ -360,144 +360,45 @@
             animation: progress 2s ease-in-out forwards;
         }
         
-        /* Enhanced Google Login Modal */
+        /* Google Login Modal */
         .google-login-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.7);
             z-index: 9998;
             display: none;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(5px);
-            animation: fadeIn 0.3s ease-out;
         }
         .google-login-content {
             background: var(--card);
-            border-radius: 20px;
+            border-radius: 15px;
             width: 90%;
-            max-width: 450px;
-            padding: 40px;
+            max-width: 400px;
+            padding: 30px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            position: relative;
-            overflow: hidden;
-        }
-        .google-login-content::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, #4285F4, #34A853, #FBBC05, #EA4335);
         }
         .google-login-title {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
             color: var(--text);
-            font-weight: 600;
         }
         .google-login-desc {
             color: var(--text-light);
             margin-bottom: 30px;
-            font-size: 1rem;
         }
         #google-login-btn {
             margin: 0 auto;
             width: fit-content;
-            transition: transform 0.2s;
-        }
-        #google-login-btn:hover {
-            transform: scale(1.02);
         }
         .skip-login {
-            margin-top: 25px;
+            margin-top: 20px;
             color: var(--text-light);
             cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            padding: 8px 15px;
-            border-radius: 20px;
-            transition: background 0.2s;
-        }
-        .skip-login:hover {
-            background: rgba(0,0,0,0.05);
-        }
-        
-        /* Google Login Animation */
-        .google-login-loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255,255,255,0.8);
-            z-index: 9999;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-        .google-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(66,133,244,0.2);
-            border-radius: 50%;
-            border-top-color: #4285F4;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-        .google-loading-text {
-            color: var(--text);
-            font-size: 1.2rem;
-        }
-        
-        /* User Profile Dropdown */
-        .user-dropdown {
-            position: relative;
-            display: inline-block;
-        }
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            object-fit: cover;
-            border: 2px solid var(--primary);
-        }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background: var(--card);
-            min-width: 200px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-            border-radius: 10px;
-            z-index: 1;
-            overflow: hidden;
-            animation: fadeIn 0.2s ease-out;
-        }
-        .dropdown-content a {
-            color: var(--text);
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            transition: background 0.2s;
-        }
-        .dropdown-content a:hover {
-            background: rgba(0,0,0,0.05);
-        }
-        .dropdown-divider {
-            height: 1px;
-            background: var(--border);
-            margin: 5px 0;
-        }
-        .show-dropdown {
-            display: block;
+            text-decoration: underline;
         }
         
         @keyframes fadeIn {
@@ -509,10 +410,6 @@
             to { width: 100%; }
         }
         
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
         @media (max-width: 768px) {
             .features-grid {
                 grid-template-columns: 1fr;
@@ -520,9 +417,6 @@
             .voice-controls {
                 flex-direction: column;
                 align-items: flex-start;
-            }
-            .google-login-content {
-                padding: 30px 20px;
             }
         }
     </style>
@@ -537,17 +431,11 @@
         </div>
     </div>
 
-    <!-- Google Login Loading Animation -->
-    <div class="google-login-loading" id="google-login-loading">
-        <div class="google-spinner"></div>
-        <div class="google-loading-text">Menyambungkan ke Google...</div>
-    </div>
-
-    <!-- Enhanced Google Login Modal -->
+    <!-- Google Login Modal -->
     <div class="google-login-modal" id="google-login-modal">
         <div class="google-login-content">
-            <div class="google-login-title">Selamat Datang di LifeAI</div>
-            <div class="google-login-desc">Masuk dengan akun Google Anda untuk mengakses semua fitur canggih kami</div>
+            <div class="google-login-title">Masuk ke LifeAI</div>
+            <div class="google-login-desc">Lanjutkan dengan Google untuk mengakses semua fitur</div>
             <div id="google-login-btn"></div>
             <div class="skip-login" id="skip-login">Lewati, masuk nanti</div>
         </div>
@@ -556,7 +444,7 @@
     <div class="container">
         <header>
             <div class="logo">LifeAI</div>
-            <div class="auth-section" id="auth-section">
+            <div class="auth-section">
                 <button class="btn btn-outline" id="login-btn">
                     <i class="fas fa-sign-in-alt"></i> Masuk
                 </button>
@@ -599,8 +487,8 @@
                         <input type="password" class="form-input" id="login-password">
                     </div>
                     <button class="btn btn-primary" id="submit-login">Masuk</button>
-                    <div style="text-align: center; margin-top: 20px; color: var(--text-light);">Atau lanjutkan dengan</div>
-                    <div id="google-login-btn-inner" style="margin: 20px auto 0;"></div>
+                    <div style="text-align: center; margin-top: 20px; color: var(--text-light);">Atau</div>
+                    <div id="google-login-btn-inner" style="margin-top: 20px;"></div>
                 </div>
                 <div class="tab-content" id="register-tab">
                     <div class="form-group">
@@ -755,7 +643,7 @@
         const initGoogleSignIn = () => {
             // For modal login
             google.accounts.id.initialize({
-                client_id: '393290353406-hnqaompcnpa5210bi4rfamqp7pkdk1iu.apps.googleusercontent.com',
+                client_id: '393290353406-hnqaompcnpa5210bi4rfamqp7pkdk1iu.apps.googleusercontent.com', // Ganti dengan client ID Anda
                 callback: handleGoogleCredentialResponse,
                 redirect_uri: 'https://lifeai.vercel.app/oauth2callback',
                 ux_mode: 'popup',
@@ -770,8 +658,7 @@
                     size: "large",
                     width: "300",
                     text: "continue_with",
-                    shape: "pill",
-                    logo_alignment: "center"
+                    shape: "pill"
                 }
             );
             
@@ -783,17 +670,13 @@
                     size: "large",
                     width: "300",
                     text: "continue_with",
-                    shape: "pill",
-                    logo_alignment: "center"
+                    shape: "pill"
                 }
             );
         };
         
         // Handle Google login response
         const handleGoogleCredentialResponse = (response) => {
-            // Show loading animation
-            document.getElementById('google-login-loading').style.display = 'flex';
-            
             // Decode JWT token to get user info
             const responsePayload = JSON.parse(atob(response.credential.split('.')[1]));
             
@@ -803,101 +686,508 @@
                 picture: responsePayload.picture
             };
             
-            // Simulate API call delay
-            setTimeout(() => {
-                // Save to session
-                setSession({
-                    email: googleUser.email,
-                    name: googleUser.name,
-                    picture: googleUser.picture,
-                    provider: 'google'
-                }).then(() => {
-                    // Hide loading animation
-                    document.getElementById('google-login-loading').style.display = 'none';
-                    
-                    // Close modals
-                    document.getElementById('google-login-modal').style.display = 'none';
-                    document.getElementById('auth-modal').style.display = 'none';
-                    
-                    // Update UI
-                    updateAuthUI(true, googleUser.name);
-                    
-                    // Show welcome notification
-                    showNotification(`Selamat datang, ${googleUser.name}!`);
-                });
-            }, 1500);
+            // Save to session
+            setSession({
+                email: googleUser.email,
+                name: googleUser.name,
+                picture: googleUser.picture,
+                provider: 'google'
+            }).then(() => {
+                // Close modals
+                document.getElementById('google-login-modal').style.display = 'none';
+                document.getElementById('auth-modal').style.display = 'none';
+                
+                // Update UI
+                updateAuthUI(true, googleUser.name);
+                
+                // Show welcome message
+                alert(`Selamat datang, ${googleUser.name}!`);
+            });
         };
         
-        // Show notification
-        const showNotification = (message) => {
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.innerHTML = `
-                <div class="notification-content">
-                    <i class="fas fa-check-circle"></i>
-                    <span>${message}</span>
-                </div>
-            `;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.classList.add('show');
-            }, 10);
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => {
-                    notification.remove();
-                }, 300);
-            }, 3000);
-        };
-        
-        // Toggle dropdown
-        const toggleDropdown = () => {
-            document.getElementById('user-dropdown-content').classList.toggle('show-dropdown');
-        };
-        
-        // Close dropdown when clicking outside
-        window.onclick = (event) => {
-            if (!event.target.matches('.user-avatar')) {
-                const dropdowns = document.getElementsByClassName('dropdown-content');
-                for (let i = 0; i < dropdowns.length; i++) {
-                    const openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show-dropdown')) {
-                        openDropdown.classList.remove('show-dropdown');
+        const initVoiceRecognition = () => {
+            try {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.lang = 'id-ID'; // Bahasa Indonesia
+
+                recognition.onstart = () => {
+                    isListening = true;
+                    document.getElementById('wave-animation').style.display = 'flex';
+                    document.getElementById('voice-status').textContent = 'Mendengarkan...';
+                    document.getElementById('start-listening').disabled = true;
+                    document.getElementById('stop-listening').disabled = false;
+                };
+
+                recognition.onerror = (event) => {
+                    console.error('Speech recognition error', event.error);
+                    document.getElementById('voice-status').textContent = 'Error: ' + event.error;
+                    stopListening();
+                };
+
+                recognition.onend = () => {
+                    if (isListening) {
+                        recognition.start(); // Restart if still listening
+                    } else {
+                        document.getElementById('wave-animation').style.display = 'none';
+                        document.getElementById('start-listening').disabled = false;
+                        document.getElementById('stop-listening').disabled = true;
                     }
-                }
+                };
+
+                recognition.onresult = (event) => {
+                    let interimTranscript = '';
+                    
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        const transcript = event.results[i][0].transcript;
+                        if (event.results[i].isFinal) {
+                            finalTranscript += transcript + ' ';
+                        } else {
+                            interimTranscript += transcript;
+                        }
+                    }
+                    
+                    // Update input field
+                    const inputElement = document.querySelector('#feature-input-container textarea, #feature-input-container input[type="text"]');
+                    if (inputElement) {
+                        inputElement.value = finalTranscript + interimTranscript;
+                    }
+                    
+                    document.getElementById('voice-status').textContent = interimTranscript || 'Mendengarkan...';
+                };
+            } catch (e) {
+                console.error('Speech recognition not supported', e);
+                document.getElementById('voice-chat-section').innerHTML = 
+                    '<div class="error-content">Browser tidak mendukung voice recognition. Gunakan Chrome atau Edge versi terbaru.</div>';
             }
         };
         
-        // Update auth UI with user profile
-        const updateAuthUI = async (isLoggedIn, name = '', picture = '') => {
-            const authSection = document.getElementById('auth-section');
+        const startListening = () => {
+            finalTranscript = '';
+            try {
+                recognition.start();
+            } catch (e) {
+                console.error('Error starting recognition:', e);
+            }
+        };
+        
+        const stopListening = () => {
+            isListening = false;
+            recognition.stop();
+            document.getElementById('voice-status').textContent = 'Selesai mendengarkan.';
+        };
+        
+        const speakText = (text) => {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'id-ID'; // Bahasa Indonesia
+            utterance.rate = 1.0;
+            speechSynthesis.speak(utterance);
+        };
+
+        const initDB = () => {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+                
+                request.onupgradeneeded = (event) => {
+                    db = event.target.result;
+                    
+                    if (!db.objectStoreNames.contains(USER_STORE)) {
+                        const userStore = db.createObjectStore(USER_STORE, { keyPath: "email" });
+                        userStore.createIndex("name", "name", { unique: false });
+                    }
+                    
+                    if (!db.objectStoreNames.contains(SESSION_STORE)) {
+                        db.createObjectStore(SESSION_STORE, { keyPath: "id" });
+                    }
+                };
+                
+                request.onsuccess = (event) => {
+                    db = event.target.result;
+                    resolve(db);
+                };
+                
+                request.onerror = (event) => {
+                    console.error("IndexedDB error:", event.target.error);
+                    reject(event.target.error);
+                };
+            });
+        };
+
+        // Render fitur
+        const renderFeatures = () => {
+            const featuresGrid = document.getElementById('features-grid');
+            featuresGrid.innerHTML = '';
+            
+            features.forEach(feature => {
+                const featureCard = document.createElement('div');
+                featureCard.className = 'feature-card';
+                featureCard.innerHTML = `
+                    <div class="feature-icon">
+                        <i class="fas ${feature.icon}"></i>
+                    </div>
+                    <div class="feature-title">${feature.title}</div>
+                    <div class="feature-desc">${feature.description}</div>
+                `;
+                featureCard.addEventListener('click', () => openFeatureModal(feature));
+                featuresGrid.appendChild(featureCard);
+            });
+        };
+
+        // Modal fitur
+        const openFeatureModal = (feature) => {
+            const modal = document.getElementById('feature-modal');
+            const title = document.getElementById('feature-modal-title');
+            const desc = document.getElementById('feature-modal-desc');
+            const inputContainer = document.getElementById('feature-input-container');
+            const responseDiv = document.getElementById('feature-response');
+            const loadingDiv = document.getElementById('feature-loading');
+            const voiceSection = document.getElementById('voice-chat-section');
+            const speakBtn = document.getElementById('speak-response');
+            
+            title.textContent = feature.title;
+            desc.textContent = feature.description;
+            responseDiv.style.display = 'none';
+            loadingDiv.style.display = 'none';
+            responseDiv.innerHTML = '';
+            speakBtn.style.display = 'none';
+            
+            // Tampilkan voice chat jika fitur mendukung
+            if (feature.hasVoice) {
+                voiceSection.style.display = 'block';
+            } else {
+                voiceSection.style.display = 'none';
+            }
+            
+            // Buat input berdasarkan tipe
+            inputContainer.innerHTML = '';
+            let inputElement;
+            
+            switch(feature.inputType) {
+                case 'textarea':
+                    inputElement = document.createElement('textarea');
+                    inputElement.className = 'form-input';
+                    inputElement.placeholder = feature.placeholder || '';
+                    inputElement.rows = 5;
+                    break;
+                case 'file':
+                    inputElement = document.createElement('input');
+                    inputElement.type = 'file';
+                    inputElement.className = 'form-input';
+                    if (feature.accept) inputElement.accept = feature.accept;
+                    break;
+                case 'select':
+                    inputElement = document.createElement('select');
+                    inputElement.className = 'form-input';
+                    feature.options.forEach(option => {
+                        const optElement = document.createElement('option');
+                        optElement.value = option;
+                        optElement.textContent = option;
+                        inputElement.appendChild(optElement);
+                    });
+                    break;
+                default:
+                    inputElement = document.createElement('input');
+                    inputElement.type = 'text';
+                    inputElement.className = 'form-input';
+                    inputElement.placeholder = feature.placeholder || '';
+            }
+            
+            inputContainer.appendChild(inputElement);
+            
+            // Handle submit
+            const submitBtn = document.getElementById('submit-feature');
+            submitBtn.onclick = () => processFeature(feature, inputElement);
+            
+            // Handle voice response
+            speakBtn.onclick = () => {
+                const responseText = responseDiv.querySelector('.response-content')?.textContent;
+                if (responseText) {
+                    speakText(responseText);
+                }
+            };
+            
+            modal.style.display = 'flex';
+        };
+
+        // Proses fitur dengan Cohere API
+        const processFeature = async (feature, inputElement) => {
+            const responseDiv = document.getElementById('feature-response');
+            const loadingDiv = document.getElementById('feature-loading');
+            const submitBtn = document.getElementById('submit-feature');
+            const speakBtn = document.getElementById('speak-response');
+            
+            let inputValue;
+            if (feature.inputType === 'file') {
+                const file = inputElement.files[0];
+                if (!file) {
+                    alert('Silakan pilih file terlebih dahulu');
+                    return;
+                }
+                inputValue = file.name;
+            } else {
+                inputValue = inputElement.value;
+                if (!inputValue.trim()) {
+                    alert('Silakan isi input terlebih dahulu');
+                    return;
+                }
+            }
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+            loadingDiv.style.display = 'flex';
+            responseDiv.style.display = 'none';
+            
+            try {
+                // Buat prompt berdasarkan fitur
+                const prompt = feature.promptPrefix 
+                    ? `${feature.promptPrefix} ${inputValue}`
+                    : `Anda adalah LifeAI. Tugas: ${feature.title}. Input pengguna: ${inputValue}`;
+                
+                // Kirim request ke Cohere API
+                const response = await fetch(COHERE_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${COHERE_API_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Cohere-Version': '2022-12-06'
+                    },
+                    body: JSON.stringify({
+                        model: 'command-r-plus',
+                        prompt: prompt,
+                        max_tokens: 1000,
+                        temperature: 0.7,
+                        k: 0,
+                        stop_sequences: [],
+                        return_likelihoods: 'NONE'
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Tampilkan respons dengan format yang benar
+                loadingDiv.style.display = 'none';
+                responseDiv.style.display = 'block';
+                speakBtn.style.display = 'inline-flex';
+                responseDiv.innerHTML = `
+                    <div class="response-content">
+                        ${data.generations[0].text}
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                loadingDiv.style.display = 'none';
+                responseDiv.style.display = 'block';
+                responseDiv.innerHTML = `
+                    <div class="error-content">
+                        <p><strong>Error:</strong> Gagal terhubung ke Cohere API</p>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Proses';
+            }
+        };
+
+        // Fungsi pencarian
+        const setupSearch = () => {
+            const searchInput = document.getElementById('search-input');
+            
+            searchInput.addEventListener('input', () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                const featureCards = document.querySelectorAll('.feature-card');
+                
+                featureCards.forEach(card => {
+                    const title = card.querySelector('.feature-title').textContent.toLowerCase();
+                    const desc = card.querySelector('.feature-desc').textContent.toLowerCase();
+                    
+                    if (title.includes(searchTerm) || desc.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        };
+
+        // Fungsi autentikasi
+        const setupAuth = () => {
+            const authModal = document.getElementById('auth-modal');
+            const loginBtn = document.getElementById('login-btn');
+            const registerBtn = document.getElementById('register-btn');
+            const closeModal = document.querySelectorAll('.close-modal');
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            // Buka modal login/register
+            loginBtn.addEventListener('click', () => {
+                document.querySelector('.tab[data-tab="login"]').click();
+                authModal.style.display = 'flex';
+            });
+            
+            registerBtn.addEventListener('click', () => {
+                document.querySelector('.tab[data-tab="register"]').click();
+                authModal.style.display = 'flex';
+            });
+            
+            // Tutup modal
+            closeModal.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    authModal.style.display = 'none';
+                    document.getElementById('feature-modal').style.display = 'none';
+                });
+            });
+            
+            // Switch tab
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    tab.classList.add('active');
+                    document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+                });
+            });
+            
+            // Submit login
+            document.getElementById('submit-login').addEventListener('click', async () => {
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                
+                if (!email || !password) {
+                    alert('Silakan isi email dan password');
+                    return;
+                }
+                
+                // Simulasi login
+                try {
+                    const user = await getUser(email);
+                    
+                    if (user && user.password === password) {
+                        // Simpan session
+                        await setSession({ email: user.email, name: user.name });
+                        alert(`Selamat datang, ${user.name}!`);
+                        authModal.style.display = 'none';
+                        updateAuthUI(true, user.name);
+                    } else {
+                        alert('Email atau password salah');
+                    }
+                } catch (error) {
+                    console.error('Login error:', error);
+                    alert('Terjadi kesalahan saat login');
+                }
+            });
+            
+            // Submit register
+            document.getElementById('submit-register').addEventListener('click', async () => {
+                const name = document.getElementById('register-name').value;
+                const email = document.getElementById('register-email').value;
+                const password = document.getElementById('register-password').value;
+                
+                if (!name || !email || !password) {
+                    alert('Silakan isi semua field');
+                    return;
+                }
+                
+                if (password.length < 8) {
+                    alert('Password minimal 8 karakter');
+                    return;
+                }
+                
+                // Simulasi register
+                try {
+                    const existingUser = await getUser(email);
+                    if (existingUser) {
+                        alert('Email sudah terdaftar');
+                        return;
+                    }
+                    
+                    await addUser({ email, name, password });
+                    alert('Pendaftaran berhasil! Silakan login.');
+                    document.querySelector('.tab[data-tab="login"]').click();
+                } catch (error) {
+                    console.error('Register error:', error);
+                    alert('Terjadi kesalahan saat pendaftaran');
+                }
+            });
+        };
+
+        // Fungsi database
+        const addUser = (user) => {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction(USER_STORE, 'readwrite');
+                const store = transaction.objectStore(USER_STORE);
+                
+                const request = store.add(user);
+                
+                request.onsuccess = () => resolve();
+                request.onerror = (event) => reject(event.target.error);
+            });
+        };
+
+        const getUser = (email) => {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction(USER_STORE, 'readonly');
+                const store = transaction.objectStore(USER_STORE);
+                
+                const request = store.get(email);
+                
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = (event) => reject(event.target.error);
+            });
+        };
+
+        const setSession = (session) => {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction(SESSION_STORE, 'readwrite');
+                const store = transaction.objectStore(SESSION_STORE);
+                
+                // Hapus session lama jika ada
+                store.clear();
+                
+                // Tambah session baru
+                const request = store.add({ ...session, id: 1, timestamp: Date.now() });
+                
+                request.onsuccess = () => resolve();
+                request.onerror = (event) => reject(event.target.error);
+            });
+        };
+
+        const getSession = () => {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction(SESSION_STORE, 'readonly');
+                const store = transaction.objectStore(SESSION_STORE);
+                
+                const request = store.get(1);
+                
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = (event) => reject(event.target.error);
+            });
+        };
+
+        // Update UI setelah login/logout
+        const updateAuthUI = async (isLoggedIn, name = '') => {
+            const authSection = document.querySelector('.auth-section');
             
             if (isLoggedIn) {
                 authSection.innerHTML = `
-                    <div class="user-dropdown">
-                        <img src="${picture || 'https://ui-avatars.com/api/?name='+encodeURIComponent(name)+'&background=6E6BF6&color=fff'}" 
-                             class="user-avatar" 
-                             alt="Profile" 
-                             id="user-avatar"
-                             onclick="toggleDropdown()">
-                        <div class="dropdown-content" id="user-dropdown-content">
-                            <div style="padding: 12px 16px; font-weight: 500;">${name}</div>
-                            <div class="dropdown-divider"></div>
-                            <a href="#"><i class="fas fa-user"></i> Profil Saya</a>
-                            <a href="#"><i class="fas fa-cog"></i> Pengaturan</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Keluar</a>
-                        </div>
-                    </div>
+                    <span style="margin-right: 15px;">Halo, ${name}</span>
+                    <button class="btn btn-outline" id="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Keluar
+                    </button>
                     <button class="btn-icon" id="theme-toggle">
                         <i class="fas fa-moon"></i>
                     </button>
                 `;
                 
-                document.getElementById('logout-btn').addEventListener('click', async (e) => {
-                    e.preventDefault();
+                document.getElementById('logout-btn').addEventListener('click', async () => {
                     try {
                         const transaction = db.transaction(SESSION_STORE, 'readwrite');
                         const store = transaction.objectStore(SESSION_STORE);
@@ -910,7 +1200,6 @@
                         
                         googleUser = null;
                         updateAuthUI(false);
-                        showNotification('Anda telah keluar');
                     } catch (error) {
                         console.error('Logout error:', error);
                     }
@@ -933,7 +1222,73 @@
             
             setupThemeToggle();
         };
-        
+
+        // Toggle tema gelap/terang
+        const setupThemeToggle = () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            
+            if (!themeToggle) return;
+            
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+            
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.hasAttribute('data-theme');
+                
+                if (isDark) {
+                    document.documentElement.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'light');
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                }
+            });
+        };
+
+        // Setup voice controls
+        const setupVoiceControls = () => {
+            document.getElementById('start-listening').addEventListener('click', startListening);
+            document.getElementById('stop-listening').addEventListener('click', stopListening);
+        };
+
+        // Intro animation
+        const showIntroAnimation = () => {
+            return new Promise((resolve) => {
+                const introOverlay = document.getElementById('intro-overlay');
+                
+                // Hide after animation completes
+                setTimeout(() => {
+                    introOverlay.style.opacity = '0';
+                    setTimeout(() => {
+                        introOverlay.style.display = 'none';
+                        
+                        // Show Google login modal after intro
+                        const session = localStorage.getItem('lifeai-session');
+                        if (!session) {
+                            document.getElementById('google-login-modal').style.display = 'flex';
+                        }
+                        
+                        resolve();
+                    }, 500);
+                }, 2500);
+            });
+        };
+
+        // Setup Google login modal
+        const setupGoogleLoginModal = () => {
+            document.getElementById('skip-login').addEventListener('click', () => {
+                document.getElementById('google-login-modal').style.display = 'none';
+            });
+        };
+
         // Inisialisasi aplikasi
         const initApp = async () => {
             await initDB();
@@ -960,7 +1315,7 @@
             try {
                 const session = await getSession();
                 if (session) {
-                    updateAuthUI(true, session.name, session.picture);
+                    updateAuthUI(true, session.name);
                 }
             } catch (error) {
                 console.error('Session check error:', error);
