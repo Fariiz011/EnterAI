@@ -645,6 +645,7 @@
             google.accounts.id.initialize({
                 client_id: '393290353406-hnqaompcnpa5210bi4rfamqp7pkdk1iu.apps.googleusercontent.com', // Ganti dengan client ID Anda
                 callback: handleGoogleCredentialResponse,
+                redirect_uri: 'https://lifeai.vercel.app/oauth2callback',
                 ux_mode: 'popup',
                 auto_select: false
             });
