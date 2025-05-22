@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LifeAI - Platform Kecerdasan Buatan</title>
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="02445695-2d2a-4d21-9990-6cfd160328b0"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2317582017242154"
      crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -404,6 +405,74 @@
             text-decoration: underline;
         }
         
+        /* Page Content Styles */
+        .page-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--card);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+        }
+        .page-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        .page-section {
+            margin-bottom: 30px;
+        }
+        .page-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        .page-section p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+        .page-section ul {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+        .page-section li {
+            margin-bottom: 8px;
+        }
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .contact-item i {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        /* Navigation */
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .nav-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -420,6 +489,12 @@
             .voice-controls {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+            .page-content {
+                padding: 15px;
+            }
+            .page-title {
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -461,14 +536,238 @@
         </header>
 
         <main>
-            <div class="search-container">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-input" placeholder="Cari fitur LifeAI..." id="search-input">
+            <!-- Dynamic Content Area -->
+            <div id="dynamic-content">
+                <!-- Default content (features) -->
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Cari fitur LifeAI..." id="search-input">
+                </div>
+
+                <h2>Fitur Yang Tersedia</h2>
+                <div class="features-grid" id="features-grid">
+                    <!-- Fitur akan diisi oleh JavaScript -->
+                </div>
             </div>
 
-            <h2>Fitur Yang Tersedia</h2>
-            <div class="features-grid" id="features-grid">
-                <!-- Fitur akan diisi oleh JavaScript -->
+            <!-- About Us Page (hidden by default) -->
+            <div id="about-page" class="page-content" style="display: none;">
+                <h1 class="page-title">Tentang Kami</h1>
+                
+                <div class="page-section">
+                    <h2>Siapa Kami?</h2>
+                    <p>LifeAI adalah platform kecerdasan buatan berbasis di Indonesia yang dikembangkan oleh tim Lifevander Indonesia Inc. dengan tujuan memberikan solusi AI yang mudah diakses dan bermanfaat bagi masyarakat Indonesia.</p>
+                    <p>Kami berkomitmen untuk menghadirkan teknologi AI terdepan dengan sentuhan lokal, memahami kebutuhan pengguna Indonesia, dan menyajikannya dalam antarmuka yang ramah pengguna.</p>
+                </div>
+                
+                <div class="page-section">
+                    <h2>Visi & Misi</h2>
+                    <p><strong>Visi:</strong> Menjadi platform AI terdepan di Indonesia yang memberdayakan individu dan bisnis melalui teknologi kecerdasan buatan.</p>
+                    <p><strong>Misi:</strong></p>
+                    <ul>
+                        <li>Menyediakan akses mudah ke teknologi AI untuk semua kalangan</li>
+                        <li>Mengembangkan solusi AI yang relevan dengan kebutuhan lokal</li>
+                        <li>Mendorong inovasi dan pemanfaatan AI secara bertanggung jawab</li>
+                        <li>Membangun ekosistem AI yang inklusif di Indonesia</li>
+                    </ul>
+                </div>
+                
+                <div class="page-section">
+                    <h2>Tim Kami</h2>
+                    <p>LifeAI dikembangkan oleh tim profesional di bidang AI, pengembangan perangkat lunak, dan desain pengalaman pengguna. Dipimpin oleh M. Fariz sebagai pendiri dan pengembang utama, tim kami berdedikasi untuk terus menghadirkan fitur-fitur inovatif.</p>
+                </div>
+                
+                <div class="nav-links">
+                    <a href="#" class="nav-link" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</a>
+                    <a href="#" class="nav-link" onclick="showPage('contact')"><i class="fas fa-envelope"></i> Hubungi Kami</a>
+                </div>
+            </div>
+            
+            <!-- Contact Page (hidden by default) -->
+            <div id="contact-page" class="page-content" style="display: none;">
+                <h1 class="page-title">Hubungi Kami</h1>
+                
+                <div class="page-section">
+                    <h2>Kontak Informasi</h2>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>Email: lifevandergamedev@gmail.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>Telepon: +6287729044780</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Alamat: Jl. Nasional No. 3, Cianjur Jawa Barat, Indonesia</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="page-section">
+                    <h2>Formulir Kontak</h2>
+                    <div class="form-group">
+                        <label class="form-label">Nama Lengkap</label>
+                        <input type="text" class="form-input" id="contact-name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="contact-email">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Pesan</label>
+                        <textarea class="form-input" id="contact-message" rows="5"></textarea>
+                    </div>
+                    <button class="btn btn-primary" id="send-message">Kirim Pesan</button>
+                </div>
+                
+                <div class="page-section">
+                    <h2>Media Sosial</h2>
+                    <p>Ikuti kami di media sosial untuk mendapatkan update terbaru:</p>
+                    <div style="display: flex; gap: 15px; margin-top: 15px;">
+                        <a href="#" class="btn-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="btn-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="btn-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="btn-icon"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="btn-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="nav-links">
+                    <a href="#" class="nav-link" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</a>
+                    <a href="#" class="nav-link" onclick="showPage('privacy')"><i class="fas fa-shield-alt"></i> Kebijakan Privasi</a>
+                </div>
+            </div>
+            
+            <!-- Privacy Policy Page (hidden by default) -->
+            <div id="privacy-page" class="page-content" style="display: none;">
+                <h1 class="page-title">Kebijakan Privasi</h1>
+                
+                <div class="page-section">
+                    <p>Terakhir diperbarui: 22 Mei 2025</p>
+                    <p>Kebijakan Privasi ini menjelaskan bagaimana LifeAI ("kami", "kita", atau "kita") mengumpulkan, menggunakan, dan membagikan informasi pribadi Anda ketika Anda menggunakan platform kami.</p>
+                </div>
+                
+                <div class="page-section">
+                    <h2>Informasi yang Kami Kumpulkan</h2>
+                    <p>Kami mengumpulkan beberapa jenis informasi dari dan tentang pengguna platform kami, termasuk:</p>
+                    <ul>
+                        <li><strong>Informasi Pribadi:</strong> Nama, alamat email, dan informasi kontak lainnya yang Anda berikan saat mendaftar atau menggunakan layanan kami.</li>
+                        <li><strong>Data Penggunaan:</strong> Informasi tentang bagaimana Anda mengakses dan menggunakan platform kami, termasuk data teknis seperti alamat IP, jenis browser, halaman yang dikunjungi, dan waktu akses.</li>
+                        <li><strong>Data Interaksi:</strong> Konten yang Anda buat, unggah, atau bagikan melalui platform kami.</li>
+                    </ul>
+                </div>
+                
+                <div class="page-section">
+                    <h2>Bagaimana Kami Menggunakan Informasi Anda</h2>
+                    <p>Kami menggunakan informasi yang kami kumpulkan untuk berbagai tujuan, termasuk:</p>
+                    <ul>
+                        <li>Menyediakan, memelihara, dan meningkatkan layanan kami</li>
+                        <li>Memproses transaksi dan mengelola akun Anda</li>
+                        <li>Memberikan dukungan pelanggan</li>
+                        <li>Mengembangkan produk dan fitur baru</li>
+                        <li>Menganalisis penggunaan platform untuk meningkatkan pengalaman pengguna</li>
+                        <li>Mendeteksi dan mencegah aktivitas penipuan atau penyalahgunaan</li>
+                    </ul>
+                </div>
+                
+                <div class="page-section">
+                    <h2>Berbagi Informasi</h2>
+                    <p>Kami tidak menjual atau menyewakan informasi pribadi Anda kepada pihak ketiga. Kami dapat membagikan informasi dalam situasi berikut:</p>
+                    <ul>
+                        <li>Dengan penyedia layanan yang membantu operasi bisnis kami (dengan kewajiban kerahasiaan)</li>
+                        <li>Ketika diperlukan oleh hukum atau proses hukum</li>
+                        <li>Untuk melindungi hak, properti, atau keselamatan kami, pengguna kami, atau publik</li>
+                        <li>Dalam kaitannya dengan merger, akuisisi, atau penjualan aset</li>
+                    </ul>
+                </div>
+                
+                <div class="page-section">
+                    <h2>Keamanan Data</h2>
+                    <p>Kami menerapkan langkah-langkah keamanan teknis dan organisasi yang wajar untuk melindungi informasi pribadi Anda. Namun, tidak ada sistem yang 100% aman, dan kami tidak dapat menjamin keamanan mutlak data Anda.</p>
+                </div>
+                
+                <div class="page-section">
+                    <h2>Perubahan pada Kebijakan Ini</h2>
+                    <p>Kami dapat memperbarui Kebijakan Privasi ini dari waktu ke waktu. Kami akan memberi tahu Anda tentang perubahan material dengan memposting pemberitahuan di platform kami sebelum perubahan berlaku.</p>
+                </div>
+                
+                <div class="page-section">
+                    <h2>Hubungi Kami</h2>
+                    <p>Jika Anda memiliki pertanyaan tentang Kebijakan Privasi ini, silakan hubungi kami melalui halaman <a href="#" onclick="showPage('contact')" style="color: var(--primary);">Kontak</a>.</p>
+                </div>
+                
+                <div class="nav-links">
+                    <a href="#" class="nav-link" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</a>
+                    <a href="#" class="nav-link" onclick="showPage('terms')"><i class="fas fa-file-contract"></i> Syarat & Ketentuan</a>
+                </div>
+            </div>
+            
+            <!-- Terms & Conditions Page (hidden by default) -->
+            <div id="terms-page" class="page-content" style="display: none;">
+                <h1 class="page-title">Syarat & Ketentuan</h1>
+                
+                <div class="page-section">
+                    <p>Terakhir diperbarui: 22 Mei 2025</p>
+                    <p>Dengan mengakses atau menggunakan platform LifeAI ("Layanan"), Anda setuju untuk terikat oleh Syarat dan Ketentuan ini ("Syarat"). Jika Anda tidak setuju dengan bagian mana pun dari Syarat ini, Anda tidak dapat mengakses Layanan.</p>
+                </div>
+                
+                <div class="page-section">
+                    <h2>Penggunaan Layanan</h2>
+                    <p>Anda setuju untuk menggunakan Layanan sesuai dengan semua hukum dan peraturan yang berlaku. Anda dilarang:</p>
+                    <ul>
+                        <li>Menggunakan Layanan untuk tujuan ilegal atau tidak sah</li>
+                        <li>Melanggar hak kekayaan intelektual orang lain</li>
+                        <li>Mengunggah atau menyebarkan konten yang bersifat menghina, memfitnah, atau tidak senonoh</li>
+                        <li>Mengganggu atau mengganggu keamanan atau akses ke Layanan</li>
+                        <li>Mencoba mendapatkan akses tidak sah ke sistem atau jaringan kami</li>
+                        <li>Menggunakan Layanan untuk menciptakan produk atau layanan yang bersaing</li>
+                    </ul>
+                </div>
+                
+                <div class="page-section">
+                    <h2>Akun Pengguna</h2>
+                    <p>Anda mungkin perlu mendaftar akun untuk mengakses beberapa fitur Layanan. Anda bertanggung jawab untuk:</p>
+                    <ul>
+                        <li>Memberikan informasi yang akurat dan lengkap saat mendaftar</li>
+                        <li>Menjaga kerahasiaan kredensial akun Anda</li>
+                        <li>Segera memberi tahu kami tentang penggunaan tidak sah atas akun Anda</li>
+                    </ul>
+                    <p>Kami berhak menangguhkan atau menghentikan akun Anda jika Anda melanggar Syarat ini.</p>
+                </div>
+                
+                <div class="page-section">
+                    <h2>Konten Pengguna</h2>
+                    <p>Anda mempertahankan kepemilikan atas konten yang Anda buat atau unggah ke Layanan ("Konten Pengguna"). Dengan mengunggah Konten Pengguna, Anda memberikan kami lisensi global, non-eksklusif, dapat dialihkan, dan bebas royalti untuk menggunakan, mereproduksi, memodifikasi, dan menampilkan Konten Pengguna dalam menyediakan Layanan.</p>
+                    <p>Anda bertanggung jawab penuh atas Konten Pengguna Anda dan konsekuensi dari pengunggahan atau pembagiannya.</p>
+                </div>
+                
+                <div class="page-section">
+                    <h2>Hak Kekayaan Intelektual</h2>
+                    <p>Layanan dan semua hak, kepemilikan, dan kepentingan terkait, termasuk semua hak kekayaan intelektual, adalah dan akan tetap menjadi milik eksklusif LifeAI dan pemberi lisensinya. Tidak ada dalam Syarat ini yang memberikan Anda hak untuk menggunakan merek dagang, logo, atau identitas merek kami.</p>
+                </div>
+                
+                <div class="page-section">
+                    <h2>Pembatasan Tanggung Jawab</h2>
+                    <p>Layanan disediakan "sebagaimana adanya" dan "sebagaimana tersedia". Kami tidak membuat pernyataan atau jaminan apa pun mengenai keandalan, ketepatan waktu, kualitas, kesesuaian, atau ketersediaan Layanan.</p>
+                    <p>Sejauh diizinkan oleh hukum, LifeAI tidak bertanggung jawab atas kerusakan langsung, tidak langsung, insidental, khusus, konsekuensial, atau exempler yang timbul dari atau terkait dengan penggunaan Layanan.</p>
+                </div>
+                
+                <div class="page-section">
+                    <h2>Perubahan pada Syarat</h2>
+                    <p>Kami berhak untuk memodifikasi Syarat ini kapan saja. Kami akan memberi tahu Anda tentang perubahan material dengan memposting pemberitahuan di platform kami sebelum perubahan berlaku.</p>
+                </div>
+                
+                <div class="page-section">
+                    <h2>Hukum yang Berlaku</h2>
+                    <p>Syarat ini diatur oleh dan ditafsirkan sesuai dengan hukum Republik Indonesia. Setiap sengketa yang timbul dari atau terkait dengan Syarat ini akan tunduk pada yurisdiksi eksklusif pengadilan di Indonesia.</p>
+                </div>
+                
+                <div class="nav-links">
+                    <a href="#" class="nav-link" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</a>
+                    <a href="#" class="nav-link" onclick="showPage('privacy')"><i class="fas fa-shield-alt"></i> Kebijakan Privasi</a>
+                </div>
             </div>
         </main>
 
@@ -560,6 +859,12 @@
     </div>
 
     <footer>
+        <div style="margin-bottom: 15px;">
+            <a href="#" onclick="showPage('about')" style="color: var(--text-light); margin: 0 10px;">Tentang Kami</a>
+            <a href="#" onclick="showPage('contact')" style="color: var(--text-light); margin: 0 10px;">Kontak</a>
+            <a href="#" onclick="showPage('privacy')" style="color: var(--text-light); margin: 0 10px;">Kebijakan Privasi</a>
+            <a href="#" onclick="showPage('terms')" style="color: var(--text-light); margin: 0 10px;">Syarat & Ketentuan</a>
+        </div>
         &copy; 2025 LifeAI - By M.Fariz | Lifevander Indonesia Inc.
     </footer>
 
@@ -1301,6 +1606,60 @@
                 document.getElementById('google-login-modal').style.display = 'none';
             });
         };
+        
+        // Show different pages
+        const showPage = (pageId) => {
+            // Hide all pages
+            document.getElementById('dynamic-content').style.display = 'none';
+            document.getElementById('about-page').style.display = 'none';
+            document.getElementById('contact-page').style.display = 'none';
+            document.getElementById('privacy-page').style.display = 'none';
+            document.getElementById('terms-page').style.display = 'none';
+            
+            // Show selected page
+            switch(pageId) {
+                case 'home':
+                    document.getElementById('dynamic-content').style.display = 'block';
+                    break;
+                case 'about':
+                    document.getElementById('about-page').style.display = 'block';
+                    break;
+                case 'contact':
+                    document.getElementById('contact-page').style.display = 'block';
+                    break;
+                case 'privacy':
+                    document.getElementById('privacy-page').style.display = 'block';
+                    break;
+                case 'terms':
+                    document.getElementById('terms-page').style.display = 'block';
+                    break;
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        };
+        
+        // Setup contact form
+        const setupContactForm = () => {
+            document.getElementById('send-message').addEventListener('click', () => {
+                const name = document.getElementById('contact-name').value;
+                const email = document.getElementById('contact-email').value;
+                const message = document.getElementById('contact-message').value;
+                
+                if (!name || !email || !message) {
+                    alert('Silakan isi semua field');
+                    return;
+                }
+                
+                // Simulate sending message
+                alert(`Terima kasih, ${name}! Pesan Anda telah terkirim. Kami akan menghubungi Anda melalui email ${email} segera.`);
+                
+                // Clear form
+                document.getElementById('contact-name').value = '';
+                document.getElementById('contact-email').value = '';
+                document.getElementById('contact-message').value = '';
+            });
+        };
 
         // Inisialisasi aplikasi
         const initApp = async () => {
@@ -1323,6 +1682,7 @@
             initVoiceRecognition();
             setupVoiceControls();
             setupGoogleLoginModal();
+            setupContactForm();
             
             // Cek session saat load
             try {
