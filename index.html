@@ -2108,60 +2108,43 @@
 
         // Get response from Cohere Generate API
         async function getCohereResponse(prompt) {
-            try {
-                // Prepare conversation context
-                const conversationContext = appState.conversationHistory
-                    .filter(msg => msg.language === appState.currentLanguage)
-                    .slice(-MAX_HISTORY)
-                    .map(msg => `${msg.role}: ${msg.message}`)
-                    .join('\n');
-                
-                const response = await fetch(COHERE_API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${https://api.cohere.ai/v1/generate}`,
-                        'Cohere-Version': '2024-05-15'
-                    },
-                    body: JSON.stringify({
-                        model: 'command-r-plus',
-                        prompt: `${conversationContext}\nUSER: ${prompt}\nBOT:`,
-                        max_tokens: 2000,
-                        temperature: 0.7,
-                        k: 0,
-                        p: 0.75,
-                        frequency_penalty: 0,
-                        presence_penalty: 0,
-                        stop_sequences: ['\nUSER:'],
-                        return_likelihoods: 'NONE'
-                    })
-                });
+    try {
+        const conversationContext = appState.conversationHistory
+            .filter(msg => msg.language === appState.currentLanguage)
+            .slice(-MAX_HISTORY)
+            .map(msg => `${msg.role}: ${msg.message}`)
+            .join('
+');
 
-                const data = await response.json();
-                
-                if (data.generations && data.generations.length > 0) {
-                    // Clean up response
-                    let cleanText = data.generations[0].text
-                        .trim()
-                        .replace(/\n+/g, '\n')
-                        .replace(/^:\s*/, '');
-                    
-                    // Stop if conversation continues
-                    const stopIndex = cleanText.indexOf('\nUSER:');
-                    if (stopIndex > -1) {
-                        cleanText = cleanText.substring(0, stopIndex);
-                    }
-                    
-                    return cleanText;
-                }
-                
-                throw new Error('Invalid response format from Cohere API');
-                
-            } catch (error) {
-                console.error('Error getting response from Cohere:', error);
-                throw error;
-            }
+        const response = await fetch("https://api.cohere.ai/v1/chat", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${COHERE_API_KEY}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                model: "command-r-plus",
+                message: prompt,
+                temperature: 0.7,
+                chat_history: appState.conversationHistory.map(msg => ({
+                    role: msg.role === "BOT" ? "CHATBOT" : "USER",
+                    message: msg.message
+                })),
+                preamble: "You are SuperNova, a helpful multilingual assistant."
+            })
+        });
+
+        const data = await response.json();
+        if (data.text) {
+            return data.text.trim();
+        } else {
+            throw new Error("No text in response");
         }
+    } catch (error) {
+        console.error("Error getting response from Cohere:", error);
+        return languageData[appState.currentLanguage].errorMessage;
+    }
+}
 
         // Toggle voice input
         function toggleVoiceInput() {
