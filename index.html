@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SuperNova - AI Asisten Anda</title>
+    <title>SuperNova - AI Asisten Anda v1.2</title>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -29,6 +29,24 @@
             background-color: var(--light);
             color: var(--dark);
             min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* System Alert */
+        .system-alert {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--danger);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: none;
+            max-width: 90%;
+            text-align: center;
         }
         
         /* Halaman Login */
@@ -41,6 +59,7 @@
             padding: 2rem;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             text-align: center;
+            position: relative;
         }
         
         .login-logo {
@@ -48,6 +67,10 @@
             height: 120px;
             margin-bottom: 2rem;
             animation: float 3s ease-in-out infinite;
+            background-color: white;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
         
         .login-title {
@@ -103,6 +126,11 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
         .login-footer {
             position: absolute;
             bottom: 2rem;
@@ -114,6 +142,7 @@
         .dashboard-container {
             display: none;
             height: 100vh;
+            flex-direction: column;
         }
         
         .header {
@@ -138,6 +167,7 @@
             background-color: var(--light);
             cursor: pointer;
             transition: all 0.3s ease;
+            border: none;
         }
         
         .menu-btn:hover, .profile-btn:hover {
@@ -159,6 +189,8 @@
         .main-content {
             padding: 1.5rem;
             padding-bottom: 80px;
+            flex: 1;
+            overflow-y: auto;
         }
         
         .premium-banner {
@@ -226,6 +258,7 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
             cursor: pointer;
+            border: none;
         }
         
         .feature-card:hover {
@@ -284,6 +317,9 @@
             background-color: var(--light);
             cursor: pointer;
             transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            color: inherit;
         }
         
         .contact-btn:hover {
@@ -319,6 +355,21 @@
             left: 0;
         }
         
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 15;
+            display: none;
+        }
+        
+        .sidebar-overlay.open {
+            display: block;
+        }
+        
         .sidebar-header {
             display: flex;
             justify-content: space-between;
@@ -341,6 +392,7 @@
             justify-content: center;
             background-color: var(--light);
             cursor: pointer;
+            border: none;
         }
         
         .menu-list {
@@ -355,6 +407,10 @@
             align-items: center;
             gap: 10px;
             transition: all 0.3s ease;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
         }
         
         .menu-item:hover {
@@ -394,6 +450,7 @@
             background-color: var(--light);
             cursor: pointer;
             margin-right: 1rem;
+            border: none;
         }
         
         .chat-title {
@@ -407,14 +464,17 @@
             flex-grow: 1;
             padding: 1.5rem;
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
         
         .message-bubble {
-            max-width: 80%;
-            padding: 1rem;
+            max-width: 85%;
+            padding: 12px 16px;
             border-radius: 18px;
-            margin-bottom: 1rem;
             position: relative;
+            word-wrap: break-word;
         }
         
         .user-message {
@@ -467,6 +527,11 @@
             background-color: var(--primary-dark);
         }
         
+        .send-btn:disabled {
+            background-color: var(--gray);
+            cursor: not-allowed;
+        }
+        
         /* Halaman Voice */
         .voice-container {
             display: none;
@@ -501,6 +566,7 @@
             margin-bottom: 2rem;
             animation: pulse 2s infinite;
             cursor: pointer;
+            border: none;
         }
         
         .voice-icon.listening {
@@ -515,6 +581,11 @@
             margin: 1rem 0;
             max-width: 80%;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
         
         .voice-controls {
@@ -533,6 +604,7 @@
             background-color: var(--light);
             cursor: pointer;
             transition: all 0.3s ease;
+            border: none;
         }
         
         .voice-btn:hover {
@@ -594,18 +666,57 @@
         /* Transisi Halaman */
         .page {
             display: none;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: var(--light);
         }
         
         .page.active {
             display: flex;
         }
+        
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .login-title {
+                font-size: 2rem;
+            }
+            
+            .login-subtitle {
+                font-size: 1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                width: 85%;
+                left: -85%;
+            }
+            
+            .message-bubble {
+                max-width: 90%;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- System Alert -->
+    <div class="system-alert" id="systemAlert"></div>
+    
     <!-- Halaman Login -->
     <div class="page active" id="loginPage">
         <div class="login-container">
-            <img src="logo.png" alt="SuperNova Logo" class="login-logo">
+            <div class="login-logo" id="appLogo">
+                <!-- Logo akan dimuat di sini atau menggunakan placeholder -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="var(--primary)">
+                    <path d="M12 2L4 7l8 5 8-5-8-5zm0 9L4 7l8 5 8-5-8 5zm0 9l-8-5 8-5 8 5-8 5z"/>
+                </svg>
+            </div>
             <h1 class="login-title">Selamat Datang di SuperNova</h1>
             <p class="login-subtitle">Memberikan solusi terbaik. Asisten AI dapat menjawab pertanyaan apa pun</p>
             
@@ -632,15 +743,15 @@
     <div class="page" id="dashboardPage">
         <div class="dashboard-container">
             <div class="header">
-                <div class="menu-btn" id="menuBtn">
+                <button class="menu-btn" id="menuBtn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="1"></circle>
                         <circle cx="12" cy="5" r="1"></circle>
                         <circle cx="12" cy="19" r="1"></circle>
                     </svg>
-                </div>
+                </button>
                 <div class="app-title">SuperNova</div>
-                <div class="profile-btn">F</div>
+                <button class="profile-btn">F</button>
             </div>
             
             <div class="main-content">
@@ -651,16 +762,16 @@
                 </div>
                 
                 <div class="features-grid">
-                    <div class="feature-card" id="chatFeature">
+                    <button class="feature-card" id="chatFeature">
                         <div class="feature-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                             </svg>
                         </div>
                         <h4 class="feature-title">Ngobrol dengan Nova</h4>
-                    </div>
+                    </button>
                     
-                    <div class="feature-card" id="voiceFeature">
+                    <button class="feature-card" id="voiceFeature">
                         <div class="feature-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
@@ -670,24 +781,24 @@
                             </svg>
                         </div>
                         <h4 class="feature-title">Bicara dengan Nova</h4>
-                    </div>
+                    </button>
                 </div>
                 
                 <div class="contact-section">
                     <h4 class="section-title">Hubungi Kami</h4>
                     <div class="contact-methods">
-                        <a href="https://wa.me/6281234567890" class="contact-btn" target="_blank">
+                        <a href="https://wa.me/6281234567890" class="contact-btn" target="_blank" rel="noopener noreferrer">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                                 <circle cx="12" cy="10" r="3"></circle>
                             </svg>
                         </a>
-                        <a href="https://facebook.com/supernova" class="contact-btn" target="_blank">
+                        <a href="https://facebook.com/supernova" class="contact-btn" target="_blank" rel="noopener noreferrer">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                             </svg>
                         </a>
-                        <a href="https://instagram.com/supernova" class="contact-btn" target="_blank">
+                        <a href="https://instagram.com/supernova" class="contact-btn" target="_blank" rel="noopener noreferrer">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -704,57 +815,70 @@
             </div>
         </div>
         
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-title">Menu</div>
-                <div class="close-btn" id="closeBtn">
+                <button class="close-btn" id="closeBtn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
                         <line x1="6" y1="6" x2="18" y2="18"></line>
                     </svg>
-                </div>
+                </button>
             </div>
             
             <ul class="menu-list">
-                <li class="menu-item" id="profileMenu">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                    Profile
+                <li>
+                    <button class="menu-item" id="profileMenu">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        Profile
+                    </button>
                 </li>
-                <li class="menu-item" id="settingsMenu">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="3"></circle>
-                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                    </svg>
-                    Pengaturan
+                <li>
+                    <button class="menu-item" id="settingsMenu">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                        Pengaturan
+                    </button>
                 </li>
-                <li class="menu-item" id="privacyMenu">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="3"></circle>
-                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                    </svg>
-                    Privasi
+                <li>
+                    <button class="menu-item" id="privacyMenu">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                        Privasi
+                    </button>
                 </li>
-                <li class="menu-item" id="policyMenu">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                        <polyline points="10 9 9 9 8 9"></polyline>
-                    </svg>
-                    Kebijakan
+                <li>
+                    <button class="menu-item" id="policyMenu">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                        Kebijakan
+                    </button>
                 </li>
-                <li class="menu-item" id="aboutMenu">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                    </svg>
-                    Tentang Kami
+                <li>
+                    <button class="menu-item" id="aboutMenu">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                        Tentang Kami
+                    </button>
                 </li>
             </ul>
         </div>
@@ -764,12 +888,12 @@
     <div class="page" id="chatPage">
         <div class="chat-container">
             <div class="chat-header">
-                <div class="back-btn" id="backBtnChat">
+                <button class="back-btn" id="backBtnChat">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="19" y1="12" x2="5" y2="12"></line>
                         <polyline points="12 19 5 12 12 5"></polyline>
                     </svg>
-                </div>
+                </button>
                 <div class="chat-title">Talk With SuperNova</div>
             </div>
             
@@ -780,7 +904,7 @@
             </div>
             
             <div class="chat-input-area">
-                <input type="text" class="chat-input" id="messageInput" placeholder="Tulis pertanyaan...">
+                <input type="text" class="chat-input" id="messageInput" placeholder="Tulis pertanyaan..." autocomplete="off">
                 <button class="send-btn" id="sendBtn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="22" y1="2" x2="11" y2="13"></line>
@@ -798,34 +922,34 @@
             <p class="voice-subtitle">Hi, Fariz</p>
             <p class="voice-subtitle"><strong>Ada yang bisa saya bantu?</strong></p>
             
-            <div class="voice-icon" id="voiceIcon">
+            <button class="voice-icon" id="voiceIcon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
                     <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
                     <line x1="12" y1="19" x2="12" y2="23"></line>
                     <line x1="8" y1="23" x2="16" y2="23"></line>
                 </svg>
-            </div>
+            </button>
             
             <div class="voice-response" id="voiceResponse">
                 Akan Muncul Suara AI Atau teks Jawaban AI Disini
             </div>
             
             <div class="voice-controls">
-                <div class="voice-btn primary" id="startListening">
+                <button class="voice-btn primary" id="startListening">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
                         <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
                         <line x1="12" y1="19" x2="12" y2="23"></line>
                         <line x1="8" y1="23" x2="16" y2="23"></line>
                     </svg>
-                </div>
-                <div class="voice-btn" id="backBtnVoice">
+                </button>
+                <button class="voice-btn" id="backBtnVoice">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="19" y1="12" x2="5" y2="12"></line>
                         <polyline points="12 19 5 12 12 5"></polyline>
                     </svg>
-                </div>
+                </button>
             </div>
         </div>
     </div>
@@ -835,35 +959,65 @@
         const COHERE_API_KEY = 'Q0SDjtBTdABFnipUNG0RPUQS2uriNmpXlQXztD54'; // Ganti dengan API key Anda
         const COHERE_API_URL = 'https://api.cohere.ai/v1/chat';
         
+        // Inisialisasi aplikasi saat DOM siap
         document.addEventListener('DOMContentLoaded', function() {
-            // Elemen DOM
-            const loginPage = document.getElementById('loginPage');
-            const dashboardPage = document.getElementById('dashboardPage');
-            const chatPage = document.getElementById('chatPage');
-            const voicePage = document.getElementById('voicePage');
-            const loginGoogle = document.getElementById('loginGoogle');
-            const startNow = document.getElementById('startNow');
-            const menuBtn = document.getElementById('menuBtn');
-            const closeBtn = document.getElementById('closeBtn');
-            const sidebar = document.getElementById('sidebar');
-            const chatFeature = document.getElementById('chatFeature');
-            const voiceFeature = document.getElementById('voiceFeature');
-            const backBtnChat = document.getElementById('backBtnChat');
-            const backBtnVoice = document.getElementById('backBtnVoice');
-            const messageInput = document.getElementById('messageInput');
-            const sendBtn = document.getElementById('sendBtn');
-            const chatMessages = document.getElementById('chatMessages');
-            const voiceIcon = document.getElementById('voiceIcon');
-            const voiceResponse = document.getElementById('voiceResponse');
-            const startListening = document.getElementById('startListening');
-            const upgradeBtn = document.getElementById('upgradeBtn');
-            const textIdeas = document.getElementById('textIdeas');
+            // Debugging awal
+            console.log('Aplikasi SuperNova v1.2 dimuat');
             
-            // Variabel untuk Web Speech API
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            const SpeechSynthesis = window.speechSynthesis;
-            let recognition;
-            let isListening = false;
+            // ======================
+            // Inisialisasi Elemen DOM
+            // ======================
+            const pages = {
+                login: document.getElementById('loginPage'),
+                dashboard: document.getElementById('dashboardPage'),
+                chat: document.getElementById('chatPage'),
+                voice: document.getElementById('voicePage')
+            };
+            
+            const elements = {
+                // Login
+                loginGoogle: document.getElementById('loginGoogle'),
+                startNow: document.getElementById('startNow'),
+                appLogo: document.getElementById('appLogo'),
+                
+                // Dashboard
+                menuBtn: document.getElementById('menuBtn'),
+                sidebar: document.getElementById('sidebar'),
+                sidebarOverlay: document.getElementById('sidebarOverlay'),
+                closeBtn: document.getElementById('closeBtn'),
+                chatFeature: document.getElementById('chatFeature'),
+                voiceFeature: document.getElementById('voiceFeature'),
+                upgradeBtn: document.getElementById('upgradeBtn'),
+                textIdeas: document.getElementById('textIdeas'),
+                
+                // Chat
+                backBtnChat: document.getElementById('backBtnChat'),
+                messageInput: document.getElementById('messageInput'),
+                sendBtn: document.getElementById('sendBtn'),
+                chatMessages: document.getElementById('chatMessages'),
+                
+                // Voice
+                backBtnVoice: document.getElementById('backBtnVoice'),
+                voiceIcon: document.getElementById('voiceIcon'),
+                voiceResponse: document.getElementById('voiceResponse'),
+                startListening: document.getElementById('startListening'),
+                
+                // System
+                systemAlert: document.getElementById('systemAlert')
+            };
+            
+            // Menu sidebar
+            const menuItems = {
+                profile: document.getElementById('profileMenu'),
+                settings: document.getElementById('settingsMenu'),
+                privacy: document.getElementById('privacyMenu'),
+                policy: document.getElementById('policyMenu'),
+                about: document.getElementById('aboutMenu')
+            };
+            
+            // ======================
+            // Variabel Aplikasi
+            // ======================
             let chatHistory = [
                 {
                     role: "CHATBOT",
@@ -871,233 +1025,125 @@
                 }
             ];
             
-            // Inisialisasi Web Speech API
-            if (SpeechRecognition) {
-                recognition = new SpeechRecognition();
-                recognition.continuous = false;
-                recognition.interimResults = false;
-                recognition.lang = 'id-ID';
-                
-                recognition.onstart = function() {
-                    isListening = true;
-                    voiceIcon.classList.add('listening');
-                    voiceResponse.textContent = "Mendengarkan...";
-                };
-                
-                recognition.onresult = function(event) {
-                    const transcript = event.results[0][0].transcript;
-                    voiceResponse.textContent = transcript;
-                    processVoiceCommand(transcript);
-                };
-                
-                recognition.onerror = function(event) {
-                    console.error('Speech recognition error', event.error);
-                    voiceResponse.textContent = "Maaf, ada error: " + event.error;
-                    isListening = false;
-                    voiceIcon.classList.remove('listening');
-                };
-                
-                recognition.onend = function() {
-                    isListening = false;
-                    voiceIcon.classList.remove('listening');
-                };
-            } else {
-                voiceResponse.textContent = "Browser Anda tidak mendukung Web Speech API. Silakan gunakan browser modern seperti Chrome atau Edge.";
-                startListening.style.display = 'none';
-            }
+            let isListening = false;
+            let recognition;
+            let speechSynthesis = window.speechSynthesis;
             
-            // Navigasi halaman
+            // ======================
+            // Fungsi Utilitas
+            // ======================
+            
+            /**
+             * Menampilkan halaman tertentu dan menyembunyikan yang lain
+             * @param {HTMLElement} page - Elemen halaman yang akan ditampilkan
+             */
             function showPage(page) {
-                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-                page.classList.add('active');
-                
-                // Scroll ke bawah di halaman chat
-                if (page === chatPage) {
-                    setTimeout(() => {
-                        chatMessages.scrollTop = chatMessages.scrollHeight;
-                    }, 100);
-                }
-            }
-            
-            // Login dengan Google
-            loginGoogle.addEventListener('click', function() {
-                // Simulasi login dengan Google
-                alert('Redirect ke Google Login...');
-                showPage(dashboardPage);
-            });
-            
-            // Mulai sekarang (tanpa login)
-            startNow.addEventListener('click', function() {
-                showPage(dashboardPage);
-            });
-            
-            // Buka sidebar
-            menuBtn.addEventListener('click', function() {
-                sidebar.classList.add('open');
-            });
-            
-            // Tutup sidebar
-            closeBtn.addEventListener('click', function() {
-                sidebar.classList.remove('open');
-            });
-            
-            // Buka halaman chat
-            chatFeature.addEventListener('click', function() {
-                showPage(chatPage);
-            });
-            
-            // Buka halaman voice
-            voiceFeature.addEventListener('click', function() {
-                showPage(voicePage);
-            });
-            
-            // Kembali ke dashboard dari chat
-            backBtnChat.addEventListener('click', function() {
-                showPage(dashboardPage);
-            });
-            
-            // Kembali ke dashboard dari voice
-            backBtnVoice.addEventListener('click', function() {
-                showPage(dashboardPage);
-            });
-            
-            // Tombol upgrade
-            upgradeBtn.addEventListener('click', function() {
-                alert('Fitur premium akan segera hadir!');
-            });
-            
-            // Fitur coming soon
-            textIdeas.addEventListener('click', function() {
-                alert('Fitur "Buat ide dengan teks" akan segera hadir!');
-            });
-            
-            // Menu sidebar
-            document.querySelectorAll('.menu-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    const id = this.id;
-                    alert('Membuka halaman: ' + id.replace('Menu', ''));
-                    sidebar.classList.remove('open');
-                });
-            });
-            
-            // Kirim pesan teks
-            function sendMessage() {
-                const message = messageInput.value.trim();
-                if (message) {
-                    // Tambahkan pesan user ke history
-                    chatHistory.push({
-                        role: "USER",
-                        message: message
-                    });
-                    
-                    // Tambahkan pesan user ke UI
-                    const userBubble = document.createElement('div');
-                    userBubble.className = 'message-bubble user-message';
-                    userBubble.textContent = message;
-                    chatMessages.appendChild(userBubble);
-                    
-                    // Tambahkan loading indicator
-                    const loadingBubble = document.createElement('div');
-                    loadingBubble.className = 'message-bubble bot-message';
-                    loadingBubble.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
-                    chatMessages.appendChild(loadingBubble);
-                    
-                    // Kosongkan input
-                    messageInput.value = '';
-                    
-                    // Scroll ke bawah
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                    
-                    // Kirim ke Cohere API
-                    getAIResponse(message)
-                        .then(response => {
-                            // Hapus loading indicator
-                            chatMessages.removeChild(loadingBubble);
-                            
-                            // Tambahkan respon ke history
-                            chatHistory.push({
-                                role: "CHATBOT",
-                                message: response
-                            });
-                            
-                            // Tambahkan respon ke UI
-                            const botBubble = document.createElement('div');
-                            botBubble.className = 'message-bubble bot-message';
-                            botBubble.textContent = response;
-                            chatMessages.appendChild(botBubble);
-                            
-                            // Scroll ke bawah
-                            chatMessages.scrollTop = chatMessages.scrollHeight;
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            chatMessages.removeChild(loadingBubble);
-                            
-                            const errorBubble = document.createElement('div');
-                            errorBubble.className = 'message-bubble bot-message';
-                            errorBubble.textContent = 'Maaf, terjadi kesalahan. Silakan coba lagi.';
-                            chatMessages.appendChild(errorBubble);
-                            
-                            chatMessages.scrollTop = chatMessages.scrollHeight;
-                        });
-                }
-            }
-            
-            // Dapatkan respon dari Cohere AI
-            async function getAIResponse(message) {
                 try {
-                    const response = await fetch(COHERE_API_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${COHERE_API_KEY}`
-                        },
-                        body: JSON.stringify({
-                            model: "command-r-plus",
-                            chat_history: chatHistory,
-                            message: message,
-                            temperature: 0.7 // Untuk variasi respon yang lebih random
-                        })
+                    // Sembunyikan semua halaman
+                    Object.values(pages).forEach(p => {
+                        p.style.display = 'none';
+                        p.classList.remove('active');
                     });
                     
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
+                    // Tampilkan halaman yang dipilih
+                    page.style.display = 'flex';
+                    page.classList.add('active');
+                    
+                    // Scroll ke bawah untuk halaman chat
+                    if (page === pages.chat) {
+                        setTimeout(() => {
+                            elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+                        }, 100);
                     }
                     
-                    const data = await response.json();
-                    return data.text;
+                    console.log('Navigasi ke halaman:', page.id);
                 } catch (error) {
-                    console.error('Error fetching Cohere API:', error);
-                    
-                    // Fallback responses jika API error
-                    const fallbackResponses = [
-                        "Maaf, saya sedang mengalami kesalahan teknis. Bisakah Anda mengulangi pertanyaannya?",
-                        "Sepertinya ada masalah dengan koneksi saya. Apa Anda bisa mengulangi pertanyaannya?",
-                        "Saya tidak bisa memproses permintaan Anda saat ini. Silakan coba lagi nanti.",
-                        "Ada gangguan teknis. Bisakah Anda mengulangi pertanyaannya?"
-                    ];
-                    
-                    return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+                    showAlert('Terjadi kesalahan saat navigasi');
+                    console.error('Error dalam showPage:', error);
                 }
             }
             
-            // Proses perintah suara
-            function processVoiceCommand(transcript) {
-                voiceResponse.textContent = "Memproses: " + transcript;
+            /**
+             * Menampilkan alert sistem
+             * @param {string} message - Pesan yang akan ditampilkan
+             * @param {number} duration - Durasi tampilan (ms)
+             */
+            function showAlert(message, duration = 3000) {
+                elements.systemAlert.textContent = message;
+                elements.systemAlert.style.display = 'block';
                 
-                // Simpan ke history chat
+                setTimeout(() => {
+                    elements.systemAlert.style.display = 'none';
+                }, duration);
+            }
+            
+            /**
+             * Inisialisasi Web Speech API
+             */
+            function initSpeechRecognition() {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                
+                if (SpeechRecognition) {
+                    recognition = new SpeechRecognition();
+                    recognition.continuous = false;
+                    recognition.interimResults = false;
+                    recognition.lang = 'id-ID';
+                    
+                    recognition.onstart = function() {
+                        isListening = true;
+                        elements.voiceIcon.classList.add('listening');
+                        elements.voiceResponse.textContent = "Mendengarkan...";
+                        console.log('Speech recognition started');
+                    };
+                    
+                    recognition.onresult = function(event) {
+                        const transcript = event.results[0][0].transcript;
+                        console.log('Speech recognized:', transcript);
+                        elements.voiceResponse.textContent = transcript;
+                        processVoiceCommand(transcript);
+                    };
+                    
+                    recognition.onerror = function(event) {
+                        console.error('Speech recognition error:', event.error);
+                        showAlert('Error pengenalan suara: ' + event.error);
+                        isListening = false;
+                        elements.voiceIcon.classList.remove('listening');
+                    };
+                    
+                    recognition.onend = function() {
+                        isListening = false;
+                        elements.voiceIcon.classList.remove('listening');
+                        console.log('Speech recognition ended');
+                    };
+                } else {
+                    console.warn('Web Speech API tidak didukung di browser ini');
+                    elements.startListening.style.display = 'none';
+                    elements.voiceResponse.textContent = "Browser Anda tidak mendukung fitur suara. Silakan gunakan Chrome atau Edge.";
+                }
+            }
+            
+            /**
+             * Memproses perintah suara
+             * @param {string} command - Perintah suara yang diucapkan pengguna
+             */
+            function processVoiceCommand(command) {
+                console.log('Memproses perintah suara:', command);
+                elements.voiceResponse.textContent = "Memproses: " + command;
+                
+                // Tambahkan ke history chat
                 chatHistory.push({
                     role: "USER",
-                    message: transcript
+                    message: command
                 });
                 
                 // Dapatkan respon dari AI
-                getAIResponse(transcript)
+                getAIResponse(command)
                     .then(response => {
-                        voiceResponse.textContent = response;
+                        console.log('Respon AI:', response);
+                        elements.voiceResponse.textContent = response;
                         
                         // Bicarkan respon
-                        if (SpeechSynthesis) {
+                        if (speechSynthesis) {
                             const utterance = new SpeechSynthesisUtterance(response);
                             utterance.lang = 'id-ID';
                             speechSynthesis.speak(utterance);
@@ -1110,28 +1156,339 @@
                         });
                     })
                     .catch(error => {
-                        console.error('Error:', error);
-                        voiceResponse.textContent = "Maaf, terjadi kesalahan. Silakan coba lagi.";
+                        console.error('Error dalam processVoiceCommand:', error);
+                        elements.voiceResponse.textContent = "Maaf, terjadi kesalahan. Silakan coba lagi.";
+                        showAlert('Error memproses perintah suara');
                     });
             }
             
-            // Mulai mendengarkan suara
-            startListening.addEventListener('click', function() {
+            /**
+             * Mendapatkan respon dari Cohere AI
+             * @param {string} message - Pesan pengguna
+             * @returns {Promise<string>} - Respon dari AI
+             */
+            async function getAIResponse(message) {
+                try {
+                    // Jika API key tidak diisi, gunakan respon lokal
+                    if (!COHERE_API_KEY || COHERE_API_KEY === 'YOUR_COHERE_API_KEY') {
+                        console.warn('Cohere API key tidak ditemukan, menggunakan respon lokal');
+                        return getLocalAIResponse(message);
+                    }
+                    
+                    const response = await fetch(COHERE_API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${COHERE_API_KEY}`
+                        },
+                        body: JSON.stringify({
+                            model: "command-r-plus",
+                            chat_history: chatHistory,
+                            message: message,
+                            temperature: 0.7
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    return data.text;
+                } catch (error) {
+                    console.error('Error dalam getAIResponse:', error);
+                    // Fallback ke respon lokal jika API error
+                    return getLocalAIResponse(message);
+                }
+            }
+            
+            /**
+             * Respon lokal ketika Cohere API tidak tersedia
+             * @param {string} message - Pesan pengguna
+             * @returns {string} - Respon lokal
+             */
+            function getLocalAIResponse(message) {
+                const lowerMsg = message.toLowerCase();
+                
+                const responses = {
+                    greeting: [
+                        "Halo Fariz! Ada yang bisa saya bantu?",
+                        "Hai! Senang bertemu dengan Anda. Ada yang bisa saya bantu?",
+                        "Halo! Saya SuperNova, asisten AI Anda."
+                    ],
+                    name: [
+                        "Nama saya SuperNova, asisten AI Anda.",
+                        "Saya SuperNova, siap membantu Anda!",
+                        "Panggil saya SuperNova, asisten virtual Anda."
+                    ],
+                    feature: [
+                        "Saya bisa membantu menjawab pertanyaan, memberikan rekomendasi, dan banyak lagi. Coba tanyakan sesuatu!",
+                        "Fitur saya termasuk chat, voice command, dan berbagai solusi AI. Apa yang Anda butuhkan?",
+                        "Saya bisa membantu dengan berbagai tugas. Coba tanyakan sesuatu spesifik."
+                    ],
+                    thanks: [
+                        "Sama-sama Fariz! Senang bisa membantu.",
+                        "Terima kasih kembali!",
+                        "Dengan senang hati!"
+                    ],
+                    default: [
+                        "Saya mengerti pertanyaan Anda: \"" + message + "\". Saat ini saya masih dalam pengembangan, tetapi saya akan terus belajar untuk membantu Anda lebih baik.",
+                        "Pertanyaan yang menarik! Saya akan mencoba membantu dengan: \"" + message + "\".",
+                        "Saya mencatat pertanyaan Anda tentang \"" + message + "\". Mari kita bahas lebih lanjut."
+                    ]
+                };
+                
+                if (lowerMsg.includes('halo') || lowerMsg.includes('hai') || lowerMsg.includes('hi')) {
+                    return responses.greeting[Math.floor(Math.random() * responses.greeting.length)];
+                } else if (lowerMsg.includes('nama') && lowerMsg.includes('kamu')) {
+                    return responses.name[Math.floor(Math.random() * responses.name.length)];
+                } else if (lowerMsg.includes('fitur') || lowerMsg.includes('bisa apa')) {
+                    return responses.feature[Math.floor(Math.random() * responses.feature.length)];
+                } else if (lowerMsg.includes('terima kasih') || lowerMsg.includes('thanks')) {
+                    return responses.thanks[Math.floor(Math.random() * responses.thanks.length)];
+                } else {
+                    return responses.default[Math.floor(Math.random() * responses.default.length)];
+                }
+            }
+            
+            /**
+             * Mengirim pesan teks
+             */
+            function sendMessage() {
+                const message = elements.messageInput.value.trim();
+                if (!message) return;
+                
+                try {
+                    // Disable input sementara
+                    elements.messageInput.disabled = true;
+                    elements.sendBtn.disabled = true;
+                    
+                    // Tambahkan pesan user ke history
+                    chatHistory.push({
+                        role: "USER",
+                        message: message
+                    });
+                    
+                    // Tambahkan pesan user ke UI
+                    const userBubble = document.createElement('div');
+                    userBubble.className = 'message-bubble user-message';
+                    userBubble.textContent = message;
+                    elements.chatMessages.appendChild(userBubble);
+                    
+                    // Tambahkan loading indicator
+                    const loadingBubble = document.createElement('div');
+                    loadingBubble.className = 'message-bubble bot-message';
+                    loadingBubble.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+                    elements.chatMessages.appendChild(loadingBubble);
+                    
+                    // Kosongkan input
+                    elements.messageInput.value = '';
+                    
+                    // Scroll ke bawah
+                    elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+                    
+                    // Kirim ke AI
+                    getAIResponse(message)
+                        .then(response => {
+                            // Hapus loading indicator
+                            elements.chatMessages.removeChild(loadingBubble);
+                            
+                            // Tambahkan respon ke history
+                            chatHistory.push({
+                                role: "CHATBOT",
+                                message: response
+                            });
+                            
+                            // Tambahkan respon ke UI
+                            const botBubble = document.createElement('div');
+                            botBubble.className = 'message-bubble bot-message';
+                            botBubble.textContent = response;
+                            elements.chatMessages.appendChild(botBubble);
+                            
+                            // Scroll ke bawah
+                            elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+                        })
+                        .catch(error => {
+                            console.error('Error dalam sendMessage:', error);
+                            elements.chatMessages.removeChild(loadingBubble);
+                            
+                            const errorBubble = document.createElement('div');
+                            errorBubble.className = 'message-bubble bot-message';
+                            errorBubble.textContent = 'Maaf, terjadi kesalahan. Silakan coba lagi.';
+                            elements.chatMessages.appendChild(errorBubble);
+                            
+                            elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+                        })
+                        .finally(() => {
+                            // Enable input kembali
+                            elements.messageInput.disabled = false;
+                            elements.sendBtn.disabled = false;
+                            elements.messageInput.focus();
+                        });
+                } catch (error) {
+                    console.error('Error dalam sendMessage:', error);
+                    showAlert('Terjadi kesalahan saat mengirim pesan');
+                    
+                    // Enable input kembali
+                    elements.messageInput.disabled = false;
+                    elements.sendBtn.disabled = false;
+                    elements.messageInput.focus();
+                }
+            }
+            
+            // ======================
+            // Event Listeners
+            // ======================
+            
+            // Navigasi halaman
+            elements.loginGoogle.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Login dengan Google diklik');
+                showPage(pages.dashboard);
+            });
+            
+            elements.startNow.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Mulai Sekarang diklik');
+                showPage(pages.dashboard);
+            });
+            
+            elements.chatFeature.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Chat feature diklik');
+                showPage(pages.chat);
+            });
+            
+            elements.voiceFeature.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Voice feature diklik');
+                showPage(pages.voice);
+            });
+            
+            elements.backBtnChat.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Kembali dari chat');
+                showPage(pages.dashboard);
+            });
+            
+            elements.backBtnVoice.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Kembali dari voice');
+                showPage(pages.dashboard);
+            });
+            
+            // Sidebar
+            elements.menuBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Menu diklik');
+                elements.sidebar.classList.add('open');
+                elements.sidebarOverlay.classList.add('open');
+            });
+            
+            elements.closeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Close sidebar diklik');
+                elements.sidebar.classList.remove('open');
+                elements.sidebarOverlay.classList.remove('open');
+            });
+            
+            elements.sidebarOverlay.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Overlay diklik');
+                elements.sidebar.classList.remove('open');
+                elements.sidebarOverlay.classList.remove('open');
+            });
+            
+            // Menu sidebar
+            Object.values(menuItems).forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const id = this.id.replace('Menu', '');
+                    console.log('Menu item diklik:', id);
+                    showAlert(`Membuka halaman: ${id}`);
+                    elements.sidebar.classList.remove('open');
+                    elements.sidebarOverlay.classList.remove('open');
+                });
+            });
+            
+            // Fitur lainnya
+            elements.upgradeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Upgrade diklik');
+                showAlert('Fitur premium akan segera hadir!');
+            });
+            
+            elements.textIdeas.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Text ideas diklik');
+                showAlert('Fitur "Buat ide dengan teks" akan segera hadir!');
+            });
+            
+            // Chat
+            elements.sendBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Send diklik');
+                sendMessage();
+            });
+            
+            elements.messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    console.log('Enter ditekan');
+                    sendMessage();
+                }
+            });
+            
+            // Voice
+            elements.startListening.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Start listening diklik');
+                
+                if (!recognition) {
+                    showAlert('Browser tidak mendukung pengenalan suara');
+                    return;
+                }
+                
                 if (!isListening) {
-                    recognition.start();
+                    try {
+                        recognition.start();
+                    } catch (error) {
+                        console.error('Error starting recognition:', error);
+                        showAlert('Error memulai pengenalan suara');
+                    }
                 } else {
                     recognition.stop();
                 }
             });
             
-            // Event listeners
-            sendBtn.addEventListener('click', sendMessage);
+            // Logo error handling
+            elements.appLogo.onerror = function() {
+                console.log('Logo tidak ditemukan, menggunakan placeholder SVG');
+                this.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="var(--primary)"><path d="M12 2L4 7l8 5 8-5-8-5zm0 9L4 7l8 5 8-5-8 5zm0 9l-8-5 8-5 8 5-8 5z"/></svg>';
+            };
             
-            messageInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    sendMessage();
-                }
+            // ======================
+            // Inisialisasi Aplikasi
+            // ======================
+            
+            // Cek fitur browser
+            if (!window.fetch) {
+                showAlert('Browser Anda tidak mendukung fitur fetch. Silakan gunakan browser modern.');
+            }
+            
+            // Inisialisasi Web Speech API
+            initSpeechRecognition();
+            
+            // Fokus ke input pesan saat halaman chat dibuka
+            elements.messageInput.addEventListener('focus', function() {
+                console.log('Input chat difokuskan');
+                // Pastikan keyboard tidak menutupi input di mobile
+                setTimeout(() => {
+                    elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+                }, 300);
             });
+            
+            console.log('Aplikasi SuperNova v1.2 siap digunakan');
         });
     </script>
 </body>
