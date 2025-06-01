@@ -1,583 +1,451 @@
-<html class="dark bg-gray-900 text-gray-100" lang="id">
+<html class="scroll-smooth" lang="id">
  <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1" name="viewport"/>
   <title>
-   LifeAI - Platform AI Serba Bisa
+   LifeAI Chatbot - AI Assistant All-in-One
   </title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
   <style>
    body {
       font-family: 'Inter', sans-serif;
     }
-    /* Gradient animated text */
-    .gradient-text {
-      background: linear-gradient(270deg, #ff0057, #fffd00, #00ff99, #0055ff, #ff0057);
-      background-size: 1000% 1000%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: gradientShift 10s ease infinite;
+    /* Scrollbar for chat */
+    #chatMessages::-webkit-scrollbar {
+      width: 8px;
     }
-    @keyframes gradientShift {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-    /* Morph slide fade up animation */
-    .morph-slide-fade-up {
-      opacity: 0;
-      transform: translateY(20px) scale(0.95);
-      animation: morphSlideFadeUp 1.2s ease forwards;
-    }
-    .morph-slide-fade-up:nth-child(1) {
-      animation-delay: 0.3s;
-    }
-    .morph-slide-fade-up:nth-child(2) {
-      animation-delay: 0.6s;
-    }
-    .morph-slide-fade-up:nth-child(3) {
-      animation-delay: 0.9s;
-    }
-    .morph-slide-fade-up:nth-child(4) {
-      animation-delay: 1.2s;
-    }
-    .morph-slide-fade-up:nth-child(5) {
-      animation-delay: 1.5s;
-    }
-    @keyframes morphSlideFadeUp {
-      0% {
-        opacity: 0;
-        transform: translateY(20px) scale(0.95);
-        filter: blur(4px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        filter: blur(0);
-      }
-    }
-    /* Splash screen full overlay */
-    #splashScreen {
-      position: fixed;
-      inset: 0;
-      background-color: #111827;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      user-select: none;
-    }
-    /* Animated circles */
-    .circle {
-      border-radius: 50%;
-      border: 3px solid transparent;
-      border-top-color: #6366f1;
-      width: 60px;
-      height: 60px;
-      margin: 10px;
-      animation: spin 1.5s linear infinite;
-    }
-    .circle:nth-child(2) {
-      border-top-color: #ec4899;
-      width: 40px;
-      height: 40px;
-      animation-duration: 1s;
-      animation-direction: reverse;
-    }
-    .circle:nth-child(3) {
-      border-top-color: #10b981;
-      width: 20px;
-      height: 20px;
-      animation-duration: 2s;
-    }
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
+    #chatMessages::-webkit-scrollbar-thumb {
+      background-color: #a0aec0;
+      border-radius: 4px;
     }
   </style>
  </head>
- <body class="dark bg-gray-900 text-gray-100 min-h-screen flex flex-col">
-  <!-- Splash Screen -->
-  <div id="splashScreen" aria-label="Intro splash screen LifeAI">
-   <div class="flex space-x-6 mb-8">
-    <div class="circle" aria-hidden="true"></div>
-    <div class="circle" aria-hidden="true"></div>
-    <div class="circle" aria-hidden="true"></div>
-   </div>
-   <h1 class="text-5xl font-extrabold gradient-text morph-slide-fade-up select-none">
-    LifeAI
-   </h1>
-   <p class="mt-4 text-xl text-center max-w-xl morph-slide-fade-up" style="animation-delay:1.8s;">
-    Platform AI serba bisa untuk generasi masa depan.
-   </p>
-  </div>
-  <header class="bg-gray-800 shadow-md sticky top-0 z-50">
-   <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+ <body class="bg-gray-50 min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
     <div class="flex items-center space-x-3">
-     <img alt="Logo LifeAI berwarna ungu dengan tulisan AI" class="w-12 h-12 rounded-md" height="48" src="https://storage.googleapis.com/a1aa/image/ac59928d-e902-4c9f-357f-9b7b7ea35e15.jpg" width="48"/>
-     <h1 class="text-2xl font-bold text-indigo-400">
-      LifeAI
+     <img alt="LifeAI logo, stylized letters L and AI in blue and white" class="w-10 h-10 rounded-md" height="40" src="https://storage.googleapis.com/a1aa/image/e40c1e92-69b8-4a4d-4a8a-fc234207e7ec.jpg" width="40"/>
+     <h1 class="text-2xl font-semibold text-blue-700 select-none">
+      LifeAI Chatbot
      </h1>
     </div>
-    <nav class="hidden md:flex space-x-6 font-semibold text-gray-300" id="desktopMenu">
-     <a class="hover:text-indigo-400 transition" href="#hd-image">
-      HD Image
+    <nav class="hidden md:flex space-x-6 text-gray-700 font-medium">
+     <a class="hover:text-blue-600 transition" href="#chat">
+      Chat
      </a>
-     <a class="hover:text-indigo-400 transition" href="#generate-image">
-      Generate Image
+     <a class="hover:text-blue-600 transition" href="#image-gen">
+      Buat Gambar
      </a>
-     <a class="hover:text-indigo-400 transition" href="#text-to-video">
+     <a class="hover:text-blue-600 transition" href="#video-gen">
       Teks ke Video
      </a>
-     <a class="hover:text-indigo-400 transition" href="#create-html">
+     <a class="hover:text-blue-600 transition" href="#code-gen">
       Buat Kode HTML
      </a>
-     <a class="hover:text-indigo-400 transition" href="#translation">
-      Terjemahan
+     <a class="hover:text-blue-600 transition" href="#doc-analysis">
+      Analisis Dokumen
      </a>
-     <a class="hover:text-indigo-400 transition" href="#exam-grader">
-      Hitung Nilai Ujian
-     </a>
-     <a class="hover:text-indigo-400 transition" href="#study-helper">
-      Bantu Jawab Soal
-     </a>
-     <a class="hover:text-indigo-400 transition" href="#settings">
-      Setting
+     <a class="hover:text-blue-600 transition" href="#question-answer">
+      Jawab Soal
      </a>
     </nav>
-    <button aria-label="Toggle menu" class="md:hidden text-indigo-400 focus:outline-none" id="mobile-menu-button" aria-expanded="false" aria-controls="mobileMenu">
-     <i class="fas fa-bars fa-lg"></i>
+    <button aria-label="Toggle menu" class="md:hidden text-gray-700 hover:text-blue-600 focus:outline-none" id="mobileMenuBtn">
+     <i class="fas fa-bars fa-lg">
+     </i>
     </button>
    </div>
-   <nav aria-label="Mobile menu" class="hidden md:hidden bg-gray-800 border-t border-gray-700" id="mobileMenu">
-    <a class="block px-4 py-3 border-b border-gray-700 hover:bg-indigo-900 text-indigo-400 font-semibold" href="#hd-image">
-     HD Image
+   <nav class="md:hidden bg-white border-t border-gray-200 hidden flex-col space-y-2 px-4 py-3" id="mobileMenu">
+    <a class="block text-gray-700 font-medium hover:text-blue-600" href="#chat">
+     Chat
     </a>
-    <a class="block px-4 py-3 border-b border-gray-700 hover:bg-indigo-900 text-indigo-400 font-semibold" href="#generate-image">
-     Generate Image
+    <a class="block text-gray-700 font-medium hover:text-blue-600" href="#image-gen">
+     Buat Gambar
     </a>
-    <a class="block px-4 py-3 border-b border-gray-700 hover:bg-indigo-900 text-indigo-400 font-semibold" href="#text-to-video">
+    <a class="block text-gray-700 font-medium hover:text-blue-600" href="#video-gen">
      Teks ke Video
     </a>
-    <a class="block px-4 py-3 border-b border-gray-700 hover:bg-indigo-900 text-indigo-400 font-semibold" href="#create-html">
+    <a class="block text-gray-700 font-medium hover:text-blue-600" href="#code-gen">
      Buat Kode HTML
     </a>
-    <a class="block px-4 py-3 border-b border-gray-700 hover:bg-indigo-900 text-indigo-400 font-semibold" href="#translation">
-     Terjemahan
+    <a class="block text-gray-700 font-medium hover:text-blue-600" href="#doc-analysis">
+     Analisis Dokumen
     </a>
-    <a class="block px-4 py-3 border-b border-gray-700 hover:bg-indigo-900 text-indigo-400 font-semibold" href="#exam-grader">
-     Hitung Nilai Ujian
-    </a>
-    <a class="block px-4 py-3 hover:bg-indigo-900 text-indigo-400 font-semibold" href="#study-helper">
-     Bantu Jawab Soal
-    </a>
-    <a class="block px-4 py-3 hover:bg-indigo-900 text-indigo-400 font-semibold" href="#settings">
-     Setting
+    <a class="block text-gray-700 font-medium hover:text-blue-600" href="#question-answer">
+     Jawab Soal
     </a>
    </nav>
   </header>
-  <main class="flex-grow container mx-auto px-4 py-8 space-y-16">
-   <!-- HD Image Section -->
-   <section class="bg-gray-800 rounded-lg shadow p-6" id="hd-image">
-    <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center space-x-3">
-     <i class="fas fa-image"></i>
-     <span>HD Image Generator</span>
+  <!-- Main Content -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
+   <!-- Chat Section -->
+   <section class="bg-white rounded-lg shadow p-6" id="chat">
+    <h2 class="text-3xl font-semibold text-blue-700 mb-4 flex items-center space-x-3">
+     <i class="fas fa-robot">
+     </i>
+     <span>
+      Chat dengan LifeAI
+     </span>
     </h2>
-    <form class="space-y-4" id="hdImageForm">
-     <label class="block font-semibold text-gray-300" for="hdImagePrompt">Deskripsi Gambar HD</label>
-     <input class="w-full border border-gray-600 rounded-md px-3 py-2 bg-gray-900 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500" id="hdImagePrompt" name="hdImagePrompt" placeholder="Contoh: Pemandangan gunung dengan langit biru cerah" required="" type="text"/>
-     <button class="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition" type="submit">Generate HD Image</button>
+    <div aria-atomic="false" aria-live="polite" class="h-96 overflow-y-auto border border-gray-300 rounded-md p-4 mb-4 bg-gray-50" id="chatMessages">
+     <!-- Chat messages will appear here -->
+    </div>
+    <form aria-label="Form chat LifeAI" class="flex space-x-3" id="chatForm">
+     <input aria-label="Input pesan chat" aria-required="true" class="flex-grow border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="chatInput" placeholder="Tulis pesan Anda..." required="" type="text"/>
+     <button aria-label="Kirim pesan" class="bg-blue-600 hover:bg-blue-700 text-white rounded-md px-5 py-2 font-semibold flex items-center space-x-2" type="submit">
+      <i class="fas fa-paper-plane">
+      </i>
+      <span>
+       Kirim
+      </span>
+     </button>
     </form>
-    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" id="hdImageResult"></div>
    </section>
-   <!-- Generate Image Section -->
-   <section class="bg-gray-800 rounded-lg shadow p-6" id="generate-image">
-    <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center space-x-3">
-     <i class="fas fa-paint-brush"></i>
-     <span>Generate Image</span>
+   <!-- Image Generation Section -->
+   <section class="bg-white rounded-lg shadow p-6" id="image-gen">
+    <h2 class="text-3xl font-semibold text-blue-700 mb-4 flex items-center space-x-3">
+     <i class="fas fa-image">
+     </i>
+     <span>
+      Buat Gambar HD
+     </span>
     </h2>
-    <form class="space-y-4" id="generateImageForm">
-     <label class="block font-semibold text-gray-300" for="generateImagePrompt">Deskripsi Gambar</label>
-     <input class="w-full border border-gray-600 rounded-md px-3 py-2 bg-gray-900 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500" id="generateImagePrompt" name="generateImagePrompt" placeholder="Contoh: Robot futuristik di kota malam" required="" type="text"/>
-     <button class="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition" type="submit">Generate Image</button>
+    <form aria-label="Form buat gambar HD" class="space-y-4" id="imageForm">
+     <label class="block font-medium text-gray-700" for="imagePrompt">
+      Deskripsi Gambar
+     </label>
+     <input aria-required="true" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="imagePrompt" placeholder="Contoh: Pemandangan gunung dengan danau di pagi hari" required="" type="text"/>
+     <button aria-label="Buat gambar" class="bg-blue-600 hover:bg-blue-700 text-white rounded-md px-6 py-2 font-semibold flex items-center space-x-2" type="submit">
+      <i class="fas fa-paint-brush">
+      </i>
+      <span>
+       Buat Gambar
+      </span>
+     </button>
     </form>
-    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" id="generateImageResult"></div>
+    <div class="mt-6 grid justify-center" id="imageResult">
+     <!-- Generated image will appear here -->
+    </div>
    </section>
    <!-- Text to Video Section -->
-   <section class="bg-gray-800 rounded-lg shadow p-6" id="text-to-video">
-    <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center space-x-3">
-     <i class="fas fa-video"></i>
-     <span>Teks ke Video</span>
+   <section class="bg-white rounded-lg shadow p-6" id="video-gen">
+    <h2 class="text-3xl font-semibold text-blue-700 mb-4 flex items-center space-x-3">
+     <i class="fas fa-video">
+     </i>
+     <span>
+      Buat Video dari Teks
+     </span>
     </h2>
-    <form class="space-y-4" id="textToVideoForm">
-     <label class="block font-semibold text-gray-300" for="videoText">Deskripsi Video</label>
-     <textarea class="w-full border border-gray-600 rounded-md px-3 py-2 bg-gray-900 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none" id="videoText" name="videoText" placeholder="Contoh: Video animasi tentang proses fotosintesis" required="" rows="4"></textarea>
-     <button class="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition" type="submit">Generate Video</button>
+    <form aria-label="Form buat video dari teks" class="space-y-4" id="videoForm">
+     <label class="block font-medium text-gray-700" for="videoPrompt">
+      Deskripsi Video
+     </label>
+     <textarea aria-required="true" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="videoPrompt" placeholder="Contoh: Video animasi tentang proses fotosintesis" required="" rows="3"></textarea>
+     <button aria-label="Buat video" class="bg-blue-600 hover:bg-blue-700 text-white rounded-md px-6 py-2 font-semibold flex items-center space-x-2" type="submit">
+      <i class="fas fa-play-circle">
+      </i>
+      <span>
+       Buat Video
+      </span>
+     </button>
     </form>
-    <div class="mt-6" id="textToVideoResult"></div>
+    <div class="mt-6 flex justify-center" id="videoResult">
+     <!-- Generated video or video player will appear here -->
+    </div>
    </section>
-   <!-- Create HTML Code Section -->
-   <section class="bg-gray-800 rounded-lg shadow p-6" id="create-html">
-    <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center space-x-3">
-     <i class="fas fa-code"></i>
-     <span>Buat Kode HTML</span>
+   <!-- HTML Code Generation Section -->
+   <section class="bg-white rounded-lg shadow p-6" id="code-gen">
+    <h2 class="text-3xl font-semibold text-blue-700 mb-4 flex items-center space-x-3">
+     <i class="fas fa-code">
+     </i>
+     <span>
+      Buat Kode HTML
+     </span>
     </h2>
-    <form class="space-y-4" id="createHtmlForm">
-     <label class="block font-semibold text-gray-300" for="htmlDescription">Deskripsi Kode HTML</label>
-     <textarea class="w-full border border-gray-600 rounded-md px-3 py-2 bg-gray-900 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none" id="htmlDescription" name="htmlDescription" placeholder="Contoh: Form login sederhana dengan tombol biru" required="" rows="4"></textarea>
-     <button class="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition" type="submit">Generate Kode HTML</button>
+    <form aria-label="Form buat kode HTML" class="space-y-4" id="codeForm">
+     <label class="block font-medium text-gray-700" for="codePrompt">
+      Deskripsi Kode HTML
+     </label>
+     <textarea aria-required="true" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="codePrompt" placeholder="Contoh: Form login sederhana dengan dua input dan tombol submit" required="" rows="4"></textarea>
+     <button aria-label="Buat kode HTML" class="bg-blue-600 hover:bg-blue-700 text-white rounded-md px-6 py-2 font-semibold flex items-center space-x-2" type="submit">
+      <i class="fas fa-file-code">
+      </i>
+      <span>
+       Buat Kode
+      </span>
+     </button>
     </form>
-    <div class="mt-6 bg-gray-900 rounded-md p-4 overflow-x-auto font-mono text-sm text-gray-100 whitespace-pre-wrap" id="createHtmlResult"></div>
+    <div class="mt-6 bg-gray-100 rounded-md p-4 overflow-x-auto font-mono text-sm text-gray-800 whitespace-pre-wrap" id="codeResult">
+    </div>
    </section>
-   <!-- Translation Section -->
-   <section class="bg-gray-800 rounded-lg shadow p-6" id="translation">
-    <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center space-x-3">
-     <i class="fas fa-language"></i>
-     <span>Terjemahan Semua Bahasa</span>
+   <!-- Document Analysis Section -->
+   <section class="bg-white rounded-lg shadow p-6" id="doc-analysis">
+    <h2 class="text-3xl font-semibold text-blue-700 mb-4 flex items-center space-x-3">
+     <i class="fas fa-file-alt">
+     </i>
+     <span>
+      Analisis Dokumen
+     </span>
     </h2>
-    <form class="space-y-4" id="translationForm">
-     <label class="block font-semibold text-gray-300" for="translationText">Teks yang akan diterjemahkan</label>
-     <textarea class="w-full border border-gray-600 rounded-md px-3 py-2 bg-gray-900 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none" id="translationText" name="translationText" placeholder="Masukkan teks di sini" required="" rows="4"></textarea>
-     <label class="block font-semibold text-gray-300" for="targetLanguage">Bahasa Tujuan</label>
-     <select class="w-full border border-gray-600 rounded-md px-3 py-2 bg-gray-900 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500" id="targetLanguage" name="targetLanguage" required="">
-      <option disabled="" selected="" value="">Pilih bahasa</option>
-      <option value="en">Inggris</option>
-      <option value="id">Indonesia</option>
-      <option value="ja">Jepang</option>
-      <option value="zh">Mandarin</option>
-      <option value="es">Spanyol</option>
-      <option value="fr">Prancis</option>
-      <option value="de">Jerman</option>
-      <option value="ar">Arab</option>
-      <option value="ru">Rusia</option>
-      <option value="ko">Korea</option>
-      <option value="hi">Hindi</option>
-      <option value="pt">Portugis</option>
-      <option value="it">Italia</option>
-      <option value="tr">Turki</option>
-      <option value="vi">Vietnam</option>
-      <option value="th">Thailand</option>
-      <option value="ms">Melayu</option>
-      <option value="nl">Belanda</option>
-      <option value="sv">Swedia</option>
-      <option value="pl">Polandia</option>
-     </select>
-     <button class="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition" type="submit">Terjemahkan</button>
+    <form aria-label="Form analisis dokumen" class="space-y-4" id="docForm">
+     <label class="block font-medium text-gray-700" for="docText">
+      Masukkan Teks Dokumen
+     </label>
+     <textarea aria-required="true" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="docText" placeholder="Tempelkan teks dokumen yang ingin dianalisis di sini..." required="" rows="6"></textarea>
+     <button aria-label="Analisis dokumen" class="bg-blue-600 hover:bg-blue-700 text-white rounded-md px-6 py-2 font-semibold flex items-center space-x-2" type="submit">
+      <i class="fas fa-search">
+      </i>
+      <span>
+       Analisis
+      </span>
+     </button>
     </form>
-    <div class="mt-6 bg-gray-900 rounded-md p-4 text-gray-100 whitespace-pre-wrap min-h-[80px]" id="translationResult"></div>
+    <div class="mt-6 bg-gray-50 rounded-md p-4 text-gray-800 whitespace-pre-wrap" id="docResult">
+    </div>
    </section>
-   <!-- Exam Grader Section -->
-   <section class="bg-gray-800 rounded-lg shadow p-6" id="exam-grader">
-    <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center space-x-3">
-     <i class="fas fa-calculator"></i>
-     <span>Hitung Nilai Ujian Otomatis</span>
+   <!-- Question Answer Section -->
+   <section class="bg-white rounded-lg shadow p-6" id="question-answer">
+    <h2 class="text-3xl font-semibold text-blue-700 mb-4 flex items-center space-x-3">
+     <i class="fas fa-question-circle">
+     </i>
+     <span>
+      Bantu Jawab Soal
+     </span>
     </h2>
-    <form class="space-y-4" id="examGraderForm">
-     <label class="block font-semibold text-gray-300" for="examAnswers">Masukkan Jawaban Ujian (format JSON)</label>
-     <textarea class="w-full border border-gray-600 rounded-md px-3 py-2 bg-gray-900 text-gray-100 font-mono placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none" id="examAnswers" name="examAnswers" placeholder='Contoh: {"soal1":"A","soal2":"B","soal3":"C"}' required="" rows="6"></textarea>
-     <label class="block font-semibold text-gray-300" for="answerKey">Kunci Jawaban (format JSON)</label>
-     <textarea class="w-full border border-gray-600 rounded-md px-3 py-2 bg-gray-900 text-gray-100 font-mono placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none" id="answerKey" name="answerKey" placeholder='Contoh: {"soal1":"A","soal2":"B","soal3":"D"}' required="" rows="6"></textarea>
-     <button class="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition" type="submit">Hitung Nilai</button>
+    <form aria-label="Form bantu jawab soal" class="space-y-4" id="qaForm">
+     <label class="block font-medium text-gray-700" for="qaQuestion">
+      Masukkan Soal / Pertanyaan
+     </label>
+     <textarea aria-required="true" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="qaQuestion" placeholder="Tulis soal atau pertanyaan yang ingin dijawab..." required="" rows="4"></textarea>
+     <button aria-label="Jawab soal" class="bg-blue-600 hover:bg-blue-700 text-white rounded-md px-6 py-2 font-semibold flex items-center space-x-2" type="submit">
+      <i class="fas fa-lightbulb">
+      </i>
+      <span>
+       Jawab
+      </span>
+     </button>
     </form>
-    <div class="mt-6 bg-gray-900 rounded-md p-4 text-gray-100 whitespace-pre-wrap min-h-[60px]" id="examGraderResult"></div>
-   </section>
-   <!-- Study Helper Section -->
-   <section class="bg-gray-800 rounded-lg shadow p-6" id="study-helper">
-    <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center space-x-3">
-     <i class="fas fa-book-reader"></i>
-     <span>Bantu Jawab Soal Semua Materi Pelajaran Indonesia</span>
-    </h2>
-    <form class="space-y-4" id="studyHelperForm">
-     <label class="block font-semibold text-gray-300" for="studyQuestion">Masukkan Soal Pelajaran</label>
-     <textarea class="w-full border border-gray-600 rounded-md px-3 py-2 bg-gray-900 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none" id="studyQuestion" name="studyQuestion" placeholder="Contoh: Jelaskan proses terjadinya fotosintesis pada tumbuhan." required="" rows="5"></textarea>
-     <button class="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition" type="submit">Jawab Soal</button>
-    </form>
-    <div class="mt-6 bg-gray-900 rounded-md p-4 text-gray-100 whitespace-pre-wrap min-h-[80px]" id="studyHelperResult"></div>
-   </section>
-   <!-- Settings Section -->
-   <section class="bg-gray-800 rounded-lg shadow p-6" id="settings">
-    <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center space-x-3">
-     <i class="fas fa-cogs"></i>
-     <span>Setting &amp; Fitur Lengkap</span>
-    </h2>
-    <div class="space-y-6 max-w-lg mx-auto text-gray-300">
-     <div>
-      <h3 class="text-xl font-semibold mb-2">Mode Gelap</h3>
-      <p>LifeAI menggunakan mode gelap secara default untuk kenyamanan mata dan tampilan modern.</p>
-     </div>
-     <div>
-      <h3 class="text-xl font-semibold mb-2">API Key LifeAI</h3>
-      <p>API Key sudah disematkan langsung di dalam kode aplikasi agar pengguna tidak perlu memasukkan secara manual.</p>
-     </div>
-     <div>
-      <h3 class="text-xl font-semibold mb-2">Model AI</h3>
-      <p>Model yang digunakan adalah <code class="bg-gray-700 rounded px-1 py-0.5">LifeAI-Core</code> untuk performa terbaik dan hasil akurat.</p>
-     </div>
-     <div>
-      <h3 class="text-xl font-semibold mb-2">Fitur Lengkap</h3>
-      <ul class="list-disc list-inside space-y-1">
-       <li>HD Image Generator</li>
-       <li>Generate Image</li>
-       <li>Teks ke Video</li>
-       <li>Buat Kode HTML</li>
-       <li>Terjemahan Semua Bahasa</li>
-       <li>Hitung Nilai Ujian Otomatis</li>
-       <li>Bantu Jawab Soal Semua Materi Pelajaran Indonesia</li>
-      </ul>
-     </div>
-     <div>
-      <h3 class="text-xl font-semibold mb-2">Notifikasi &amp; Simpan Otomatis</h3>
-      <p>Fitur notifikasi dan simpan otomatis hasil generate dapat dikembangkan lebih lanjut sesuai kebutuhan.</p>
-     </div>
+    <div class="mt-6 bg-gray-50 rounded-md p-4 text-gray-800 whitespace-pre-wrap" id="qaResult">
     </div>
    </section>
   </main>
-  <footer class="bg-gray-800 border-t border-gray-700 py-6 mt-12">
-   <div class="container mx-auto px-4 text-center text-gray-400 text-sm">
-    © 2025 LifeAI | Lifevander Indonesian Inc.
-   </div>
+  <!-- Footer -->
+  <footer class="bg-white border-t border-gray-200 py-6 text-center text-gray-600 text-sm select-none">
+   © 2024 LifeAI Chatbot. All rights reserved.
   </footer>
+  <!-- Gemini API Integration and JS -->
   <script>
-   // Mobile menu toggle with aria-expanded update
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
+   // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
-    mobileMenuButton.addEventListener('click', () => {
-      const isHidden = mobileMenu.classList.contains('hidden');
-      if (isHidden) {
-        mobileMenu.classList.remove('hidden');
-        mobileMenuButton.setAttribute('aria-expanded', 'true');
-      } else {
-        mobileMenu.classList.add('hidden');
-        mobileMenuButton.setAttribute('aria-expanded', 'false');
-      }
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
     });
 
-    // Splash screen hide after 3.5s with fade out
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const splash = document.getElementById('splashScreen');
-        splash.style.transition = 'opacity 0.8s ease';
-        splash.style.opacity = '0';
-        setTimeout(() => {
-          splash.style.display = 'none';
-        }, 800);
-      }, 3500);
-    });
+    // Gemini API config
+    const GEMINI_API_URL = 'https://api.gemini.example.com/v1/chat/completions'; // Replace with actual Gemini API endpoint
+    const GEMINI_API_KEY = 'AIzaSyD481M4LsysCaLxoWkgP4Vb5RkOLwo2dMk'; // <-- Ganti dengan API key Gemini Anda
 
-    // Hardcoded API Key Gemini (replace with your actual key)
-    const API_KEY_GEMINI = 'AIzaSyD481M4LsysCaLxoWkgP4Vb5RkOLwo2dMk';
-
-    // Helper function to call Gemini API
-    async function callGeminiAPI(prompt, type, extra = {}) {
-      if (!API_KEY_GEMINI || API_KEY_GEMINI === 'AIzaSyD481M4LsysCaLxoWkgP4Vb5RkOLwo2dMk') {
-        alert('API Key Gemini belum diset. Silakan edit kode dan masukkan API Key Anda.');
-        throw new Error('API Key tidak ditemukan');
-      }
-      const model = 'gemini-1.5-flash';
-
-      // Gemini API endpoint (example placeholder)
-      const endpoint = 'https://api.gemini.ai/v1/generate';
-
+    // Helper: call Gemini API with prompt and model
+    async function callGeminiAPI(prompt, model = 'gemini-1.5-flash', options = {}) {
       const body = {
         model,
         prompt,
-        type,
-        ...extra,
+        ...options,
       };
-
       try {
-        const response = await fetch(endpoint, {
+        const response = await fetch(GEMINI_API_URL, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${API_KEY_GEMINI}`,
+            Authorization: `Bearer ${GEMINI_API_KEY}`,
           },
           body: JSON.stringify(body),
         });
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(errorData.message || 'Error from Gemini API');
+          throw new Error(errorData.error || 'API request failed');
         }
         const data = await response.json();
-        return data;
+        // Assuming the response has a 'choices' array with 'message' or 'text'
+        if (data.choices && data.choices.length > 0) {
+          return data.choices[0].message?.content || data.choices[0].text || '';
+        }
+        return '';
       } catch (error) {
-        alert('Terjadi kesalahan saat memproses permintaan: ' + error.message);
-        throw error;
+        return `Error: ${error.message}`;
       }
     }
 
-    // HD Image Generator
-    const hdImageForm = document.getElementById('hdImageForm');
-    const hdImageResult = document.getElementById('hdImageResult');
-    hdImageForm.addEventListener('submit', async (e) => {
+    // Chat Section
+    const chatForm = document.getElementById('chatForm');
+    const chatInput = document.getElementById('chatInput');
+    const chatMessages = document.getElementById('chatMessages');
+
+    function appendChatMessage(text, fromUser = false) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = fromUser
+        ? 'text-right mb-3'
+        : 'text-left mb-3';
+      const bubble = document.createElement('div');
+      bubble.className = fromUser
+        ? 'inline-block bg-blue-600 text-white px-4 py-2 rounded-lg max-w-xs break-words'
+        : 'inline-block bg-gray-200 text-gray-900 px-4 py-2 rounded-lg max-w-xs break-words';
+      bubble.textContent = text;
+      msgDiv.appendChild(bubble);
+      chatMessages.appendChild(msgDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    chatForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      hdImageResult.innerHTML = '<p class="text-indigo-400 font-semibold">Sedang memproses...</p>';
-      const prompt = hdImageForm.hdImagePrompt.value.trim();
+      const userText = chatInput.value.trim();
+      if (!userText) return;
+      appendChatMessage(userText, true);
+      chatInput.value = '';
+      appendChatMessage('LifeAI sedang mengetik...', false);
+      const lastTyping = chatMessages.lastChild;
+      const response = await callGeminiAPI(userText, 'gemini-1.5-flash', { max_tokens: 500 });
+      if (lastTyping) chatMessages.removeChild(lastTyping);
+      appendChatMessage(response, false);
+    });
+
+    // Image Generation Section
+    const imageForm = document.getElementById('imageForm');
+    const imagePrompt = document.getElementById('imagePrompt');
+    const imageResult = document.getElementById('imageResult');
+
+    imageForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const prompt = imagePrompt.value.trim();
+      if (!prompt) return;
+      imageResult.innerHTML = `<p class="text-gray-600">Sedang membuat gambar...</p>`;
+      // Gemini API call for image generation (assuming endpoint and response)
       try {
-        const data = await callGeminiAPI(prompt, 'hd-image', { resolution: '1920x1080' });
-        hdImageResult.innerHTML = '';
-        if (data.images && data.images.length > 0) {
-          data.images.forEach((imgUrl, i) => {
-            const img = document.createElement('img');
-            img.src = imgUrl;
-            img.alt = `Gambar HD hasil generate ke-${i + 1} dengan deskripsi: ${prompt}`;
-            img.className = 'rounded-md shadow-md w-full h-auto object-cover';
-            hdImageResult.appendChild(img);
-          });
-        } else {
-          hdImageResult.textContent = 'Tidak ada gambar yang dihasilkan.';
+        const response = await fetch('https://api.gemini.example.com/v1/images/generations', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${GEMINI_API_KEY}`,
+          },
+          body: JSON.stringify({
+            model: 'gemini-1.5-flash',
+            prompt,
+            size: '1024x1024',
+            n: 1,
+          }),
+        });
+        if (!response.ok) {
+          const err = await response.json();
+          throw new Error(err.error || 'Gagal membuat gambar');
         }
-      } catch {
-        hdImageResult.textContent = 'Gagal memproses gambar HD.';
+        const data = await response.json();
+        // Assuming data.data[0].url contains image URL
+        if (data.data && data.data.length > 0) {
+          const imgUrl = data.data[0].url;
+          imageResult.innerHTML = `<img src="${imgUrl}" alt="Gambar HD hasil generasi AI berdasarkan deskripsi: ${prompt}" class="rounded-md shadow-md max-w-full h-auto" />`;
+        } else {
+          imageResult.innerHTML = `<p class="text-red-600">Gagal mendapatkan gambar dari API.</p>`;
+        }
+      } catch (error) {
+        imageResult.innerHTML = `<p class="text-red-600">Error: ${error.message}</p>`;
       }
     });
 
-    // Generate Image
-    const generateImageForm = document.getElementById('generateImageForm');
-    const generateImageResult = document.getElementById('generateImageResult');
-    generateImageForm.addEventListener('submit', async (e) => {
+    // Text to Video Section
+    const videoForm = document.getElementById('videoForm');
+    const videoPrompt = document.getElementById('videoPrompt');
+    const videoResult = document.getElementById('videoResult');
+
+    videoForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      generateImageResult.innerHTML = '<p class="text-indigo-400 font-semibold">Sedang memproses...</p>';
-      const prompt = generateImageForm.generateImagePrompt.value.trim();
+      const prompt = videoPrompt.value.trim();
+      if (!prompt) return;
+      videoResult.innerHTML = `<p class="text-gray-600">Sedang membuat video...</p>`;
+      // Gemini API call for text-to-video (assuming endpoint and response)
       try {
-        const data = await callGeminiAPI(prompt, 'image');
-        generateImageResult.innerHTML = '';
-        if (data.images && data.images.length > 0) {
-          data.images.forEach((imgUrl, i) => {
-            const img = document.createElement('img');
-            img.src = imgUrl;
-            img.alt = `Gambar hasil generate ke-${i + 1} dengan deskripsi: ${prompt}`;
-            img.className = 'rounded-md shadow-md w-full h-auto object-cover';
-            generateImageResult.appendChild(img);
-          });
-        } else {
-          generateImageResult.textContent = 'Tidak ada gambar yang dihasilkan.';
+        const response = await fetch('https://api.gemini.example.com/v1/videos/generations', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${GEMINI_API_KEY}`,
+          },
+          body: JSON.stringify({
+            model: 'gemini-1.5-flash',
+            prompt,
+            length_seconds: 10,
+            resolution: '720p',
+          }),
+        });
+        if (!response.ok) {
+          const err = await response.json();
+          throw new Error(err.error || 'Gagal membuat video');
         }
-      } catch {
-        generateImageResult.textContent = 'Gagal memproses generate gambar.';
+        const data = await response.json();
+        // Assuming data.data[0].url contains video URL
+        if (data.data && data.data.length > 0) {
+          const videoUrl = data.data[0].url;
+          videoResult.innerHTML = `
+            <video controls class="rounded-md shadow-md max-w-full h-auto" aria-label="Video hasil generasi AI berdasarkan deskripsi: ${prompt}">
+              <source src="${videoUrl}" type="video/mp4" />
+              Browser Anda tidak mendukung video.
+            </video>
+          `;
+        } else {
+          videoResult.innerHTML = `<p class="text-red-600">Gagal mendapatkan video dari API.</p>`;
+        }
+      } catch (error) {
+        videoResult.innerHTML = `<p class="text-red-600">Error: ${error.message}</p>`;
       }
     });
 
-    // Text to Video
-    const textToVideoForm = document.getElementById('textToVideoForm');
-    const textToVideoResult = document.getElementById('textToVideoResult');
-    textToVideoForm.addEventListener('submit', async (e) => {
+    // HTML Code Generation Section
+    const codeForm = document.getElementById('codeForm');
+    const codePrompt = document.getElementById('codePrompt');
+    const codeResult = document.getElementById('codeResult');
+
+    codeForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      textToVideoResult.innerHTML = '<p class="text-indigo-400 font-semibold">Sedang memproses...</p>';
-      const prompt = textToVideoForm.videoText.value.trim();
-      try {
-        const data = await callGeminiAPI(prompt, 'text-to-video');
-        textToVideoResult.innerHTML = '';
-        if (data.videoUrl) {
-          const video = document.createElement('video');
-          video.src = data.videoUrl;
-          video.controls = true;
-          video.className = 'w-full rounded-md shadow-md';
-          video.alt = `Video hasil generate dengan deskripsi: ${prompt}`;
-          textToVideoResult.appendChild(video);
-        } else {
-          textToVideoResult.textContent = 'Tidak ada video yang dihasilkan.';
-        }
-      } catch {
-        textToVideoResult.textContent = 'Gagal memproses generate video.';
-      }
+      const prompt = codePrompt.value.trim();
+      if (!prompt) return;
+      codeResult.textContent = 'Sedang membuat kode HTML...';
+      // Gemini API call for code generation
+      const fullPrompt = `Buatkan kode HTML sesuai deskripsi berikut:\n${prompt}\nBerikan hanya kode HTML tanpa penjelasan.`;
+      const response = await callGeminiAPI(fullPrompt, 'gemini-1.5-flash', { max_tokens: 700 });
+      codeResult.textContent = response;
     });
 
-    // Create HTML Code
-    const createHtmlForm = document.getElementById('createHtmlForm');
-    const createHtmlResult = document.getElementById('createHtmlResult');
-    createHtmlForm.addEventListener('submit', async (e) => {
+    // Document Analysis Section
+    const docForm = document.getElementById('docForm');
+    const docText = document.getElementById('docText');
+    const docResult = document.getElementById('docResult');
+
+    docForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      createHtmlResult.textContent = 'Sedang memproses...';
-      const prompt = createHtmlForm.htmlDescription.value.trim();
-      try {
-        const data = await callGeminiAPI(prompt, 'html-code');
-        if (data.htmlCode) {
-          createHtmlResult.textContent = data.htmlCode;
-        } else {
-          createHtmlResult.textContent = 'Tidak ada kode HTML yang dihasilkan.';
-        }
-      } catch {
-        createHtmlResult.textContent = 'Gagal memproses generate kode HTML.';
-      }
+      const text = docText.value.trim();
+      if (!text) return;
+      docResult.textContent = 'Sedang menganalisis dokumen...';
+      const prompt = `Analisis dokumen berikut secara mendalam dan berikan ringkasan, insight penting, dan rekomendasi:\n\n${text}`;
+      const response = await callGeminiAPI(prompt, 'gemini-1.5-flash', { max_tokens: 700 });
+      docResult.textContent = response;
     });
 
-    // Translation
-    const translationForm = document.getElementById('translationForm');
-    const translationResult = document.getElementById('translationResult');
-    translationForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      translationResult.textContent = 'Sedang memproses...';
-      const text = translationForm.translationText.value.trim();
-      const targetLang = translationForm.targetLanguage.value;
-      try {
-        const data = await callGeminiAPI(text, 'translation', { targetLanguage: targetLang });
-        if (data.translatedText) {
-          translationResult.textContent = data.translatedText;
-        } else {
-          translationResult.textContent = 'Terjemahan tidak tersedia.';
-        }
-      } catch {
-        translationResult.textContent = 'Gagal memproses terjemahan.';
-      }
-    });
+    // Question Answer Section
+    const qaForm = document.getElementById('qaForm');
+    const qaQuestion = document.getElementById('qaQuestion');
+    const qaResult = document.getElementById('qaResult');
 
-    // Exam Grader
-    const examGraderForm = document.getElementById('examGraderForm');
-    const examGraderResult = document.getElementById('examGraderResult');
-    examGraderForm.addEventListener('submit', async (e) => {
+    qaForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      examGraderResult.textContent = 'Sedang memproses...';
-      const answersRaw = examGraderForm.examAnswers.value.trim();
-      const keyRaw = examGraderForm.answerKey.value.trim();
-      try {
-        const answers = JSON.parse(answersRaw);
-        const answerKey = JSON.parse(keyRaw);
-        const prompt = {
-          answers,
-          answerKey,
-        };
-        const data = await callGeminiAPI(JSON.stringify(prompt), 'exam-grader');
-        if (data.score !== undefined && data.feedback) {
-          examGraderResult.innerHTML = `<p>Nilai: <strong>${data.score}</strong></p><p>Feedback: ${data.feedback}</p>`;
-        } else {
-          examGraderResult.textContent = 'Tidak dapat menghitung nilai.';
-        }
-      } catch (err) {
-        examGraderResult.textContent = 'Format JSON tidak valid atau gagal memproses.';
-      }
-    });
-
-    // Study Helper
-    const studyHelperForm = document.getElementById('studyHelperForm');
-    const studyHelperResult = document.getElementById('studyHelperResult');
-    studyHelperForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      studyHelperResult.textContent = 'Sedang memproses...';
-      const question = studyHelperForm.studyQuestion.value.trim();
-      try {
-        const data = await callGeminiAPI(question, 'study-helper');
-        if (data.answer) {
-          studyHelperResult.textContent = data.answer;
-        } else {
-          studyHelperResult.textContent = 'Jawaban tidak tersedia.';
-        }
-      } catch {
-        studyHelperResult.textContent = 'Gagal memproses jawaban soal.';
-      }
+      const question = qaQuestion.value.trim();
+      if (!question) return;
+      qaResult.textContent = 'Sedang mencari jawaban...';
+      const prompt = `Jawab pertanyaan berikut dengan jelas dan lengkap:\n\n${question}`;
+      const response = await callGeminiAPI(prompt, 'gemini-1.5-flash', { max_tokens: 700 });
+      qaResult.textContent = response;
     });
   </script>
  </body>
