@@ -1,2606 +1,584 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="OssUjeQtiww6RjloeOv-Gh0ZbOey-XTiPS8wFFUP5Dk" />
-    <meta name="google-signin-client_id" content="393290353406-hnqaompcnpa5210bi4rfamqp7pkdk1iu.apps.googleusercontent.com">
-    <title>LifeAI - Artificial Intelligence Platform</title>
-    <script defer src="https://cloud.umami.is/script.js" data-website-id="02445695-2d2a-4d21-9990-6cfd160328b0"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2317582017242154" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #6E6BF6;
-            --primary-dark: #5A57E0;
-            --text: #1A1A2E;
-            --text-light: #6C757D;
-            --bg: #F8F9FA;
-            --card: #FFFFFF;
-            --border: #E9ECEF;
-            --success: #28A745;
-            --error: #DC3545;
-            --dark-bg: #121212;
-            --dark-card: #1E1E1E;
-            --dark-text: #E0E0E0;
-            --dark-border: #333333;
-        }
-
-        /* Dark Mode */
-        body.dark-mode {
-            --bg: var(--dark-bg);
-            --card: var(--dark-card);
-            --text: var(--dark-text);
-            --border: var(--dark-border);
-            --text-light: #A0A0A0;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-        body {
-            font-family: 'Sora', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            transition: background 0.3s ease, color 0.3s ease;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            flex: 1;
-            position: relative;
-            padding-left: 80px; /* For sidebar */
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border);
-        }
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        .btn {
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 500;
-            cursor: pointer;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-        }
-        .btn-outline:hover {
-            background: rgba(110, 107, 246, 0.1);
-            transform: translateY(-2px);
-        }
-        main {
-            margin-top: 40px;
-            padding-bottom: 60px;
-        }
-        .search-container {
-            position: relative;
-            max-width: 600px;
-            margin: 0 auto 30px;
-        }
-        .search-input {
-            width: 100%;
-            padding: 15px 20px;
-            border-radius: 30px;
-            border: 1px solid var(--border);
-            background: var(--card);
-            color: var(--text);
-            font-size: 1rem;
-            padding-left: 50px;
-            transition: all 0.3s ease;
-        }
-        .search-input:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(110, 107, 246, 0.3);
-        }
-        .search-icon {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-light);
-        }
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-        .feature-card {
-            background: var(--card);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            cursor: pointer;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        .feature-icon {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-        }
-        .feature-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-        .feature-desc {
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-        .modal-content {
-            background: var(--card);
-            border-radius: 15px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 90vh;
-            padding: 30px;
-            position: relative;
-            overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transform: translateY(20px);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        .modal.show .modal-content {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-light);
-            transition: all 0.3s ease;
-        }
-        .close-modal:hover {
-            color: var(--text);
-            transform: rotate(90deg);
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        .form-input {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--bg);
-            color: var(--text);
-            transition: all 0.3s ease;
-        }
-        .form-input:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(110, 107, 246, 0.3);
-        }
-        textarea.form-input {
-            min-height: 120px;
-            resize: vertical;
-        }
-        .response-container {
-            margin-top: 20px;
-            max-width: 100%;
-            overflow: hidden;
-        }
-        .response-content {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: inherit;
-            margin: 0;
-            padding: 15px;
-            background: var(--bg);
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-        .error-content {
-            color: var(--error);
-            padding: 10px;
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: var(--card);
-            border-top: 1px solid var(--border);
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-        
-        /* New Voice Chat Styles */
-        .voice-chat-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .voice-controls {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .voice-btn {
-            padding: 10px 15px;
-            border-radius: 50px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
-        .voice-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-        .voice-btn.secondary {
-            background: var(--bg);
-            color: var(--text);
-        }
-        .voice-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-        .wave-animation {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            height: 30px;
-            margin-left: 10px;
-        }
-        .wave-bar {
-            width: 4px;
-            height: 10px;
-            background: var(--primary);
-            border-radius: 2px;
-            animation: wave 1.2s infinite ease-in-out;
-        }
-        .wave-bar:nth-child(1) { animation-delay: 0s; }
-        .wave-bar:nth-child(2) { animation-delay: 0.2s; }
-        .wave-bar:nth-child(3) { animation-delay: 0.4s; }
-        .wave-bar:nth-child(4) { animation-delay: 0.6s; }
-        .wave-bar:nth-child(5) { animation-delay: 0.8s; }
-        
-        @keyframes wave {
-            0%, 100% { height: 10px; }
-            50% { height: 20px; }
-        }
-        
-        /* Loading Animation */
-        .loading-animation {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100px;
-        }
-        .loading-dot {
-            width: 12px;
-            height: 12px;
-            margin: 0 5px;
-            background-color: var(--primary);
-            border-radius: 50%;
-            animation: loading 1.4s infinite ease-in-out;
-        }
-        .loading-dot:nth-child(1) { animation-delay: 0s; }
-        .loading-dot:nth-child(2) { animation-delay: 0.2s; }
-        .loading-dot:nth-child(3) { animation-delay: 0.4s; }
-        
-        @keyframes loading {
-            0%, 100% { transform: scale(0.6); opacity: 0.5; }
-            50% { transform: scale(1); opacity: 1; }
-        }
-
-        /* Sidebar Styles */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            height: 100vh;
-            width: 70px;
-            background: var(--card);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px 0;
-            z-index: 100;
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
-        .sidebar.expanded {
-            width: 250px;
-            align-items: flex-start;
-            padding-left: 20px;
-        }
-        .sidebar-toggle {
-            background: none;
-            border: none;
-            color: var(--text);
-            font-size: 1.5rem;
-            cursor: pointer;
-            margin-bottom: 30px;
-            padding: 10px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-        .sidebar-toggle:hover {
-            background: rgba(110, 107, 246, 0.1);
-            color: var(--primary);
-        }
-        .sidebar-menu {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-        .sidebar-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            border-radius: 8px;
-            color: var(--text);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-        .sidebar-item:hover {
-            background: rgba(110, 107, 246, 0.1);
-            color: var(--primary);
-        }
-        .sidebar-item.active {
-            background: rgba(110, 107, 246, 0.2);
-            color: var(--primary);
-        }
-        .sidebar-icon {
-            font-size: 1.2rem;
-            min-width: 30px;
-            display: flex;
-            justify-content: center;
-        }
-        .sidebar-text {
-            margin-left: 15px;
-            font-weight: 500;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .sidebar.expanded .sidebar-text {
-            opacity: 1;
-        }
-        .sidebar-divider {
-            height: 1px;
-            width: 100%;
-            background: var(--border);
-            margin: 15px 0;
-        }
-
-        /* Profile Section */
-        .profile-section {
-            margin-top: auto;
-            width: 100%;
-            padding: 0 5px;
-        }
-        .profile-btn {
-            display: flex;
-            align-items: center;
-            background: none;
-            border: none;
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .profile-btn:hover {
-            background: rgba(110, 107, 246, 0.1);
-        }
-        .profile-img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            background: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-        .profile-name {
-            margin-left: 15px;
-            font-weight: 500;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .sidebar.expanded .profile-name {
-            opacity: 1;
-        }
-
-        /* Settings Modal */
-        .settings-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-        .settings-content {
-            background: var(--card);
-            border-radius: 15px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 90vh;
-            padding: 30px;
-            position: relative;
-            overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        .settings-tabs {
-            display: flex;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 20px;
-        }
-        .settings-tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
-        .settings-tab.active {
-            border-bottom: 2px solid var(--primary);
-            color: var(--primary);
-        }
-        .settings-panel {
-            display: none;
-        }
-        .settings-panel.active {
-            display: block;
-        }
-        .setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border);
-        }
-        .setting-item:last-child {
-            border-bottom: none;
-        }
-        .setting-label {
-            font-weight: 500;
-        }
-        .setting-control {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 24px;
-        }
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        input:checked + .toggle-slider {
-            background-color: var(--primary);
-        }
-        input:checked + .toggle-slider:before {
-            transform: translateX(26px);
-        }
-        .language-select {
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--bg);
-            color: var(--text);
-        }
-        .danger-zone {
-            margin-top: 30px;
-            padding: 20px;
-            border-radius: 10px;
-            background: rgba(220, 53, 69, 0.1);
-            border: 1px solid rgba(220, 53, 69, 0.3);
-        }
-        .danger-zone h3 {
-            color: var(--error);
-            margin-bottom: 15px;
-        }
-        .danger-btn {
-            background: var(--error);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .danger-btn:hover {
-            background: #c82333;
-            transform: translateY(-2px);
-        }
-
-        /* Chat UI Styles */
-        .chat-container {
-            display: flex;
-            flex-direction: column;
-            height: calc(100vh - 200px);
-            max-height: 600px;
-            border: 1px solid var(--border);
-            border-radius: 15px;
-            overflow: hidden;
-            background: var(--card);
-        }
-        .chat-header {
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .chat-bot-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-        }
-        .chat-header-text {
-            font-weight: 600;
-        }
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .message {
-            max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 15px;
-            position: relative;
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .user-message {
-            align-self: flex-end;
-            background: var(--primary);
-            color: white;
-            border-bottom-right-radius: 5px;
-        }
-        .bot-message {
-            align-self: flex-start;
-            background: var(--bg);
-            color: var(--text);
-            border-bottom-left-radius: 5px;
-        }
-        .message-time {
-            font-size: 0.7rem;
-            opacity: 0.7;
-            margin-top: 5px;
-            text-align: right;
-        }
-        .chat-input-container {
-            display: flex;
-            padding: 15px;
-            border-top: 1px solid var(--border);
-            background: var(--bg);
-            gap: 10px;
-            align-items: center;
-        }
-        .chat-input {
-            flex: 1;
-            padding: 12px 15px;
-            border-radius: 30px;
-            border: 1px solid var(--border);
-            background: var(--card);
-            color: var(--text);
-            resize: none;
-            max-height: 120px;
-            transition: all 0.3s ease;
-        }
-        .chat-input:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(110, 107, 246, 0.3);
-        }
-        .chat-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        .chat-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-        .chat-btn.secondary {
-            background: var(--bg);
-            color: var(--text);
-        }
-        .file-preview {
-            margin-top: 10px;
-            padding: 10px;
-            background: var(--bg);
-            border-radius: 8px;
-            border: 1px dashed var(--border);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .file-preview img {
-            max-width: 50px;
-            max-height: 50px;
-            border-radius: 5px;
-        }
-        .file-info {
-            flex: 1;
-        }
-        .file-name {
-            font-weight: 500;
-            margin-bottom: 5px;
-        }
-        .file-size {
-            font-size: 0.8rem;
-            color: var(--text-light);
-        }
-        .remove-file {
-            color: var(--error);
-            cursor: pointer;
-        }
-
-        /* Message Actions */
-        .message-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 8px;
-            justify-content: flex-end;
-        }
-        .message-action {
-            background: none;
-            border: none;
-            color: var(--text-light);
-            cursor: pointer;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            transition: all 0.2s ease;
-        }
-        .message-action:hover {
-            color: var(--primary);
-        }
-        .message-action svg {
-            width: 14px;
-            height: 14px;
-            fill: currentColor;
-        }
-
-        /* Web Search Indicator */
-        .searching-indicator {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 15px;
-            background: rgba(110, 107, 246, 0.1);
-            border-radius: 30px;
-            margin-bottom: 10px;
-            align-self: center;
-            font-size: 0.9rem;
-            color: var(--primary);
-        }
-        .searching-indicator i {
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .container {
-                padding-left: 20px;
-            }
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            .sidebar.show {
-                transform: translateX(0);
-                width: 250px;
-                align-items: flex-start;
-                padding-left: 20px;
-            }
-            .sidebar.expanded {
-                width: 250px;
-            }
-            .sidebar-text {
-                opacity: 1;
-            }
-            .profile-name {
-                opacity: 1;
-            }
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-            .voice-controls {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .chat-container {
-                height: calc(100vh - 150px);
-            }
-        }
-
-        /* Animation Classes */
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        .bounce {
-            animation: bounce 2s infinite;
-        }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-        .rotate {
-            animation: rotate 4s linear infinite;
-        }
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
-</head>
-<body>
-    <!-- Sidebar Navigation -->
-    <div class="sidebar" id="sidebar">
-        <button class="sidebar-toggle" id="sidebarToggle">
-            <i class="fas fa-bars"></i>
-        </button>
-        
-        <div class="sidebar-menu">
-            <a href="#" class="sidebar-item active" data-page="home">
-                <div class="sidebar-icon">
-                    <i class="fas fa-home"></i>
-                </div>
-                <div class="sidebar-text">Home</div>
-            </a>
-            <a href="#" class="sidebar-item" data-page="chat">
-                <div class="sidebar-icon">
-                    <i class="fas fa-comment-dots"></i>
-                </div>
-                <div class="sidebar-text">AI Chat</div>
-            </a>
-            <a href="#" class="sidebar-item" data-page="docs">
-                <div class="sidebar-icon">
-                    <i class="fas fa-file-alt"></i>
-                </div>
-                <div class="sidebar-text">Document Analysis</div>
-            </a>
-            
-            <div class="sidebar-divider"></div>
-            
-            <a href="#" class="sidebar-item" id="settingsBtn">
-                <div class="sidebar-icon">
-                    <i class="fas fa-cog"></i>
-                </div>
-                <div class="sidebar-text">Settings</div>
-            </a>
-            <a href="#" class="sidebar-item" id="privacyBtn">
-                <div class="sidebar-icon">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                <div class="sidebar-text">Privacy Policy</div>
-            </a>
-            <a href="#" class="sidebar-item" id="termsBtn">
-                <div class="sidebar-icon">
-                    <i class="fas fa-file-contract"></i>
-                </div>
-                <div class="sidebar-text">Terms & Conditions</div>
-            </a>
-            <a href="#" class="sidebar-item" id="aboutBtn">
-                <div class="sidebar-icon">
-                    <i class="fas fa-info-circle"></i>
-                </div>
-                <div class="sidebar-text">About Us</div>
-            </a>
-            <a href="#" class="sidebar-item" id="supportBtn">
-                <div class="sidebar-icon">
-                    <i class="fas fa-heart"></i>
-                </div>
-                <div class="sidebar-text">Support Us</div>
-            </a>
-            <a href="#" class="sidebar-item" id="reportBtn">
-                <div class="sidebar-icon">
-                    <i class="fas fa-bug"></i>
-                </div>
-                <div class="sidebar-text">Report Issue</div>
-            </a>
-        </div>
-        
-        <div class="profile-section">
-            <button class="profile-btn" id="profileBtn">
-                <div class="profile-img" id="profileImg">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="profile-name" id="profileName">Login/Signup</div>
-            </button>
-        </div>
+<html class="dark bg-gray-900 text-gray-100" lang="id">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   LifeAI - Platform AI Serba Bisa
+  </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+      font-family: 'Inter', sans-serif;
+    }
+    /* Gradient animated text */
+    .gradient-text {
+      background: linear-gradient(270deg, #ff0057, #fffd00, #00ff99, #0055ff, #ff0057);
+      background-size: 1000% 1000%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 10s ease infinite;
+    }
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    /* Morph slide fade up animation */
+    .morph-slide-fade-up {
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+      animation: morphSlideFadeUp 1.2s ease forwards;
+    }
+    .morph-slide-fade-up:nth-child(1) {
+      animation-delay: 0.3s;
+    }
+    .morph-slide-fade-up:nth-child(2) {
+      animation-delay: 0.6s;
+    }
+    .morph-slide-fade-up:nth-child(3) {
+      animation-delay: 0.9s;
+    }
+    .morph-slide-fade-up:nth-child(4) {
+      animation-delay: 1.2s;
+    }
+    .morph-slide-fade-up:nth-child(5) {
+      animation-delay: 1.5s;
+    }
+    @keyframes morphSlideFadeUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+        filter: blur(4px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+    /* Splash screen full overlay */
+    #splashScreen {
+      position: fixed;
+      inset: 0;
+      background-color: #111827;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      user-select: none;
+    }
+    /* Animated circles */
+    .circle {
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: #6366f1;
+      width: 60px;
+      height: 60px;
+      margin: 10px;
+      animation: spin 1.5s linear infinite;
+    }
+    .circle:nth-child(2) {
+      border-top-color: #ec4899;
+      width: 40px;
+      height: 40px;
+      animation-duration: 1s;
+      animation-direction: reverse;
+    }
+    .circle:nth-child(3) {
+      border-top-color: #10b981;
+      width: 20px;
+      height: 20px;
+      animation-duration: 2s;
+    }
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+ </head>
+ <body class="dark bg-gray-900 text-gray-100 min-h-screen flex flex-col">
+  <!-- Splash Screen -->
+  <div id="splashScreen" aria-label="Intro splash screen LifeAI">
+   <div class="flex space-x-6 mb-8">
+    <div class="circle" aria-hidden="true"></div>
+    <div class="circle" aria-hidden="true"></div>
+    <div class="circle" aria-hidden="true"></div>
+   </div>
+   <h1 class="text-5xl font-extrabold gradient-text morph-slide-fade-up select-none">
+    LifeAI
+   </h1>
+   <p class="mt-4 text-xl text-center max-w-xl morph-slide-fade-up" style="animation-delay:1.8s;">
+    Platform AI serba bisa untuk generasi masa depan.
+   </p>
+  </div>
+  <header class="bg-gray-800 shadow-md sticky top-0 z-50">
+   <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="flex items-center space-x-3">
+     <img alt="Logo LifeAI berwarna ungu dengan tulisan AI" class="w-12 h-12 rounded-md" height="48" src="https://storage.googleapis.com/a1aa/image/ac59928d-e902-4c9f-357f-9b7b7ea35e15.jpg" width="48"/>
+     <h1 class="text-2xl font-bold text-indigo-400">
+      LifeAI
+     </h1>
     </div>
-
-    <!-- Main Content -->
-    <div class="container">
-        <header>
-            <div class="logo">LifeAI</div>
-            <div class="header-actions">
-                <button class="btn btn-outline" id="themeToggle">
-                    <i class="fas fa-moon"></i> Dark Mode
-                </button>
-            </div>
-        </header>
-
-        <main>
-            <!-- Dynamic Content Area -->
-            <div id="dynamic-content">
-                <!-- Default content (features) -->
-                <div class="search-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-input" placeholder="Search LifeAI features..." id="search-input">
-                </div>
-
-                <h2>Available Features</h2>
-                <div class="features-grid" id="features-grid">
-                    <!-- Features will be populated by JavaScript -->
-                </div>
-            </div>
-
-            <!-- Chat UI (hidden by default) -->
-            <div id="chat-ui" style="display: none;">
-                <div class="chat-container">
-                    <div class="chat-header">
-                        <div class="chat-bot-icon">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <div class="chat-header-text">LifeAI Assistant</div>
-                    </div>
-                    <div class="chat-messages" id="chat-messages">
-                        <div class="message bot-message">
-                            Hello! I am LifeAI Assistant. How can I help you?
-                            <div class="message-time">Just now</div>
-                        </div>
-                    </div>
-                    <div class="chat-input-container">
-                        <button class="chat-btn secondary" id="voiceChatBtn">
-                            <i class="fas fa-microphone"></i>
-                        </button>
-                        <textarea class="chat-input" id="chatInput" placeholder="Type your message..." rows="1"></textarea>
-                        <button class="chat-btn" id="sendChatBtn">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                        <input type="file" id="fileUpload" style="display: none;" accept="image/*,.pdf,.doc,.docx,.txt">
-                        <button class="chat-btn secondary" id="uploadBtn">
-                            <i class="fas fa-paperclip"></i>
-                        </button>
-                    </div>
-                    <div id="file-preview-container" style="display: none;"></div>
-                </div>
-            </div>
-        </main>
-
-        <!-- Feature Modal -->
-        <div class="modal" id="feature-modal">
-            <div class="modal-content">
-                <span class="close-modal">&times;</span>
-                <h2 id="feature-modal-title"></h2>
-                <p id="feature-modal-desc"></p>
-                
-                <!-- Voice Chat Section -->
-                <div class="voice-chat-container" id="voice-chat-section" style="display: none;">
-                    <div class="voice-controls">
-                        <button class="voice-btn" id="start-listening">
-                            <i class="fas fa-microphone"></i> Start Speaking
-                        </button>
-                        <button class="voice-btn secondary" id="stop-listening" disabled>
-                            <i class="fas fa-stop"></i> Stop
-                        </button>
-                        <div class="wave-animation" id="wave-animation" style="display: none;">
-                            <div class="wave-bar"></div>
-                            <div class="wave-bar"></div>
-                            <div class="wave-bar"></div>
-                            <div class="wave-bar"></div>
-                            <div class="wave-bar"></div>
-                        </div>
-                    </div>
-                    <div id="voice-status">Press the microphone button to start speaking</div>
-                </div>
-                
-                <div class="form-group" id="feature-input-container" style="margin-top: 20px;">
-                    <!-- Dynamic input will be placed here -->
-                </div>
-                
-                <div id="feature-loading" class="loading-animation" style="display: none;">
-                    <div class="loading-dot"></div>
-                    <div class="loading-dot"></div>
-                    <div class="loading-dot"></div>
-                </div>
-                
-                <div id="feature-response" class="response-container" style="display: none;">
-                    <!-- API response will appear here -->
-                </div>
-                <button class="btn btn-primary" id="submit-feature" style="margin-top: 15px;">Process</button>
-                <button class="btn btn-outline" id="speak-response" style="margin-top: 15px; display: none;">
-                    <i class="fas fa-volume-up"></i> Listen to Response
-                </button>
-            </div>
-        </div>
-
-        <!-- Settings Modal -->
-        <div class="modal" id="settings-modal">
-            <div class="modal-content">
-                <span class="close-modal">&times;</span>
-                <h2>Settings</h2>
-                
-                <div class="settings-tabs">
-                    <div class="settings-tab active" data-tab="general">General</div>
-                    <div class="settings-tab" data-tab="account">Account</div>
-                    <div class="settings-tab" data-tab="privacy">Privacy</div>
-                </div>
-                
-                <div class="settings-panel active" id="general-settings">
-                    <div class="setting-item">
-                        <div class="setting-label">Dark Mode</div>
-                        <div class="setting-control">
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="darkModeToggle">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="setting-item">
-                        <div class="setting-label">Language</div>
-                        <div class="setting-control">
-                            <select class="language-select" id="languageSelect">
-                                <option value="en">English</option>
-                                <option value="id">Bahasa Indonesia</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="setting-item">
-                        <div class="setting-label">Notifications</div>
-                        <div class="setting-control">
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="notifToggle" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="settings-panel" id="account-settings">
-                    <div id="account-login">
-                        <p>Sign in to access all LifeAI features</p>
-                        <button class="btn btn-primary" id="googleLoginBtn">
-                            <i class="fab fa-google"></i> Sign in with Google
-                        </button>
-                    </div>
-                    <div id="account-info" style="display: none;">
-                        <div class="setting-item">
-                            <div class="setting-label">Account</div>
-                            <div class="setting-control" id="account-info-display"></div>
-                        </div>
-                        <div class="setting-item">
-                            <div class="setting-label">Email</div>
-                            <div class="setting-control" id="account-email-display"></div>
-                        </div>
-                        <div class="danger-zone">
-                            <h3>Danger Zone</h3>
-                            <button class="danger-btn" id="deleteChatsBtn">Delete All Chats</button>
-                            <button class="danger-btn" id="deleteAccountBtn" style="margin-top: 10px;">Delete Account</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="settings-panel" id="privacy-settings">
-                    <div class="setting-item">
-                        <div class="setting-label">Data Collection</div>
-                        <div class="setting-control">
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="dataCollectionToggle" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="setting-item">
-                        <div class="setting-label">Chat History</div>
-                        <div class="setting-control">
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="chatHistoryToggle" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="setting-item">
-                        <div class="setting-label">Local Storage</div>
-                        <div class="setting-control">
-                            <button class="btn btn-outline" id="clearStorageBtn">Clear</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Privacy Policy Modal -->
-        <div class="modal" id="privacy-modal">
-            <div class="modal-content">
-                <span class="close-modal">&times;</span>
-                <h2>Privacy Policy</h2>
-                <div class="response-content">
-                    <h3>1. Information We Collect</h3>
-                    <p>We collect the following information when you use LifeAI:</p>
-                    <ul>
-                        <li>Account information (if you sign in with Google)</li>
-                        <li>Chat content and your requests</li>
-                        <li>Usage data and preferences</li>
-                        <li>Device and browser information</li>
-                    </ul>
-                    
-                    <h3>2. How We Use Information</h3>
-                    <p>The information we collect is used for:</p>
-                    <ul>
-                        <li>Providing and improving our service</li>
-                        <li>Understanding user needs</li>
-                        <li>Developing new features</li>
-                        <li>Maintaining service security</li>
-                    </ul>
-                    
-                    <h3>3. Data Protection</h3>
-                    <p>We implement reasonable security measures to protect your data:</p>
-                    <ul>
-                        <li>Data encryption in transit</li>
-                        <li>Data access restrictions</li>
-                        <li>Secure data storage</li>
-                    </ul>
-                    
-                    <p>This privacy policy was last updated on May 23, 2025.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Terms Modal -->
-        <div class="modal" id="terms-modal">
-            <div class="modal-content">
-                <span class="close-modal">&times;</span>
-                <h2>Terms & Conditions</h2>
-                <div class="response-content">
-                    <h3>1. Service Usage</h3>
-                    <p>By using LifeAI, you agree to:</p>
-                    <ul>
-                        <li>Use the service only for lawful purposes</li>
-                        <li>Not misuse the service for illegal activities</li>
-                        <li>Not attempt to reverse engineer or exploit the system</li>
-                    </ul>
-                    
-                    <h3>2. Liability Limitations</h3>
-                    <p>LifeAI is not responsible for:</p>
-                    <ul>
-                        <li>Content generated by the AI system</li>
-                        <li>Losses arising from service usage</li>
-                        <li>Inaccuracies in provided information</li>
-                    </ul>
-                    
-                    <h3>3. Service Changes</h3>
-                    <p>We may change or discontinue the service at any time without prior notice.</p>
-                    
-                    <h3>4. Age Restrictions</h3>
-                    <p>Users under 13 years old are prohibited from using this service.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- About Modal -->
-        <div class="modal" id="about-modal">
-            <div class="modal-content">
-                <span class="close-modal">&times;</span>
-                <h2>About Us</h2>
-                <div class="response-content">
-                    <h3>LifeAI</h3>
-                    <p>LifeAI is an artificial intelligence platform developed by M.Fariz and Lifevander Indonesia Inc. to assist with various digital needs.</p>
-                    
-                    <h3>Vision</h3>
-                    <p>To provide easy access to AI technology for everyone with a user-friendly interface.</p>
-                    
-                    <h3>Key Features</h3>
-                    <ul>
-                        <li>Advanced AI conversations</li>
-                        <li>Smart document analysis</li>
-                        <li>Creative content generation</li>
-                        <li>AI-powered productivity tools</li>
-                    </ul>
-                    
-                    <h3>Contact</h3>
-                    <p>Email: lifevandergamedev@gmail.com</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Support Modal -->
-        <div class="modal" id="support-modal">
-            <div class="modal-content">
-                <span class="close-modal">&times;</span>
-                <h2>Support Us</h2>
-                <div class="response-content">
-                    <p>LifeAI is developed with full dedication. You can support our development by:</p>
-                    
-                    <h3>Donations</h3>
-                    <p>Send donations via:</p>
-                    <ul>
-                        <li>E-wallet: DANA 087729044780 (Lifevander Indonesia)</li>
-                        <a href="https://trakteer.id/lifevander">TrakteerMee</a>
-                    </ul>
-                    
-                    <h3>Share</h3>
-                    <p>Help us by sharing LifeAI with your friends.</p>
-                    
-                    <h3>Feedback</h3>
-                    <p>Send your feedback to help us improve the service.</p>
-                    
-                    <button class="btn btn-primary" style="margin-top: 20px;">
-                        <i class="fas fa-heart"></i> Donate Now
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Report Modal -->
-        <div class="modal" id="report-modal">
-            <div class="modal-content">
-                <span class="close-modal">&times;</span>
-                <h2>Report Issue</h2>
-                <div class="form-group">
-                    <label class="form-label">Issue Type</label>
-                    <select class="form-input" id="issue-type">
-                        <option value="bug">Bug/Error</option>
-                        <option value="feature">Feature Request</option>
-                        <option value="security">Security Issue</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Issue Description</label>
-                    <textarea class="form-input" id="issue-description" placeholder="Describe the issue you encountered..." rows="5"></textarea>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Screenshot (Optional)</label>
-                    <input type="file" class="form-input" id="issue-screenshot" accept="image/*">
-                </div>
-                <button class="btn btn-primary" id="submit-issue">Submit Report</button>
-                <div id="issue-status" style="margin-top: 15px;"></div>
-            </div>
-        </div>
-
-        <!-- Login Modal -->
-        <div class="modal" id="login-modal">
-            <div class="modal-content">
-                <span class="close-modal">&times;</span>
-                <h2>Sign in to LifeAI</h2>
-                <p>Sign in to access all features and save your chat history.</p>
-                
-                <div style="text-align: center; margin: 30px 0;">
-                    <button class="btn btn-primary" id="googleLoginModalBtn" style="padding: 12px 25px;">
-                        <i class="fab fa-google"></i> Continue with Google
-                    </button>
-                </div>
-                
-                <p style="text-align: center; font-size: 0.9rem; color: var(--text-light);">
-                    By continuing, you agree to our <a href="#" style="color: var(--primary);" id="termsLink">Terms & Conditions</a> and <a href="#" style="color: var(--primary);" id="privacyLink">Privacy Policy</a>.
-                </p>
-            </div>
-        </div>
-
-        <footer>
-            &copy; 2025 LifeAI - By M.Fariz | Lifevander Indonesian Inc.
-        </footer>
+    <nav class="hidden md:flex space-x-6 font-semibold text-gray-300" id="desktopMenu">
+     <a class="hover:text-indigo-400 transition" href="#hd-image">
+      HD Image
+     </a>
+     <a class="hover:text-indigo-400 transition" href="#generate-image">
+      Generate Image
+     </a>
+     <a class="hover:text-indigo-400 transition" href="#text-to-video">
+      Teks ke Video
+     </a>
+     <a class="hover:text-indigo-400 transition" href="#create-html">
+      Buat Kode HTML
+     </a>
+     <a class="hover:text-indigo-400 transition" href="#translation">
+      Terjemahan
+     </a>
+     <a class="hover:text-indigo-400 transition" href="#exam-grader">
+      Hitung Nilai Ujian
+     </a>
+     <a class="hover:text-indigo-400 transition" href="#study-helper">
+      Bantu Jawab Soal
+     </a>
+     <a class="hover:text-indigo-400 transition" href="#settings">
+      Setting
+     </a>
+    </nav>
+    <button aria-label="Toggle menu" class="md:hidden text-indigo-400 focus:outline-none" id="mobile-menu-button" aria-expanded="false" aria-controls="mobileMenu">
+     <i class="fas fa-bars fa-lg"></i>
+    </button>
+   </div>
+   <nav aria-label="Mobile menu" class="hidden md:hidden bg-gray-800 border-t border-gray-700" id="mobileMenu">
+    <a class="block px-4 py-3 border-b border-gray-700 hover:bg-indigo-900 text-indigo-400 font-semibold" href="#hd-image">
+     HD Image
+    </a>
+    <a class="block px-4 py-3 border-b border-gray-700 hover:bg-indigo-900 text-indigo-400 font-semibold" href="#generate-image">
+     Generate Image
+    </a>
+    <a class="block px-4 py-3 border-b border-gray-700 hover:bg-indigo-900 text-indigo-400 font-semibold" href="#text-to-video">
+     Teks ke Video
+    </a>
+    <a class="block px-4 py-3 border-b border-gray-700 hover:bg-indigo-900 text-indigo-400 font-semibold" href="#create-html">
+     Buat Kode HTML
+    </a>
+    <a class="block px-4 py-3 border-b border-gray-700 hover:bg-indigo-900 text-indigo-400 font-semibold" href="#translation">
+     Terjemahan
+    </a>
+    <a class="block px-4 py-3 border-b border-gray-700 hover:bg-indigo-900 text-indigo-400 font-semibold" href="#exam-grader">
+     Hitung Nilai Ujian
+    </a>
+    <a class="block px-4 py-3 hover:bg-indigo-900 text-indigo-400 font-semibold" href="#study-helper">
+     Bantu Jawab Soal
+    </a>
+    <a class="block px-4 py-3 hover:bg-indigo-900 text-indigo-400 font-semibold" href="#settings">
+     Setting
+    </a>
+   </nav>
+  </header>
+  <main class="flex-grow container mx-auto px-4 py-8 space-y-16">
+   <!-- HD Image Section -->
+   <section class="bg-gray-800 rounded-lg shadow p-6" id="hd-image">
+    <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center space-x-3">
+     <i class="fas fa-image"></i>
+     <span>HD Image Generator</span>
+    </h2>
+    <form class="space-y-4" id="hdImageForm">
+     <label class="block font-semibold text-gray-300" for="hdImagePrompt">Deskripsi Gambar HD</label>
+     <input class="w-full border border-gray-600 rounded-md px-3 py-2 bg-gray-900 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500" id="hdImagePrompt" name="hdImagePrompt" placeholder="Contoh: Pemandangan gunung dengan langit biru cerah" required="" type="text"/>
+     <button class="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition" type="submit">Generate HD Image</button>
+    </form>
+    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" id="hdImageResult"></div>
+   </section>
+   <!-- Generate Image Section -->
+   <section class="bg-gray-800 rounded-lg shadow p-6" id="generate-image">
+    <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center space-x-3">
+     <i class="fas fa-paint-brush"></i>
+     <span>Generate Image</span>
+    </h2>
+    <form class="space-y-4" id="generateImageForm">
+     <label class="block font-semibold text-gray-300" for="generateImagePrompt">Deskripsi Gambar</label>
+     <input class="w-full border border-gray-600 rounded-md px-3 py-2 bg-gray-900 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500" id="generateImagePrompt" name="generateImagePrompt" placeholder="Contoh: Robot futuristik di kota malam" required="" type="text"/>
+     <button class="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition" type="submit">Generate Image</button>
+    </form>
+    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" id="generateImageResult"></div>
+   </section>
+   <!-- Text to Video Section -->
+   <section class="bg-gray-800 rounded-lg shadow p-6" id="text-to-video">
+    <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center space-x-3">
+     <i class="fas fa-video"></i>
+     <span>Teks ke Video</span>
+    </h2>
+    <form class="space-y-4" id="textToVideoForm">
+     <label class="block font-semibold text-gray-300" for="videoText">Deskripsi Video</label>
+     <textarea class="w-full border border-gray-600 rounded-md px-3 py-2 bg-gray-900 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none" id="videoText" name="videoText" placeholder="Contoh: Video animasi tentang proses fotosintesis" required="" rows="4"></textarea>
+     <button class="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition" type="submit">Generate Video</button>
+    </form>
+    <div class="mt-6" id="textToVideoResult"></div>
+   </section>
+   <!-- Create HTML Code Section -->
+   <section class="bg-gray-800 rounded-lg shadow p-6" id="create-html">
+    <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center space-x-3">
+     <i class="fas fa-code"></i>
+     <span>Buat Kode HTML</span>
+    </h2>
+    <form class="space-y-4" id="createHtmlForm">
+     <label class="block font-semibold text-gray-300" for="htmlDescription">Deskripsi Kode HTML</label>
+     <textarea class="w-full border border-gray-600 rounded-md px-3 py-2 bg-gray-900 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none" id="htmlDescription" name="htmlDescription" placeholder="Contoh: Form login sederhana dengan tombol biru" required="" rows="4"></textarea>
+     <button class="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition" type="submit">Generate Kode HTML</button>
+    </form>
+    <div class="mt-6 bg-gray-900 rounded-md p-4 overflow-x-auto font-mono text-sm text-gray-100 whitespace-pre-wrap" id="createHtmlResult"></div>
+   </section>
+   <!-- Translation Section -->
+   <section class="bg-gray-800 rounded-lg shadow p-6" id="translation">
+    <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center space-x-3">
+     <i class="fas fa-language"></i>
+     <span>Terjemahan Semua Bahasa</span>
+    </h2>
+    <form class="space-y-4" id="translationForm">
+     <label class="block font-semibold text-gray-300" for="translationText">Teks yang akan diterjemahkan</label>
+     <textarea class="w-full border border-gray-600 rounded-md px-3 py-2 bg-gray-900 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none" id="translationText" name="translationText" placeholder="Masukkan teks di sini" required="" rows="4"></textarea>
+     <label class="block font-semibold text-gray-300" for="targetLanguage">Bahasa Tujuan</label>
+     <select class="w-full border border-gray-600 rounded-md px-3 py-2 bg-gray-900 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500" id="targetLanguage" name="targetLanguage" required="">
+      <option disabled="" selected="" value="">Pilih bahasa</option>
+      <option value="en">Inggris</option>
+      <option value="id">Indonesia</option>
+      <option value="ja">Jepang</option>
+      <option value="zh">Mandarin</option>
+      <option value="es">Spanyol</option>
+      <option value="fr">Prancis</option>
+      <option value="de">Jerman</option>
+      <option value="ar">Arab</option>
+      <option value="ru">Rusia</option>
+      <option value="ko">Korea</option>
+      <option value="hi">Hindi</option>
+      <option value="pt">Portugis</option>
+      <option value="it">Italia</option>
+      <option value="tr">Turki</option>
+      <option value="vi">Vietnam</option>
+      <option value="th">Thailand</option>
+      <option value="ms">Melayu</option>
+      <option value="nl">Belanda</option>
+      <option value="sv">Swedia</option>
+      <option value="pl">Polandia</option>
+     </select>
+     <button class="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition" type="submit">Terjemahkan</button>
+    </form>
+    <div class="mt-6 bg-gray-900 rounded-md p-4 text-gray-100 whitespace-pre-wrap min-h-[80px]" id="translationResult"></div>
+   </section>
+   <!-- Exam Grader Section -->
+   <section class="bg-gray-800 rounded-lg shadow p-6" id="exam-grader">
+    <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center space-x-3">
+     <i class="fas fa-calculator"></i>
+     <span>Hitung Nilai Ujian Otomatis</span>
+    </h2>
+    <form class="space-y-4" id="examGraderForm">
+     <label class="block font-semibold text-gray-300" for="examAnswers">Masukkan Jawaban Ujian (format JSON)</label>
+     <textarea class="w-full border border-gray-600 rounded-md px-3 py-2 bg-gray-900 text-gray-100 font-mono placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none" id="examAnswers" name="examAnswers" placeholder='Contoh: {"soal1":"A","soal2":"B","soal3":"C"}' required="" rows="6"></textarea>
+     <label class="block font-semibold text-gray-300" for="answerKey">Kunci Jawaban (format JSON)</label>
+     <textarea class="w-full border border-gray-600 rounded-md px-3 py-2 bg-gray-900 text-gray-100 font-mono placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none" id="answerKey" name="answerKey" placeholder='Contoh: {"soal1":"A","soal2":"B","soal3":"D"}' required="" rows="6"></textarea>
+     <button class="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition" type="submit">Hitung Nilai</button>
+    </form>
+    <div class="mt-6 bg-gray-900 rounded-md p-4 text-gray-100 whitespace-pre-wrap min-h-[60px]" id="examGraderResult"></div>
+   </section>
+   <!-- Study Helper Section -->
+   <section class="bg-gray-800 rounded-lg shadow p-6" id="study-helper">
+    <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center space-x-3">
+     <i class="fas fa-book-reader"></i>
+     <span>Bantu Jawab Soal Semua Materi Pelajaran Indonesia</span>
+    </h2>
+    <form class="space-y-4" id="studyHelperForm">
+     <label class="block font-semibold text-gray-300" for="studyQuestion">Masukkan Soal Pelajaran</label>
+     <textarea class="w-full border border-gray-600 rounded-md px-3 py-2 bg-gray-900 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none" id="studyQuestion" name="studyQuestion" placeholder="Contoh: Jelaskan proses terjadinya fotosintesis pada tumbuhan." required="" rows="5"></textarea>
+     <button class="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition" type="submit">Jawab Soal</button>
+    </form>
+    <div class="mt-6 bg-gray-900 rounded-md p-4 text-gray-100 whitespace-pre-wrap min-h-[80px]" id="studyHelperResult"></div>
+   </section>
+   <!-- Settings Section -->
+   <section class="bg-gray-800 rounded-lg shadow p-6" id="settings">
+    <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center space-x-3">
+     <i class="fas fa-cogs"></i>
+     <span>Setting &amp; Fitur Lengkap</span>
+    </h2>
+    <div class="space-y-6 max-w-lg mx-auto text-gray-300">
+     <div>
+      <h3 class="text-xl font-semibold mb-2">Mode Gelap</h3>
+      <p>LifeAI menggunakan mode gelap secara default untuk kenyamanan mata dan tampilan modern.</p>
+     </div>
+     <div>
+      <h3 class="text-xl font-semibold mb-2">API Key LifeAI</h3>
+      <p>API Key sudah disematkan langsung di dalam kode aplikasi agar pengguna tidak perlu memasukkan secara manual.</p>
+     </div>
+     <div>
+      <h3 class="text-xl font-semibold mb-2">Model AI</h3>
+      <p>Model yang digunakan adalah <code class="bg-gray-700 rounded px-1 py-0.5">LifeAI-Core</code> untuk performa terbaik dan hasil akurat.</p>
+     </div>
+     <div>
+      <h3 class="text-xl font-semibold mb-2">Fitur Lengkap</h3>
+      <ul class="list-disc list-inside space-y-1">
+       <li>HD Image Generator</li>
+       <li>Generate Image</li>
+       <li>Teks ke Video</li>
+       <li>Buat Kode HTML</li>
+       <li>Terjemahan Semua Bahasa</li>
+       <li>Hitung Nilai Ujian Otomatis</li>
+       <li>Bantu Jawab Soal Semua Materi Pelajaran Indonesia</li>
+      </ul>
+     </div>
+     <div>
+      <h3 class="text-xl font-semibold mb-2">Notifikasi &amp; Simpan Otomatis</h3>
+      <p>Fitur notifikasi dan simpan otomatis hasil generate dapat dikembangkan lebih lanjut sesuai kebutuhan.</p>
+     </div>
     </div>
+   </section>
+  </main>
+  <footer class="bg-gray-800 border-t border-gray-700 py-6 mt-12">
+   <div class="container mx-auto px-4 text-center text-gray-400 text-sm">
+    © 2025 LifeAI | Lifevander Indonesian Inc.
+   </div>
+  </footer>
+  <script>
+   // Mobile menu toggle with aria-expanded update
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenuButton.addEventListener('click', () => {
+      const isHidden = mobileMenu.classList.contains('hidden');
+      if (isHidden) {
+        mobileMenu.classList.remove('hidden');
+        mobileMenuButton.setAttribute('aria-expanded', 'true');
+      } else {
+        mobileMenu.classList.add('hidden');
+        mobileMenuButton.setAttribute('aria-expanded', 'false');
+      }
+    });
 
-    <!-- SVG Icons for Message Actions -->
-    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-        <symbol id="share-icon" viewBox="0 0 24 24">
-            <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
-        </symbol>
-        <symbol id="copy-icon" viewBox="0 0 24 24">
-            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-        </symbol>
-        <symbol id="like-icon" viewBox="0 0 24 24">
-            <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-1.91l-.01-.01L23 10z"/>
-        </symbol>
-        <symbol id="dislike-icon" viewBox="0 0 24 24">
-            <path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v1.91l.01.01L1 14c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/>
-        </symbol>
-    </svg>
+    // Splash screen hide after 3.5s with fade out
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const splash = document.getElementById('splashScreen');
+        splash.style.transition = 'opacity 0.8s ease';
+        splash.style.opacity = '0';
+        setTimeout(() => {
+          splash.style.display = 'none';
+        }, 800);
+      }, 3500);
+    });
 
-    <script>
-        // Cohere API Configuration
-        const COHERE_API_KEY = "Q0SDjtBTdABFnipUNG0RPUQS2uriNmpXlQXztD54"; // Replace with your API key
-        const COHERE_API_URL = "https://api.cohere.ai/v1/generate";
+    // Hardcoded API Key Gemini (replace with your actual key)
+    const API_KEY_GEMINI = 'AIzaSyD481M4LsysCaLxoWkgP4Vb5RkOLwo2dMk';
 
-        // Google OAuth Configuration
-        const GOOGLE_CLIENT_ID = "393290353406-hnqaompcnpa5210bi4rfamqp7pkdk1iu.apps.googleusercontent.com"; // Replace with your Client ID
-        const GOOGLE_SCOPE = "profile email";
+    // Helper function to call Gemini API
+    async function callGeminiAPI(prompt, type, extra = {}) {
+      if (!API_KEY_GEMINI || API_KEY_GEMINI === 'AIzaSyD481M4LsysCaLxoWkgP4Vb5RkOLwo2dMk') {
+        alert('API Key Gemini belum diset. Silakan edit kode dan masukkan API Key Anda.');
+        throw new Error('API Key tidak ditemukan');
+      }
+      const model = 'gemini-1.5-flash';
 
-        // Feature Database
-        const features = [
-            {
-                id: 1,
-                title: "AI Chat",
-                description: "Interact with advanced language models for various needs",
-                icon: "fa-comment-dots",
-                inputType: "textarea",
-                placeholder: "Type your message...",
-                promptPrefix: "You are LifeAI Assistant developed by M.Fariz-Lifevander. Provide a professional response to:",
-                hasVoice: true
-            },
-            {
-                id: 2,
-                title: "Translator",
-                description: "Translate text between languages with high accuracy",
-                icon: "fa-language",
-                inputType: "textarea",
-                placeholder: "Enter text to translate...",
-                promptPrefix: "Translate the following text to English (if Indonesian) or to Indonesian (if English), provide natural translation:"
-            },
-            {
-                id: 3,
-                title: "Code Generator",
-                description: "Help you write and debug programming code",
-                icon: "fa-code",
-                inputType: "textarea",
-                placeholder: "Describe the code you need...",
-                promptPrefix: "Generate code for the following requirements with a brief explanation:"
-            },
-            {
-                id: 4,
-                title: "Document Analysis",
-                description: "Upload and analyze PDF, Word, or Excel documents",
-                icon: "fa-file-alt",
-                inputType: "file",
-                accept: ".pdf,.docx,.xlsx",
-                promptPrefix: "Analyze this document and provide a summary:"
-            },
-            {
-                id: 5,
-                title: "Content Generator",
-                description: "Create articles, stories, or other creative content",
-                icon: "fa-pen-fancy",
-                inputType: "textarea",
-                placeholder: "Describe the content you need...",
-                promptPrefix: "Create content about the following topic in an engaging and easy-to-understand style:"
-            },
-            {
-                id: 6,
-                title: "Language Learning",
-                description: "Practice vocabulary and grammar with AI assistance",
-                icon: "fa-book-open",
-                inputType: "select",
-                options: ["Vocabulary Quiz", "Grammar Exercise", "Conversation Simulation"],
-                promptPrefix: "Create language learning material for the following exercise with examples and explanations:"
-            }
-        ];
+      // Gemini API endpoint (example placeholder)
+      const endpoint = 'https://api.gemini.ai/v1/generate';
 
-        // Application State
-        let appState = {
-            darkMode: false,
-            language: 'en',
-            user: null,
-            chatHistory: [],
-            currentFeature: null,
-            currentFile: null,
-            isListening: true,
-            deepThinking: true,
+      const body = {
+        model,
+        prompt,
+        type,
+        ...extra,
+      };
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${API_KEY_GEMINI}`,
+          },
+          body: JSON.stringify(body),
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Error from Gemini API');
+        }
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        alert('Terjadi kesalahan saat memproses permintaan: ' + error.message);
+        throw error;
+      }
+    }
+
+    // HD Image Generator
+    const hdImageForm = document.getElementById('hdImageForm');
+    const hdImageResult = document.getElementById('hdImageResult');
+    hdImageForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hdImageResult.innerHTML = '<p class="text-indigo-400 font-semibold">Sedang memproses...</p>';
+      const prompt = hdImageForm.hdImagePrompt.value.trim();
+      try {
+        const data = await callGeminiAPI(prompt, 'hd-image', { resolution: '1920x1080' });
+        hdImageResult.innerHTML = '';
+        if (data.images && data.images.length > 0) {
+          data.images.forEach((imgUrl, i) => {
+            const img = document.createElement('img');
+            img.src = imgUrl;
+            img.alt = `Gambar HD hasil generate ke-${i + 1} dengan deskripsi: ${prompt}`;
+            img.className = 'rounded-md shadow-md w-full h-auto object-cover';
+            hdImageResult.appendChild(img);
+          });
+        } else {
+          hdImageResult.textContent = 'Tidak ada gambar yang dihasilkan.';
+        }
+      } catch {
+        hdImageResult.textContent = 'Gagal memproses gambar HD.';
+      }
+    });
+
+    // Generate Image
+    const generateImageForm = document.getElementById('generateImageForm');
+    const generateImageResult = document.getElementById('generateImageResult');
+    generateImageForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      generateImageResult.innerHTML = '<p class="text-indigo-400 font-semibold">Sedang memproses...</p>';
+      const prompt = generateImageForm.generateImagePrompt.value.trim();
+      try {
+        const data = await callGeminiAPI(prompt, 'image');
+        generateImageResult.innerHTML = '';
+        if (data.images && data.images.length > 0) {
+          data.images.forEach((imgUrl, i) => {
+            const img = document.createElement('img');
+            img.src = imgUrl;
+            img.alt = `Gambar hasil generate ke-${i + 1} dengan deskripsi: ${prompt}`;
+            img.className = 'rounded-md shadow-md w-full h-auto object-cover';
+            generateImageResult.appendChild(img);
+          });
+        } else {
+          generateImageResult.textContent = 'Tidak ada gambar yang dihasilkan.';
+        }
+      } catch {
+        generateImageResult.textContent = 'Gagal memproses generate gambar.';
+      }
+    });
+
+    // Text to Video
+    const textToVideoForm = document.getElementById('textToVideoForm');
+    const textToVideoResult = document.getElementById('textToVideoResult');
+    textToVideoForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      textToVideoResult.innerHTML = '<p class="text-indigo-400 font-semibold">Sedang memproses...</p>';
+      const prompt = textToVideoForm.videoText.value.trim();
+      try {
+        const data = await callGeminiAPI(prompt, 'text-to-video');
+        textToVideoResult.innerHTML = '';
+        if (data.videoUrl) {
+          const video = document.createElement('video');
+          video.src = data.videoUrl;
+          video.controls = true;
+          video.className = 'w-full rounded-md shadow-md';
+          video.alt = `Video hasil generate dengan deskripsi: ${prompt}`;
+          textToVideoResult.appendChild(video);
+        } else {
+          textToVideoResult.textContent = 'Tidak ada video yang dihasilkan.';
+        }
+      } catch {
+        textToVideoResult.textContent = 'Gagal memproses generate video.';
+      }
+    });
+
+    // Create HTML Code
+    const createHtmlForm = document.getElementById('createHtmlForm');
+    const createHtmlResult = document.getElementById('createHtmlResult');
+    createHtmlForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      createHtmlResult.textContent = 'Sedang memproses...';
+      const prompt = createHtmlForm.htmlDescription.value.trim();
+      try {
+        const data = await callGeminiAPI(prompt, 'html-code');
+        if (data.htmlCode) {
+          createHtmlResult.textContent = data.htmlCode;
+        } else {
+          createHtmlResult.textContent = 'Tidak ada kode HTML yang dihasilkan.';
+        }
+      } catch {
+        createHtmlResult.textContent = 'Gagal memproses generate kode HTML.';
+      }
+    });
+
+    // Translation
+    const translationForm = document.getElementById('translationForm');
+    const translationResult = document.getElementById('translationResult');
+    translationForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      translationResult.textContent = 'Sedang memproses...';
+      const text = translationForm.translationText.value.trim();
+      const targetLang = translationForm.targetLanguage.value;
+      try {
+        const data = await callGeminiAPI(text, 'translation', { targetLanguage: targetLang });
+        if (data.translatedText) {
+          translationResult.textContent = data.translatedText;
+        } else {
+          translationResult.textContent = 'Terjemahan tidak tersedia.';
+        }
+      } catch {
+        translationResult.textContent = 'Gagal memproses terjemahan.';
+      }
+    });
+
+    // Exam Grader
+    const examGraderForm = document.getElementById('examGraderForm');
+    const examGraderResult = document.getElementById('examGraderResult');
+    examGraderForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      examGraderResult.textContent = 'Sedang memproses...';
+      const answersRaw = examGraderForm.examAnswers.value.trim();
+      const keyRaw = examGraderForm.answerKey.value.trim();
+      try {
+        const answers = JSON.parse(answersRaw);
+        const answerKey = JSON.parse(keyRaw);
+        const prompt = {
+          answers,
+          answerKey,
         };
+        const data = await callGeminiAPI(JSON.stringify(prompt), 'exam-grader');
+        if (data.score !== undefined && data.feedback) {
+          examGraderResult.innerHTML = `<p>Nilai: <strong>${data.score}</strong></p><p>Feedback: ${data.feedback}</p>`;
+        } else {
+          examGraderResult.textContent = 'Tidak dapat menghitung nilai.';
+        }
+      } catch (err) {
+        examGraderResult.textContent = 'Format JSON tidak valid atau gagal memproses.';
+      }
+    });
 
-        // DOM Elements
-        const sidebar = document.getElementById('sidebar');
-        const sidebarToggle = document.getElementById('sidebarToggle');
-        const dynamicContent = document.getElementById('dynamic-content');
-        const chatUI = document.getElementById('chat-ui');
-        const chatMessages = document.getElementById('chat-messages');
-        const chatInput = document.getElementById('chatInput');
-        const sendChatBtn = document.getElementById('sendChatBtn');
-        const voiceChatBtn = document.getElementById('voiceChatBtn');
-        const uploadBtn = document.getElementById('uploadBtn');
-        const fileUpload = document.getElementById('fileUpload');
-        const filePreviewContainer = document.getElementById('file-preview-container');
-        const themeToggle = document.getElementById('themeToggle');
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const languageSelect = document.getElementById('languageSelect');
-        const googleLoginBtn = document.getElementById('googleLoginBtn');
-        const googleLoginModalBtn = document.getElementById('googleLoginModalBtn');
-        const profileBtn = document.getElementById('profileBtn');
-        const profileImg = document.getElementById('profileImg');
-        const profileName = document.getElementById('profileName');
-        const settingsBtn = document.getElementById('settingsBtn');
-        const settingsModal = document.getElementById('settings-modal');
-        const privacyBtn = document.getElementById('privacyBtn');
-        const privacyModal = document.getElementById('privacy-modal');
-        const termsBtn = document.getElementById('termsBtn');
-        const termsModal = document.getElementById('terms-modal');
-        const aboutBtn = document.getElementById('aboutBtn');
-        const aboutModal = document.getElementById('about-modal');
-        const supportBtn = document.getElementById('supportBtn');
-        const supportModal = document.getElementById('support-modal');
-        const reportBtn = document.getElementById('reportBtn');
-        const reportModal = document.getElementById('report-modal');
-        const loginModal = document.getElementById('login-modal');
-        const deleteChatsBtn = document.getElementById('deleteChatsBtn');
-        const deleteAccountBtn = document.getElementById('deleteAccountBtn');
-        const clearStorageBtn = document.getElementById('clearStorageBtn');
-        const termsLink = document.getElementById('termsLink');
-        const privacyLink = document.getElementById('privacyLink');
-
-        // Voice Recognition
-        let recognition;
-        let finalTranscript = '';
-        
-        const initVoiceRecognition = () => {
-            try {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                recognition = new SpeechRecognition();
-                recognition.continuous = true;
-                recognition.interimResults = true;
-                recognition.lang = appState.language === 'id' ? 'id-ID' : 'en-US';
-
-                recognition.onstart = () => {
-                    appState.isListening = true;
-                    if (document.getElementById('wave-animation')) {
-                        document.getElementById('wave-animation').style.display = 'flex';
-                        document.getElementById('voice-status').textContent = 'Listening...';
-                        document.getElementById('start-listening').disabled = true;
-                        document.getElementById('stop-listening').disabled = false;
-                    }
-                    
-                    if (voiceChatBtn) {
-                        voiceChatBtn.innerHTML = '<i class="fas fa-microphone-slash"></i>';
-                        voiceChatBtn.classList.add('pulse');
-                    }
-                };
-
-                recognition.onerror = (event) => {
-                    console.error('Speech recognition error', event.error);
-                    if (document.getElementById('voice-status')) {
-                        document.getElementById('voice-status').textContent = 'Error: ' + event.error;
-                    }
-                    stopListening();
-                };
-
-                recognition.onend = () => {
-                    if (appState.isListening) {
-                        recognition.start(); // Restart if still listening
-                    } else {
-                        if (document.getElementById('wave-animation')) {
-                            document.getElementById('wave-animation').style.display = 'none';
-                            document.getElementById('start-listening').disabled = false;
-                            document.getElementById('stop-listening').disabled = true;
-                        }
-                        
-                        if (voiceChatBtn) {
-                            voiceChatBtn.innerHTML = '<i class="fas fa-microphone"></i>';
-                            voiceChatBtn.classList.remove('pulse');
-                        }
-                    }
-                };
-
-                recognition.onresult = (event) => {
-                    let interimTranscript = '';
-                    
-                    for (let i = event.resultIndex; i < event.results.length; i++) {
-                        const transcript = event.results[i][0].transcript;
-                        if (event.results[i].isFinal) {
-                            finalTranscript += transcript + ' ';
-                        } else {
-                            interimTranscript += transcript;
-                        }
-                    }
-                    
-                    // Update input field
-                    const activeInput = document.querySelector('#feature-input-container textarea, #feature-input-container input[type="text"], #chatInput');
-                    if (activeInput) {
-                        activeInput.value = finalTranscript + interimTranscript;
-                    }
-                    
-                    if (document.getElementById('voice-status')) {
-                        document.getElementById('voice-status').textContent = interimTranscript || 'Listening...';
-                    }
-                };
-            } catch (e) {
-                console.error('Speech recognition not supported', e);
-                const errorMsg = 'Browser does not support voice recognition. Please use Chrome or Edge.';
-                
-                if (document.getElementById('voice-chat-section')) {
-                    document.getElementById('voice-chat-section').innerHTML = 
-                        `<div class="error-content">${errorMsg}</div>`;
-                }
-                
-                if (voiceChatBtn) {
-                    voiceChatBtn.disabled = true;
-                    voiceChatBtn.title = errorMsg;
-                }
-            }
-        };
-        
-        const startListening = () => {
-            finalTranscript = '';
-            try {
-                recognition.lang = appState.language === 'id' ? 'id-ID' : 'en-US';
-                recognition.start();
-            } catch (e) {
-                console.error('Error starting recognition:', e);
-            }
-        };
-        
-        const stopListening = () => {
-            appState.isListening = false;
-            if (recognition) {
-                recognition.stop();
-            }
-            if (document.getElementById('voice-status')) {
-                document.getElementById('voice-status').textContent = 'Finished listening.';
-            }
-        };
-        
-        const speakText = (text) => {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = appState.language === 'id' ? 'id-ID' : 'en-US';
-                utterance.rate = 1.0;
-                speechSynthesis.speak(utterance);
-            }
-        };
-
-        // Render features
-        const renderFeatures = () => {
-            const featuresGrid = document.getElementById('features-grid');
-            if (featuresGrid) {
-                featuresGrid.innerHTML = '';
-                
-                features.forEach(feature => {
-                    const featureCard = document.createElement('div');
-                    featureCard.className = 'feature-card';
-                    featureCard.innerHTML = `
-                        <div class="feature-icon">
-                            <i class="fas ${feature.icon}"></i>
-                        </div>
-                        <div class="feature-title">${feature.title}</div>
-                        <div class="feature-desc">${feature.description}</div>
-                    `;
-                    featureCard.addEventListener('click', () => openFeatureModal(feature));
-                    featuresGrid.appendChild(featureCard);
-                });
-            }
-        };
-
-        // Feature modal
-        const openFeatureModal = (feature) => {
-            const modal = document.getElementById('feature-modal');
-            const title = document.getElementById('feature-modal-title');
-            const desc = document.getElementById('feature-modal-desc');
-            const inputContainer = document.getElementById('feature-input-container');
-            const responseDiv = document.getElementById('feature-response');
-            const loadingDiv = document.getElementById('feature-loading');
-            const voiceSection = document.getElementById('voice-chat-section');
-            const speakBtn = document.getElementById('speak-response');
-            
-            if (modal && title && desc && inputContainer && responseDiv && loadingDiv) {
-                title.textContent = feature.title;
-                desc.textContent = feature.description;
-                responseDiv.style.display = 'none';
-                loadingDiv.style.display = 'none';
-                responseDiv.innerHTML = '';
-                
-                if (speakBtn) {
-                    speakBtn.style.display = 'none';
-                }
-                
-                // Show voice chat if feature supports it
-                if (feature.hasVoice && voiceSection) {
-                    voiceSection.style.display = 'block';
-                } else if (voiceSection) {
-                    voiceSection.style.display = 'none';
-                }
-                
-                // Create input based on type
-                inputContainer.innerHTML = '';
-                let inputElement;
-                
-                switch(feature.inputType) {
-                    case 'textarea':
-                        inputElement = document.createElement('textarea');
-                        inputElement.className = 'form-input';
-                        inputElement.placeholder = feature.placeholder || '';
-                        inputElement.rows = 5;
-                        break;
-                    case 'file':
-                        inputElement = document.createElement('input');
-                        inputElement.type = 'file';
-                        inputElement.className = 'form-input';
-                        if (feature.accept) inputElement.accept = feature.accept;
-                        break;
-                    case 'select':
-                        inputElement = document.createElement('select');
-                        inputElement.className = 'form-input';
-                        feature.options.forEach(option => {
-                            const optElement = document.createElement('option');
-                            optElement.value = option;
-                            optElement.textContent = option;
-                            inputElement.appendChild(optElement);
-                        });
-                        break;
-                    default:
-                        inputElement = document.createElement('input');
-                        inputElement.type = 'text';
-                        inputElement.className = 'form-input';
-                        inputElement.placeholder = feature.placeholder || '';
-                }
-                
-                inputContainer.appendChild(inputElement);
-                
-                // Handle submit
-                const submitBtn = document.getElementById('submit-feature');
-                if (submitBtn) {
-                    submitBtn.onclick = () => processFeature(feature, inputElement);
-                }
-                
-                // Handle voice response
-                if (speakBtn) {
-                    speakBtn.onclick = () => {
-                        const responseText = responseDiv.querySelector('.response-content')?.textContent;
-                        if (responseText) {
-                            speakText(responseText);
-                        }
-                    };
-                }
-                
-                modal.classList.add('show');
-                modal.style.display = 'flex';
-                
-                // Save current active feature
-                appState.currentFeature = feature;
-            }
-        };
-
-        // Process feature with Cohere API
-        const processFeature = async (feature, inputElement) => {
-            const responseDiv = document.getElementById('feature-response');
-            const loadingDiv = document.getElementById('feature-loading');
-            const submitBtn = document.getElementById('submit-feature');
-            const speakBtn = document.getElementById('speak-response');
-            
-            if (!responseDiv || !loadingDiv || !submitBtn) return;
-            
-            let inputValue;
-            if (feature.inputType === 'file') {
-                const file = inputElement.files[0];
-                if (!file) {
-                    alert('Please select a file first');
-                    return;
-                }
-                inputValue = file.name;
-                appState.currentFile = file;
-            } else {
-                inputValue = inputElement.value;
-                if (!inputValue.trim()) {
-                    alert('Please fill in the input first');
-                    return;
-                }
-            }
-            
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-            loadingDiv.style.display = 'flex';
-            responseDiv.style.display = 'none';
-            
-            try {
-                // Create prompt based on feature
-                const prompt = feature.promptPrefix 
-                    ? `${feature.promptPrefix} ${inputValue}`
-                    : `You are LifeAI. Task: ${feature.title}. User input: ${inputValue}`;
-                
-                // Send request to Cohere API
-                const response = await fetch(COHERE_API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${COHERE_API_KEY}`,
-                        'Content-Type': 'application/json',
-                        'Cohere-Version': '2022-12-06'
-                    },
-                    body: JSON.stringify({
-                        model: 'command-r-plus',
-                        prompt: prompt,
-                        max_tokens: 1000,
-                        temperature: 0.7,
-                        k: 0,
-                        stop_sequences: [],
-                        return_likelihoods: 'NONE'
-                    })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                
-                // Display response with proper formatting
-                loadingDiv.style.display = 'none';
-                responseDiv.style.display = 'block';
-                
-                if (speakBtn) {
-                    speakBtn.style.display = 'inline-flex';
-                }
-                
-                responseDiv.innerHTML = `
-                    <div class="response-content">
-                        ${data.generations[0].text}
-                    </div>
-                `;
-                
-                // Add to history if user is logged in
-                if (appState.user) {
-                    appState.chatHistory.push({
-                        feature: feature.title,
-                        input: inputValue,
-                        response: data.generations[0].text,
-                        timestamp: new Date().toISOString()
-                    });
-                    saveChatHistory();
-                }
-                
-            } catch (error) {
-                console.error('Error:', error);
-                loadingDiv.style.display = 'none';
-                responseDiv.style.display = 'block';
-                const errorMsg = '<p><strong>Error:</strong> Failed to connect to Cohere API</p>';
-                
-                responseDiv.innerHTML = `
-                    <div class="error-content">
-                        ${errorMsg}
-                        <p>${error.message}</p>
-                    </div>
-                `;
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Process';
-            }
-        };
-
-        // Search functionality
-        const setupSearch = () => {
-            const searchInput = document.getElementById('search-input');
-            if (searchInput) {
-                searchInput.addEventListener('input', () => {
-                    const searchTerm = searchInput.value.toLowerCase();
-                    const featureCards = document.querySelectorAll('.feature-card');
-                    
-                    featureCards.forEach(card => {
-                        const title = card.querySelector('.feature-title').textContent.toLowerCase();
-                        const desc = card.querySelector('.feature-desc').textContent.toLowerCase();
-                        
-                        if (title.includes(searchTerm) || desc.includes(searchTerm)) {
-                            card.style.display = 'block';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-                });
-            }
-        };
-
-        // Setup voice controls
-        const setupVoiceControls = () => {
-            if (document.getElementById('start-listening')) {
-                document.getElementById('start-listening').addEventListener('click', startListening);
-                document.getElementById('stop-listening').addEventListener('click', stopListening);
-            }
-            
-            if (voiceChatBtn) {
-                voiceChatBtn.addEventListener('click', () => {
-                    if (appState.isListening) {
-                        stopListening();
-                    } else {
-                        startListening();
-                    }
-                });
-            }
-        };
-
-        // Chat Functions
-        const addChatMessage = (message, isUser = false) => {
-            if (!chatMessages) return;
-            
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-            
-            const now = new Date();
-            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            
-            // Create message actions (share, copy, like, dislike)
-            const messageActions = document.createElement('div');
-            messageActions.className = 'message-actions';
-            messageActions.innerHTML = `
-                <button class="message-action" title="Share">
-                    <svg><use href="#share-icon"></use></svg> Share
-                </button>
-                <button class="message-action" title="Copy">
-                    <svg><use href="#copy-icon"></use></svg> Copy
-                </button>
-                <button class="message-action" title="Like">
-                    <svg><use href="#like-icon"></use></svg> Like
-                </button>
-                <button class="message-action" title="Dislike">
-                    <svg><use href="#dislike-icon"></use></svg> Dislike
-                </button>
-            `;
-            
-            // Add click handlers for actions
-            const copyBtn = messageActions.querySelector('button[title="Copy"]');
-            if (copyBtn) {
-                copyBtn.addEventListener('click', () => {
-                    navigator.clipboard.writeText(message);
-                    copyBtn.innerHTML = '<svg><use href="#copy-icon"></use></svg> Copied!';
-                    setTimeout(() => {
-                        copyBtn.innerHTML = '<svg><use href="#copy-icon"></use></svg> Copy';
-                    }, 2000);
-                });
-            }
-            
-            const shareBtn = messageActions.querySelector('button[title="Share"]');
-            if (shareBtn) {
-                shareBtn.addEventListener('click', () => {
-                    if (navigator.share) {
-                        navigator.share({
-                            title: 'LifeAI Message',
-                            text: message,
-                            url: window.location.href
-                        }).catch(err => {
-                            console.log('Error sharing:', err);
-                        });
-                    } else {
-                        // Fallback for browsers that don't support Web Share API
-                        const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`;
-                        window.open(shareUrl, '_blank');
-                    }
-                });
-            }
-            
-            messageDiv.innerHTML = `
-                ${message}
-                <div class="message-time">${timeString}</div>
-            `;
-            
-            messageDiv.appendChild(messageActions);
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            // Add to history
-            if (isUser) {
-                appState.chatHistory.push({
-                    type: 'chat',
-                    message: message,
-                    isUser: true,
-                    timestamp: now.toISOString()
-                });
-            } else {
-                const lastEntry = appState.chatHistory[appState.chatHistory.length - 1];
-                if (lastEntry && lastEntry.isUser) {
-                    lastEntry.response = message;
-                } else {
-                    appState.chatHistory.push({
-                        type: 'chat',
-                        message: message,
-                        isUser: false,
-                        timestamp: now.toISOString()
-                    });
-                }
-            }
-            
-            saveChatHistory();
-        };
-
-        const sendChatMessage = async () => {
-            if (!chatInput || !chatMessages) return;
-            
-            const message = chatInput.value.trim();
-            if (!message) return;
-            
-            addChatMessage(message, true);
-            chatInput.value = '';
-            
-            // Show "typing" indicator
-            const typingIndicator = document.createElement('div');
-            typingIndicator.className = 'message bot-message';
-            typingIndicator.innerHTML = `
-                <div class="searching-indicator">
-                    <i class="fas fa-circle-notch"></i>
-                    LifeAI is typing...
-                </div>
-            `;
-            chatMessages.appendChild(typingIndicator);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            try {
-                // Send to API
-                const response = await fetch(COHERE_API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${COHERE_API_KEY}`,
-                        'Content-Type': 'application/json',
-                        'Cohere-Version': '2022-12-06'
-                    },
-                    body: JSON.stringify({
-                        model: 'command-r-plus',
-                        prompt: `You are LifeAI Assistant. Provide a helpful response in ${appState.language === 'id' ? 'Indonesian' : 'English'}. Question: ${message}`,
-                        max_tokens: appState.deepThinking ? 2000 : 1000,
-                        temperature: appState.deepThinking ? 0.3 : 0.2,
-                        k: 0,
-                        stop_sequences: [],
-                        return_likelihoods: 'NONE'
-                    })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                
-                // Remove typing indicator and show response
-                chatMessages.removeChild(typingIndicator);
-                addChatMessage(data.generations[0].text, false);
-                
-            } catch (error) {
-                console.error('Error:', error);
-                chatMessages.removeChild(typingIndicator);
-                addChatMessage('Sorry, an error occurred. Please try again.', false);
-            }
-        };
-
-        // File Upload Handling
-        const handleFileUpload = (file) => {
-            if (!filePreviewContainer) return;
-            
-            filePreviewContainer.innerHTML = '';
-            filePreviewContainer.style.display = 'block';
-            
-            const previewDiv = document.createElement('div');
-            previewDiv.className = 'file-preview';
-            
-            if (file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    previewDiv.innerHTML = `
-                        <img src="${e.target.result}" alt="Preview">
-                        <div class="file-info">
-                            <div class="file-name">${file.name}</div>
-                            <div class="file-size">${formatFileSize(file.size)}</div>
-                        </div>
-                        <div class="remove-file" id="remove-file">
-                            <i class="fas fa-times"></i>
-                        </div>
-                    `;
-                    filePreviewContainer.appendChild(previewDiv);
-                    
-                    // Add handler to remove file
-                    document.getElementById('remove-file').addEventListener('click', () => {
-                        filePreviewContainer.style.display = 'none';
-                        fileUpload.value = '';
-                        appState.currentFile = null;
-                    });
-                };
-                reader.readAsDataURL(file);
-            } else {
-                previewDiv.innerHTML = `
-                    <i class="fas fa-file" style="font-size: 2rem;"></i>
-                    <div class="file-info">
-                        <div class="file-name">${file.name}</div>
-                        <div class="file-size">${formatFileSize(file.size)}</div>
-                    </div>
-                    <div class="remove-file" id="remove-file">
-                        <i class="fas fa-times"></i>
-                    </div>
-                `;
-                filePreviewContainer.appendChild(previewDiv);
-                
-                // Add handler to remove file
-                document.getElementById('remove-file').addEventListener('click', () => {
-                    filePreviewContainer.style.display = 'none';
-                    fileUpload.value = '';
-                    appState.currentFile = null;
-                });
-            }
-            
-            appState.currentFile = file;
-        };
-
-        const formatFileSize = (bytes) => {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        };
-
-        // Theme Management
-        const toggleDarkMode = (enable) => {
-            appState.darkMode = enable;
-            if (enable) {
-                document.body.classList.add('dark-mode');
-                if (themeToggle) {
-                    themeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
-                }
-                if (darkModeToggle) darkModeToggle.checked = true;
-            } else {
-                document.body.classList.remove('dark-mode');
-                if (themeToggle) {
-                    themeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
-                }
-                if (darkModeToggle) darkModeToggle.checked = false;
-            }
-            localStorage.setItem('darkMode', enable ? 'true' : 'false');
-        };
-
-        // Language Management
-        const setLanguage = (lang) => {
-            appState.language = lang;
-            if (languageSelect) languageSelect.value = lang;
-            localStorage.setItem('language', lang);
-            
-            // Update UI elements based on language
-            const searchInput = document.getElementById('search-input');
-            const h2 = document.querySelector('h2');
-            
-            if (lang === 'id') {
-                if (searchInput) searchInput.placeholder = 'Cari fitur LifeAI...';
-                if (h2) h2.textContent = 'Fitur Yang Tersedia';
-                if (themeToggle) {
-                    themeToggle.innerHTML = appState.darkMode 
-                        ? '<i class="fas fa-sun"></i> Mode Terang' 
-                        : '<i class="fas fa-moon"></i> Mode Gelap';
-                }
-            } else {
-                if (searchInput) searchInput.placeholder = 'Search LifeAI features...';
-                if (h2) h2.textContent = 'Available Features';
-                if (themeToggle) {
-                    themeToggle.innerHTML = appState.darkMode 
-                        ? '<i class="fas fa-sun"></i> Light Mode' 
-                        : '<i class="fas fa-moon"></i> Dark Mode';
-                }
-            }
-            
-            // Update recognition language
-            if (recognition) {
-                recognition.lang = lang === 'id' ? 'id-ID' : 'en-US';
-            }
-        };
-
-        // Google Auth Functions
-        const initGoogleAuth = () => {
-            // Load Google API script
-            if (!window.google) {
-                const script = document.createElement('script');
-                script.src = 'https://accounts.google.com/gsi/client';
-                script.async = true;
-                script.defer = true;
-                script.onload = () => {
-                    if (window.google) {
-                        google.accounts.id.initialize({
-                            client_id: GOOGLE_CLIENT_ID,
-                            callback: handleGoogleLoginSuccess
-                        });
-                    }
-                };
-                document.body.appendChild(script);
-            }
-            
-            // Setup login handlers
-            if (googleLoginBtn) {
-                googleLoginBtn.addEventListener('click', handleGoogleLogin);
-            }
-            
-            if (googleLoginModalBtn) {
-                googleLoginModalBtn.addEventListener('click', handleGoogleLogin);
-            }
-        };
-
-        const handleGoogleLogin = () => {
-            if (window.google && google.accounts) {
-                google.accounts.id.prompt();
-            } else {
-                // Fallback if Google API fails to load
-                const user = {
-                    id: '123456',
-                    name: 'John Doe',
-                    email: 'john.doe@example.com',
-                    picture: null
-                };
-                handleGoogleLoginSuccess(user);
-            }
-        };
-
-        const handleGoogleLoginSuccess = (response) => {
-            let user;
-            
-            // Handle response from Google Identity Services
-            if (response.credential) {
-                const decoded = jwt_decode(response.credential);
-                user = {
-                    id: decoded.sub,
-                    name: decoded.name,
-                    email: decoded.email,
-                    picture: decoded.picture
-                };
-            } 
-            // Handle fallback user
-            else if (response.id) {
-                user = response;
-            } else {
-                console.error('Invalid login response');
-                return;
-            }
-            
-            appState.user = user;
-            updateUserProfile();
-            
-            // Hide login modal if open
-            if (loginModal.style.display === 'flex') {
-                closeModal(loginModal);
-            }
-            
-            // Show account info in settings
-            const accountLogin = document.getElementById('account-login');
-            const accountInfo = document.getElementById('account-info');
-            
-            if (accountLogin && accountInfo) {
-                accountLogin.style.display = 'none';
-                accountInfo.style.display = 'block';
-                
-                document.getElementById('account-info-display').textContent = user.name;
-                document.getElementById('account-email-display').textContent = user.email;
-            }
-            
-            if (user.picture) {
-                profileImg.innerHTML = `<img src="${user.picture}" alt="${user.name}" style="width:100%;height:100%;border-radius:50%;">`;
-            } else {
-                profileImg.textContent = user.name.charAt(0).toUpperCase();
-            }
-            
-            profileName.textContent = user.name;
-            
-            // Load chat history
-            loadChatHistory();
-        };
-
-        const handleGoogleLogout = () => {
-            appState.user = null;
-            appState.chatHistory = [];
-            
-            // Reset profile
-            profileImg.innerHTML = '<i class="fas fa-user"></i>';
-            profileName.textContent = 'Login/Signup';
-            
-            // Show login in settings
-            const accountLogin = document.getElementById('account-login');
-            const accountInfo = document.getElementById('account-info');
-            
-            if (accountLogin && accountInfo) {
-                accountLogin.style.display = 'block';
-                accountInfo.style.display = 'none';
-            }
-        };
-
-        // Chat History Management
-        const saveChatHistory = () => {
-            if (appState.user) {
-                localStorage.setItem(`chatHistory_${appState.user.id}`, JSON.stringify(appState.chatHistory));
-            }
-        };
-
-        const loadChatHistory = () => {
-            if (appState.user) {
-                const savedHistory = localStorage.getItem(`chatHistory_${appState.user.id}`);
-                if (savedHistory) {
-                    appState.chatHistory = JSON.parse(savedHistory);
-                    
-                    // If on chat page, display history
-                    if (chatUI && chatUI.style.display === 'block') {
-                        renderChatHistory();
-                    }
-                }
-            }
-        };
-
-        const renderChatHistory = () => {
-            if (!chatMessages) return;
-            
-            chatMessages.innerHTML = '';
-            
-            // Add welcome message
-            const welcomeMsg = 'Hello! I am LifeAI Assistant. How can I help you?';
-            
-            addChatMessage(welcomeMsg, false);
-            
-            // Display history
-            appState.chatHistory.forEach(entry => {
-                if (entry.type === 'chat') {
-                    addChatMessage(entry.message, entry.isUser);
-                    if (entry.response) {
-                        addChatMessage(entry.response, false);
-                    }
-                }
-            });
-        };
-
-        const clearChatHistory = () => {
-            if (confirm('Are you sure you want to delete all chat history?')) {
-                
-                appState.chatHistory = [];
-                if (appState.user) {
-                    localStorage.removeItem(`chatHistory_${appState.user.id}`);
-                }
-                
-                if (chatUI && chatUI.style.display === 'block') {
-                    renderChatHistory();
-                }
-                
-                alert('Chat history has been cleared');
-            }
-        };
-
-        // Modal Management
-        const openModal = (modal) => {
-            if (modal) {
-                modal.classList.add('show');
-                modal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-            }
-        };
-
-        const closeModal = (modal) => {
-            if (modal) {
-                modal.classList.remove('show');
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        };
-
-        const closeAllModals = () => {
-            document.querySelectorAll('.modal').forEach(modal => {
-                closeModal(modal);
-            });
-        };
-
-        // Page Navigation
-        const navigateToPage = (page) => {
-            // Update active sidebar item
-            document.querySelectorAll('.sidebar-item').forEach(item => {
-                item.classList.remove('active');
-                if (item.dataset.page === page) {
-                    item.classList.add('active');
-                }
-            });
-            
-            // Show appropriate content
-            switch(page) {
-                case 'home':
-                    if (dynamicContent) dynamicContent.style.display = 'block';
-                    if (chatUI) chatUI.style.display = 'none';
-                    document.title = 'LifeAI - Home';
-                    break;
-                case 'chat':
-                    if (dynamicContent) dynamicContent.style.display = 'none';
-                    if (chatUI) chatUI.style.display = 'block';
-                    document.title = 'LifeAI - AI Chat';
-                    
-                    // If user exists, show history
-                    if (appState.user && appState.chatHistory.length > 0) {
-                        renderChatHistory();
-                    }
-                    break;
-                case 'docs':
-                    if (dynamicContent) dynamicContent.style.display = 'block';
-                    if (chatUI) chatUI.style.display = 'none';
-                    document.title = 'LifeAI - Document Analysis';
-                    break;
-            }
-        };
-
-        // Update user profile display
-        const updateUserProfile = () => {
-            if (appState.user) {
-                if (appState.user.picture) {
-                    profileImg.innerHTML = `<img src="${appState.user.picture}" alt="${appState.user.name}" style="width:100%;height:100%;border-radius:50%;">`;
-                } else {
-                    profileImg.textContent = appState.user.name.charAt(0).toUpperCase();
-                }
-                profileName.textContent = appState.user.name;
-            } else {
-                profileImg.innerHTML = '<i class="fas fa-user"></i>';
-                profileName.textContent = 'Login/Signup';
-            }
-        };
-
-        // Initialize application
-        const initApp = async () => {
-            // Load saved preferences
-            const savedDarkMode = localStorage.getItem('darkMode') === 'true';
-            toggleDarkMode(savedDarkMode);
-            
-            const savedLanguage = localStorage.getItem('language') || 'en';
-            setLanguage(savedLanguage);
-            
-            // Initialize components
-            renderFeatures();
-            setupSearch();
-            initVoiceRecognition();
-            setupVoiceControls();
-            initGoogleAuth();
-            
-            // Setup modal close buttons
-            document.querySelectorAll('.close-modal').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const modal = this.closest('.modal');
-                    closeModal(modal);
-                });
-            });
-            
-            // Setup overlay click to close modal
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        closeModal(this);
-                    }
-                });
-            });
-            
-            // Setup sidebar toggle
-            if (sidebarToggle) {
-                sidebarToggle.addEventListener('click', function() {
-                    sidebar.classList.toggle('expanded');
-                    
-                    // On mobile, sidebar can be hidden
-                    if (window.innerWidth <= 768) {
-                        sidebar.classList.toggle('show');
-                    }
-                });
-            }
-            
-            // Setup theme toggle
-            if (themeToggle) {
-                themeToggle.addEventListener('click', function() {
-                    toggleDarkMode(!appState.darkMode);
-                });
-            }
-            
-            if (darkModeToggle) {
-                darkModeToggle.addEventListener('change', function() {
-                    toggleDarkMode(this.checked);
-                });
-            }
-            
-            // Setup language select
-            if (languageSelect) {
-                languageSelect.addEventListener('change', function() {
-                    setLanguage(this.value);
-                });
-            }
-            
-            // Setup profile button
-            if (profileBtn) {
-                profileBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    if (appState.user) {
-                        // Open settings account tab
-                        document.querySelectorAll('.settings-tab').forEach(tab => tab.classList.remove('active'));
-                        document.querySelectorAll('.settings-panel').forEach(panel => panel.classList.remove('active'));
-                        
-                        const accountTab = document.querySelector('.settings-tab[data-tab="account"]');
-                        const accountPanel = document.getElementById('account-settings');
-                        
-                        if (accountTab && accountPanel) {
-                            accountTab.classList.add('active');
-                            accountPanel.classList.add('active');
-                        }
-                        
-                        openModal(settingsModal);
-                    } else {
-                        openModal(loginModal);
-                    }
-                });
-            }
-            
-            // Setup navigation
-            document.querySelectorAll('.sidebar-item[data-page]').forEach(item => {
-                item.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    navigateToPage(this.dataset.page);
-                });
-            });
-            
-            // Setup settings button
-            if (settingsBtn) {
-                settingsBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    openModal(settingsModal);
-                });
-            }
-            
-            // Setup other modal buttons
-            if (privacyBtn) {
-                privacyBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    openModal(privacyModal);
-                });
-            }
-            
-            if (termsBtn) {
-                termsBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    openModal(termsModal);
-                });
-            }
-            
-            if (aboutBtn) {
-                aboutBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    openModal(aboutModal);
-                });
-            }
-            
-            if (supportBtn) {
-                supportBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    openModal(supportModal);
-                });
-            }
-            
-            if (reportBtn) {
-                reportBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    openModal(reportModal);
-                });
-            }
-            
-            // Setup chat input
-            if (chatInput && sendChatBtn) {
-                chatInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        sendChatMessage();
-                    }
-                });
-                
-                sendChatBtn.addEventListener('click', sendChatMessage);
-            }
-            
-            // Setup file upload
-            if (uploadBtn && fileUpload) {
-                uploadBtn.addEventListener('click', function() {
-                    fileUpload.click();
-                });
-                
-                fileUpload.addEventListener('change', function() {
-                    if (this.files && this.files[0]) {
-                        handleFileUpload(this.files[0]);
-                    }
-                });
-            }
-            
-            // Setup account actions
-            if (deleteChatsBtn) {
-                deleteChatsBtn.addEventListener('click', clearChatHistory);
-            }
-            
-            if (deleteAccountBtn) {
-                deleteAccountBtn.addEventListener('click', function() {
-                    if (confirm('Are you sure you want to delete your account? This cannot be undone.')) {
-                        
-                        handleGoogleLogout();
-                        closeModal(settingsModal);
-                    }
-                });
-            }
-            
-            if (clearStorageBtn) {
-                clearStorageBtn.addEventListener('click', function() {
-                    if (confirm('Are you sure you want to clear all local data?')) {
-                        
-                        localStorage.clear();
-                        alert('Local storage has been cleared');
-                    }
-                });
-            }
-            
-            // Setup report submission
-            if (document.getElementById('submit-issue')) {
-                document.getElementById('submit-issue').addEventListener('click', function() {
-                    const issueType = document.getElementById('issue-type').value;
-                    const description = document.getElementById('issue-description').value;
-                    
-                    if (!description) {
-                        document.getElementById('issue-status').textContent = 'Please fill in the issue description';
-                        return;
-                    }
-                    
-                    // Save report (in a real app, this would be sent to a server)
-                    const reports = JSON.parse(localStorage.getItem('reports') || '[]');
-                    reports.push({
-                        type: issueType,
-                        description: description,
-                        timestamp: new Date().toISOString(),
-                        user: appState.user ? appState.user.email : 'Anonymous'
-                    });
-                    
-                    localStorage.setItem('reports', JSON.stringify(reports));
-                    
-                    document.getElementById('issue-status').textContent = 'Your report has been submitted. Thank you!';
-                    
-                    // Reset form
-                    document.getElementById('issue-description').value = '';
-                    document.getElementById('issue-screenshot').value = '';
-                    
-                    // Close modal after 2 seconds
-                    setTimeout(() => {
-                        closeModal(reportModal);
-                    }, 2000);
-                });
-            }
-            
-            // Setup terms and privacy links in login modal
-            if (termsLink && privacyLink) {
-                termsLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    closeModal(loginModal);
-                    openModal(termsModal);
-                });
-                
-                privacyLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    closeModal(loginModal);
-                    openModal(privacyModal);
-                });
-            }
-            
-            // Close all modals when pressing Escape
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    closeAllModals();
-                }
-            });
-            
-            // Auto-expand textarea as user types
-            if (chatInput) {
-                chatInput.addEventListener('input', function() {
-                    this.style.height = 'auto';
-                    this.style.height = (this.scrollHeight) + 'px';
-                });
-            }
-        };
-
-        // Run the application
-        document.addEventListener('DOMContentLoaded', initApp);
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
-</body>
+    // Study Helper
+    const studyHelperForm = document.getElementById('studyHelperForm');
+    const studyHelperResult = document.getElementById('studyHelperResult');
+    studyHelperForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      studyHelperResult.textContent = 'Sedang memproses...';
+      const question = studyHelperForm.studyQuestion.value.trim();
+      try {
+        const data = await callGeminiAPI(question, 'study-helper');
+        if (data.answer) {
+          studyHelperResult.textContent = data.answer;
+        } else {
+          studyHelperResult.textContent = 'Jawaban tidak tersedia.';
+        }
+      } catch {
+        studyHelperResult.textContent = 'Gagal memproses jawaban soal.';
+      }
+    });
+  </script>
+ </body>
 </html>
